@@ -1,40 +1,111 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div>
+    <div class="loging-window" v-show="!token">
+    <h4>Login</h4>
+    <form>
+      <div>
+        <label for="login" >Login</label>
+        <div>
+          <input id="login" type="login" v-model="login" required>
+        </div>
+      </div>
+      <div>
+        <label for="password" >Password</label>
+        <div>
+          <input id="password" type="password" v-model="password" required>
+        </div>
+      </div>
+      <div>
+        <button type="submit" @click="handleSubmit">
+          Login
+        </button>
+      </div>
+    </form>
+    </div>
+    <button type="submit" @click="handleSubmitnewApps">загрузить запросы</button>
+    <div v-for="app in list_of_apps"  :key="app.insigator" >
+        <div @click="handleSelectItem(app)">{{app.topic}}</div>
+    </div>
+
+
+  <div>
+    <video id=myVideo muted="muted" width="400px" height="auto" ></video>
+    <video id=remVideo width="400px" height="auto" ></video>
+    <div id=callinfo ></div>
   </div>
+  </div>
+
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data(){
+    return {
+      login : "",
+      password : "",
+      token: "",
+      list_of_apps : []
+    }
+  },
+
+  watch: {
+    name(token) {
+      localStorage.data.token = token;
+    }
+  },
+
+  methods : {
+    getToken()
+    {
+        return localStorage.token;
+    },
+
+    handleSelectItem(id)
+    {
+        console.log(id.insigator)
+      axios.get('http://134.0.112.117/api/accounts/profile/'+id.insigator,  {headers: {
+              'Authorization': 'Bearer '+this.getToken()
+          }}).then(response => {
+          console.log(response);
+      })
+    },
+    handleSubmit(e){
+      e.preventDefault()
+      if (this.password.length > 0) {
+        axios.post('http://134.0.112.117/auth/jwt/create', {
+          username: this.login,
+          password: this.password
+        })
+                .then(response => {
+                  console.log(response);
+                  localStorage.token = response.data.access
+                  this.token=response.data.access
+                  console.log(this.token)
+                })
+                .catch(function (error) {
+                  console.error(error.response);
+                });
+      }
+    },
+    handleSubmitnewApps()
+    {
+        axios.get('http://134.0.112.117/api/accounts/chat',  {headers: {
+                'Authorization': 'Bearer '+this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+            }})
+            .then(response => {
+                console.log(response);
+                this.list_of_apps = response.data.applications;
+            })
+            .catch(function (error) {
+                console.error(error.response);
+            });
+    }
   }
 }
 </script>
