@@ -1,3 +1,5 @@
+import peerjs
+
 var callOptions={  'iceServers':
         [{ 'urls': 'stun:stun.l.google.com:19302' }], 'sdpSemantics': 'unified-plan',
     url: 'turn:numb.viagenie.ca',
@@ -39,12 +41,16 @@ function callcancel() {
 
 }
 function callanswer() {
+    var peer= new Peer(configOptions);
+    peer.on('open', function(peerID) {
+        document.getElementById('myid').innerHTML=peerID;
+    });
     navigator.mediaDevices.getUserMedia ({ audio: true, video: true }).then(function(mediaStream) {
         var video = document.getElementById('myVideo');
         peercall.answer(mediaStream); // отвечаем на звонок и передаем свой медиапоток собеседнику
         //peercall.on ('close', onCallClose); //можно обработать закрытие-обрыв звонка
         video.srcObject = mediaStream; //помещаем собственный медиапоток в объект видео (чтоб видеть себя)
-        document.getElementById('callinfo').innerHTML="Звонок начат... <button onclick='callclose()' >Завершить звонок</button>"; //информируем, что звонок начат, и выводим кнопку Завершить
+        //document.getElementById('callinfo').innerHTML="Звонок начат... <button onclick='callclose()' >Завершить звонок</button>"; //информируем, что звонок начат, и выводим кнопку Завершить
         video.onloadedmetadata = function(e) {//запускаем воспроизведение, когда объект загружен
             video.play();
         };
@@ -61,6 +67,14 @@ function callanswer() {
     }).catch(function(err) { console.log(err.name + ": " + err.message); });
 }
 function callToNode(peerId) { //вызов
+    var peer = new Peer(   {
+        host: '194.67.110.151',
+        port: 9000,
+        debug: '4',
+        secure: false,});
+    peer.on('open', function(peerID) {
+        document.getElementById('myid').innerHTML=peerID;
+    });
     navigator.mediaDevices.getUserMedia ({ audio: true, video: true }).then(function(mediaStream) {
         var video = document.getElementById('myVideo');
         peercall = peer.call(peerId,mediaStream);

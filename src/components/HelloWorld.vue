@@ -41,72 +41,88 @@
 import axios from "axios";
 
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
-  data(){
-    return {
-      login : "",
-      password : "",
-      token: "",
-      list_of_apps : []
-    }
-  },
-
-  watch: {
-    name(token) {
-      localStorage.data.token = token;
-    }
-  },
-
-  methods : {
-    getToken()
-    {
-        return localStorage.token;
+    name: 'HelloWorld',
+    props: {
+        msg: String
+    },
+    data() {
+        return {
+            login: "",
+            password: "",
+            token: "",
+            list_of_apps: [],
+            peer: ""
+        }
     },
 
-    handleSelectItem(id)
-    {
-        console.log(id.insigator)
-      axios.get('http://134.0.112.117/api/accounts/profile/'+id.insigator,  {headers: {
-              'Authorization': 'Bearer '+this.getToken()
-          }}).then(response => {
-          console.log(response);
-      })
+    watch: {
+        name(token) {
+            localStorage.data.token = token;
+        }
     },
-    handleSubmit(e){
-      e.preventDefault()
-      if (this.password.length > 0) {
-        axios.post('http://134.0.112.117/auth/jwt/create', {
-          username: this.login,
-          password: this.password
-        })
+
+    created() {
+        /*var peer = new Peer(configOptions);
+        peer.on('open', function (peerID) {
+            document.getElementById('myid').innerHTML = peerID;
+        });
+
+        peer.on('call', function (call) {
+            // Answer the call, providing our mediaStream
+            var peercall = call;
+            document.getElementById('callinfo').innerHTML = "Входящий звонок <button onclick='callanswer()' >Принять</button><button onclick='callcancel()' >Отклонить</button>";
+        });*/
+    },
+
+    methods: {
+        getToken() {
+            return localStorage.token;
+        },
+
+        handleSelectItem(id) {
+            console.log(id.insigator)
+            axios.get('http://134.0.112.117/api/accounts/profile/' + id.insigator, {
+                headers: {
+                    'Authorization': 'Bearer ' + this.getToken()
+                }
+            }).then(response => {
+                console.log(response);
+                this.callToNode(response.uuid)
+            })
+        },
+        handleSubmit(e) {
+            e.preventDefault()
+            if (this.password.length > 0) {
+                axios.post('http://134.0.112.117/auth/jwt/create', {
+                    username: this.login,
+                    password: this.password
+                })
+                    .then(response => {
+                        console.log(response);
+                        localStorage.token = response.data.access
+                        this.token = response.data.access
+                        console.log(this.token)
+                    })
+                    .catch(function (error) {
+                        console.error(error.response);
+                    });
+            }
+        },
+        handleSubmitnewApps() {
+            axios.get('http://134.0.112.117/api/accounts/chat', {
+                headers: {
+                    'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+                }
+            })
                 .then(response => {
-                  console.log(response);
-                  localStorage.token = response.data.access
-                  this.token=response.data.access
-                  console.log(this.token)
+                    console.log(response);
+                    this.list_of_apps = response.data.applications;
                 })
                 .catch(function (error) {
-                  console.error(error.response);
+                    console.error(error.response);
                 });
-      }
+        },
     },
-    handleSubmitnewApps()
-    {
-        axios.get('http://134.0.112.117/api/accounts/chat',  {headers: {
-                'Authorization': 'Bearer '+this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
-            }})
-            .then(response => {
-                console.log(response);
-                this.list_of_apps = response.data.applications;
-            })
-            .catch(function (error) {
-                console.error(error.response);
-            });
-    }
-  }
 }
 </script>
 
