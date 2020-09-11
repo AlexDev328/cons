@@ -31,7 +31,9 @@
   <div>
     <video id=myVideo muted="muted" width="400px" height="auto" ></video>
     <video id=remVideo width="400px" height="auto" ></video>
-    <div id=callinfo ></div>
+    <div id=callinfo>
+      Входящий звонок <button @click='answerCall'>Принять</button><button onclick='callcancel()' >Отклонить</button>
+    </div>
   </div>
   </div>
 
@@ -74,7 +76,7 @@ export default {
         },
 
         handleSelectItem(id) {
-          this.x = new Mycallshit(this.uuid);
+
             console.log(id.insigator)
             axios.get('http://134.0.112.117/api/accounts/profile/' + id.insigator, {
                 headers: {
@@ -84,7 +86,7 @@ export default {
               console.log("вызываем")
                 console.log(response.data.peerid);
                 //this.callToNode(response.peerid)
-              this.x.callToNode(response.peerid);
+              this.x.callToNode(response.data.peerid);
             })
         },
 
@@ -112,6 +114,7 @@ export default {
                 console.log('мой uuid')
                 console.log(response.data.peerid);
                 this.uuid = response.data.peerid;
+                this.x = new Mycallshit(this.uuid);
               })
             })
       },
@@ -181,6 +184,10 @@ export default {
 
           this.getMyID();
         },
+
+      answerCall() {
+          this.x.callanswer();
+      }
     },
 }
 </script>

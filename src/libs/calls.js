@@ -34,6 +34,7 @@ const configOptions = {
 
 export default class {
     constructor(callerPeerId) {
+        console.log("entered constructor");
         this.peer = new Peer([callerPeerId], configOptions);
         this.peer.on('open', (peerId) => {
             console.log(peerId);
@@ -43,7 +44,7 @@ export default class {
             console.log("receiving call");
             // Answer the call, providing our mediaStream
             this.peercall = call;
-            document.getElementById('callinfo').innerHTML = "Входящий звонок <button onclick='callanswer()' >Принять</button><button onclick='callcancel()' >Отклонить</button>";
+            //document.getElementById('callinfo').innerHTML = "Входящий звонок <button onclick='answerCall()' >Принять</button><button onclick='callcancel()' >Отклонить</button>";
         });
     }
 
