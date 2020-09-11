@@ -44,12 +44,16 @@ export default class {
             console.log("receiving call");
             // Answer the call, providing our mediaStream
             this.peercall = call;
-            //document.getElementById('callinfo').innerHTML = "Входящий звонок <button onclick='answerCall()' >Принять</button><button onclick='callcancel()' >Отклонить</button>";
+            document.getElementById('is_called').style.display = 'block';
         });
     }
 
     callcancel() {
-       // this.peer.disconnect();
+        this.peercall.destroy();
+    }
+
+    get_incoming_call(){
+        return this.peercall;
     }
 
     callanswer() {
@@ -57,7 +61,7 @@ export default class {
             .then((mediaStream) => {
                 const video = document.getElementById('myVideo');
                 this.peercall.answer(mediaStream); // отвечаем на звонок и передаем свой медиапоток собеседнику
-                //peercall.on ('close', onCallClose); //можно обработать закрытие-обрыв звонка
+                this.peercall.on ('close', this.callcancel); //можно обработать закрытие-обрыв звонка
                 video.srcObject = mediaStream; //помещаем собственный медиапоток в объект видео (чтоб видеть себя)
                 //document.getElementById('callinfo').innerHTML="Звонок начат... <button onclick='callclose()' >Завершить звонок</button>"; //информируем, что звонок начат, и выводим кнопку Завершить
                 video.onloadedmetadata = () => {//запускаем воспроизведение, когда объект загружен

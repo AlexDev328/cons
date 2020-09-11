@@ -32,7 +32,10 @@
     <video id=myVideo muted="muted" width="400px" height="auto" ></video>
     <video id=remVideo width="400px" height="auto" ></video>
     <div id=callinfo>
-      Входящий звонок <button @click='answerCall'>Принять</button><button onclick='callcancel()' >Отклонить</button>
+      <button @click="getMyID" v-show="!uuid">Подключиться</button>
+      <div id="is_called" style="display: none">
+      Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>
+      </div>
     </div>
   </div>
   </div>
@@ -56,6 +59,7 @@ export default {
             list_of_apps: [],
             uuid: "",
             myid: '',
+            is_called: false,
         }
     },
 
@@ -65,12 +69,16 @@ export default {
         }
     },
 
-    created() {
-
-
-    },
 
     methods: {
+        callcancel() {
+          this.x.callcancel();
+        },
+        get_is_called(){
+            if (this.x.get_incoming_call())
+              this.is_called = true;
+        },
+
         getToken() {
             return localStorage.token;
         },
@@ -118,33 +126,6 @@ export default {
               })
             })
       },
-/*
-      getOtherClientPeer(){
-        axios.get('http://134.0.112.117/auth/users/me/', {
-          headers: {
-            'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
-         /* }
-        }).then(res => {
-          console.log("мой id")
-          console.log(res.data.id);
-          this.myid = res.data.id;
-        })},
-
-      getOtherClientID(){
-        var url='http://134.0.112.117/api/accounts/profile/'+this.myid;
-        axios.get(url ,  {
-          headers: {
-            'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
-      /*    }
-        }).then(response=> {
-          console.log('мой uuid')
-          console.log(response.data.peerid);
-          this.uuid = response.data.peerid;
-        })
-      },
-      */
-
-
 
         handleSubmit(e) {
             e.preventDefault()
@@ -157,6 +138,7 @@ export default {
                         console.log(response);
                         localStorage.token = response.data.access
                         this.token = response.data.access
+                        this.getMyID()
                         console.log(this.token)
                     })
                     .catch( (error) => {
@@ -180,15 +162,20 @@ export default {
                 .catch(function (error) {
                     console.error(error.response);
                 });
-
-
-          this.getMyID();
         },
 
       answerCall() {
           this.x.callanswer();
       }
     },
+    created() {
+
+
+    },
+
+    updated() {
+    },
+
 }
 </script>
 
