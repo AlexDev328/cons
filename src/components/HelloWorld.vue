@@ -39,6 +39,7 @@
 
 <script>
 import axios from "axios";
+import Mycallshit from '@/libs/calls'
 
 export default {
     name: 'HelloWorld',
@@ -51,7 +52,8 @@ export default {
             password: "",
             token: "",
             list_of_apps: [],
-            peer: ""
+            uuid: "",
+            myid: '',
         }
     },
 
@@ -62,16 +64,8 @@ export default {
     },
 
     created() {
-        /*var peer = new Peer(configOptions);
-        peer.on('open', function (peerID) {
-            document.getElementById('myid').innerHTML = peerID;
-        });
 
-        peer.on('call', function (call) {
-            // Answer the call, providing our mediaStream
-            var peercall = call;
-            document.getElementById('callinfo').innerHTML = "Входящий звонок <button onclick='callanswer()' >Принять</button><button onclick='callcancel()' >Отклонить</button>";
-        });*/
+
     },
 
     methods: {
@@ -80,16 +74,75 @@ export default {
         },
 
         handleSelectItem(id) {
+          this.x = new Mycallshit(this.uuid);
             console.log(id.insigator)
             axios.get('http://134.0.112.117/api/accounts/profile/' + id.insigator, {
                 headers: {
                     'Authorization': 'Bearer ' + this.getToken()
                 }
             }).then(response => {
-                console.log(response);
-                this.callToNode(response.uuid)
+              console.log("вызываем")
+                console.log(response.data.peerid);
+                //this.callToNode(response.peerid)
+              this.x.callToNode(response.peerid);
             })
         },
+
+      getClientPeer(){
+        return axios.get('http://134.0.112.117/auth/users/me/', {
+          headers: {
+            'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+          }
+        }).then(res => {
+          console.log("мой id")
+          console.log(res.data.id);
+          this.myid = res.data.id;
+          return res.data.id;
+        })},
+
+      getMyID(){
+        this.getClientPeer()
+            .then((/*myId*/) => {
+              const url='http://134.0.112.117/api/accounts/profile/' + this.myid;
+              axios.get(url,  {
+                headers: {
+                  'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+                }
+              }).then(response => {
+                console.log('мой uuid')
+                console.log(response.data.peerid);
+                this.uuid = response.data.peerid;
+              })
+            })
+      },
+/*
+      getOtherClientPeer(){
+        axios.get('http://134.0.112.117/auth/users/me/', {
+          headers: {
+            'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+         /* }
+        }).then(res => {
+          console.log("мой id")
+          console.log(res.data.id);
+          this.myid = res.data.id;
+        })},
+
+      getOtherClientID(){
+        var url='http://134.0.112.117/api/accounts/profile/'+this.myid;
+        axios.get(url ,  {
+          headers: {
+            'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+      /*    }
+        }).then(response=> {
+          console.log('мой uuid')
+          console.log(response.data.peerid);
+          this.uuid = response.data.peerid;
+        })
+      },
+      */
+
+
+
         handleSubmit(e) {
             e.preventDefault()
             if (this.password.length > 0) {
@@ -103,11 +156,14 @@ export default {
                         this.token = response.data.access
                         console.log(this.token)
                     })
-                    .catch(function (error) {
+                    .catch( (error) => {
                         console.error(error.response);
                     });
             }
+
+
         },
+
         handleSubmitnewApps() {
             axios.get('http://134.0.112.117/api/accounts/chat', {
                 headers: {
@@ -121,6 +177,9 @@ export default {
                 .catch(function (error) {
                     console.error(error.response);
                 });
+
+
+          this.getMyID();
         },
     },
 }
