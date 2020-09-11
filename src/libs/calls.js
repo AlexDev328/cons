@@ -1,29 +1,4 @@
 import Peer from './peerjs';
-/*
-const callOptions = {
-    iceServers: [
-        {
-            urls: 'stun:stun.l.google.com:19302'
-        }
-    ],
-    sdpSemantics: 'unified-plan',
-    url: 'turn:numb.viagenie.ca',
-    credential: 'muazkh',
-    username: 'webrtc@live.com'
-}
-
-/*
-    {
-    url: 'turn:192.158.29.39:3478?transport=udp',
-    credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-    username: '28224511:1379330808'
-    },
-    {
-    url: 'turn:192.158.29.39:3478?transport=tcp',
-    credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-    username: '28224511:1379330808'
-    },
-        };*/
 
 const configOptions = {
     host: '194.67.110.151',
@@ -33,6 +8,7 @@ const configOptions = {
 }
 
 export default class {
+
     constructor(callerPeerId) {
         console.log("entered constructor");
         this.peer = new Peer([callerPeerId], configOptions);
@@ -49,7 +25,12 @@ export default class {
     }
 
     callcancel() {
-        this.peercall.destroy();
+        //this.peercall.disconnect();
+        //this.peercall.peerConnection.close();
+        console.log("завершение звонка")
+        this.peercall.close()
+        this.peer.reconnect()
+
     }
 
     get_incoming_call(){
@@ -85,6 +66,7 @@ export default class {
             .then((mediaStream) => {
                 const video = document.getElementById('myVideo');
                 this.peercall = this.peer.call(peerId, mediaStream);
+
                 this.peercall.on('stream', () => { //нам ответили, получим стрим
                     setTimeout(() => {
                         document.getElementById('remVideo').srcObject = this.peercall.remoteStream;
@@ -93,7 +75,7 @@ export default class {
                         };
                     }, 1500);
                 });
-                //peercall.on('close', onCallClose);
+                this.peercall.on ('close', this.callcancel); //можно обработать закрытие-обрыв звонка
                 video.srcObject = mediaStream;
                 video.onloadedmetadata = () => {
                     video.play();

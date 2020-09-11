@@ -26,8 +26,6 @@
     <div v-for="app in list_of_apps"  :key="app.insigator" >
         <div @click="handleSelectItem(app)">{{app.topic}}</div>
     </div>
-
-
   <div>
     <video id=myVideo muted="muted" width="400px" height="auto" ></video>
     <video id=remVideo width="400px" height="auto" ></video>
@@ -39,7 +37,6 @@
     </div>
   </div>
   </div>
-
 </template>
 
 <script>
@@ -86,7 +83,7 @@ export default {
         handleSelectItem(id) {
 
             console.log(id.insigator)
-            axios.get('http://134.0.112.117/api/accounts/profile/' + id.insigator, {
+            axios.get('https://134.0.112.117/api/accounts/profile/' + id.insigator, {
                 headers: {
                     'Authorization': 'Bearer ' + this.getToken()
                 }
@@ -99,7 +96,7 @@ export default {
         },
 
       getClientPeer(){
-        return axios.get('http://134.0.112.117/auth/users/me/', {
+        return axios.get('https://134.0.112.117/auth/users/me/', {
           headers: {
             'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
           }
@@ -113,7 +110,7 @@ export default {
       getMyID(){
         this.getClientPeer()
             .then((/*myId*/) => {
-              const url='http://134.0.112.117/api/accounts/profile/' + this.myid;
+              const url='https://134.0.112.117/api/accounts/profile/' + this.myid;
               axios.get(url,  {
                 headers: {
                   'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
@@ -126,11 +123,10 @@ export default {
               })
             })
       },
-
         handleSubmit(e) {
             e.preventDefault()
             if (this.password.length > 0) {
-                axios.post('http://134.0.112.117/auth/jwt/create', {
+                axios.post('https://134.0.112.117/auth/jwt/create', {
                     username: this.login,
                     password: this.password
                 })
@@ -145,12 +141,9 @@ export default {
                         console.error(error.response);
                     });
             }
-
-
         },
-
         handleSubmitnewApps() {
-            axios.get('http://134.0.112.117/api/accounts/chat', {
+            axios.get('https://134.0.112.117/api/accounts/chat', {
                 headers: {
                     'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                 }
@@ -163,19 +156,10 @@ export default {
                     console.error(error.response);
                 });
         },
-
       answerCall() {
           this.x.callanswer();
       }
     },
-    created() {
-
-
-    },
-
-    updated() {
-    },
-
 }
 </script>
 
