@@ -1,0 +1,86 @@
+#app {
+    height: 700px;
+    width: 100vw;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+}
+
+.header{
+    height: 75px;
+    background-color: #720F13;
+    margin:0px;
+}
+.logo {
+    position: absolute;
+    left: 7vw;
+    top:13px;
+}
+
+body{
+    margin: 0px;
+}
+
+.container{
+    font-family: Tahoma, serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #FFFFFF;
+
+    text-align: center;
+    overflow-x: auto;
+
+
+}
+.item{
+    background-color: #720F13;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 16px #C4C4C4;
+    border-radius: 10px 0px;
+    min-height: 62px;
+    margin:7px 5% 7px 5%  ;
+    line-height: 60px;
+
+}
+
+.them-text{
+    font-family: Proxima Nova;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #000000;
+}
+.button{
+    background: #FFFFFF;
+    border: 0.5px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 0px rgba(196, 196, 196, 0.25), inset 0px 6px 20px rgba(196, 196, 196, 0.25);
+    border-radius: 10px 0px;
+}
+
+.menu{
+    height: 50px;
+    width: 200px;
+    position: absolute;
+    top: 10px;
+    right: 80px;
+    line-height: 50px;
+    text-align: center;
+}
+.loging-window{
+    text-align: center;
+    margin: 2vw;
+}
+
+.login{
+    margin: 10px;
+    width: 100px;
+    height: 30px;
+}
