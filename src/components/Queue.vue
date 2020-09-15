@@ -12,14 +12,15 @@
     </div>
     <div>Вы в очереди</div>
     <div class="button menu" ><div @click="cancelcall() ">отменить запрос</div></div>
-    <div>
+    <div id="is_called" style="display: none">
+      Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>
+    </div>
+    <div class="video-room" v-if="this.is_call">
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
       <div id=callinfo>
         <button @click="getMyID" v-show="!uuid">Подключиться</button>
-        <div id="is_called" style="display: none">
-          Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -33,6 +34,7 @@
         name: "Queue",
         data(){
             return{
+                is_call:false
             }
         },
         methods:{
@@ -55,9 +57,11 @@
             },
             answerCall() {
                 this.x.callanswer();
+
             },
             callcancel() {
                 this.x.callcancel();
+                this.is_call=true;
             },
             getMyID(){
                 this.getClientPeer()
