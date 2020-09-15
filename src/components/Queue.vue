@@ -57,11 +57,12 @@
             },
             answerCall() {
                 this.x.callanswer();
+                this.is_call=true;
 
             },
             callcancel() {
                 this.x.callcancel();
-                this.is_call=true;
+
             },
             getMyID(){
                 this.getClientPeer()
