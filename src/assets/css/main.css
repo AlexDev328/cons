@@ -36,7 +36,51 @@ body{
 
 
 }
+
+.text-cons-title{
+    font-family: Proxima Nova;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    /* black 30% */
+
+    color: #4D4D4D;
+}
+.text-cons{
+    font-family: Proxima Nova;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    color: #4D4D4D;
+}
 .item{
+    /*
+    background-color: #720F13;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 16px #C4C4C4;
+    border-radius: 10px 0px;
+    min-height: 62px;*/
+    width: 55vw;
+    margin: 7px 10% 7px 10%;
+    line-height: 60px;
+    text-align: center;
+    display: flex;
+
+}
+.item-cat{
     background-color: #720F13;
     border: 1px solid #C4C4C4;
     box-sizing: border-box;
@@ -56,6 +100,31 @@ body{
     line-height: 29px;
 
     color: #000000;
+}
+
+.button-text {
+    font-family: Proxima Nova;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    /* identical to box height */
+    text-align: center;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+}
+
+.cons{
+    position: absolute;
+    right: 13%;
+    line-height: 50px;
+    text-align: center;
+    width: 200px;
+    height: 50px;
+    background: #720F13;
+    border: 1px solid #720F13;
+    box-sizing: border-box;
+    border-radius: 10px 0px;
 }
 .button{
     background: #FFFFFF;

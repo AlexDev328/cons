@@ -4,6 +4,7 @@ import Consultation from "@/components/Consultation";
 import HelloWorld from "@/components/HelloWorld";
 import CreatingApplication from "@/components/CreatingApplication";
 import App from "@/App";
+import Queue from "@/components/Queue";
 
 Vue.use(Router);
 
@@ -28,6 +29,11 @@ export default new Router({
             path: '/login',
             name: 'login',
             component:App,
+        },
+        {
+            path:'/wait',
+            name:'queue',
+            component: Queue
         }
     ]
 })

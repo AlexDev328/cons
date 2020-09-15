@@ -3,7 +3,15 @@
     <div class="container">
       <button type="submit" @click="handleSubmitnewApps">загрузить запросы</button>
       <div v-for="app in list_of_apps"  :key="app.insigator" >
-        <div class="item" @click="handleSelectItem(app)">{{app.topic}}</div>
+        <div class="item text-cons-title ">
+          <div>
+            <span>{{app.topic}}</span>
+            <span class="text-cons"> Товаровед {{app.insigator.name}}</span>
+          </div>
+          <div class = "cons" @click="handleSelectItem(app)">
+            <div class="button-text">Начать консультацию</div>
+          </div>
+        </div>
       </div>
     </div>
     <div>
@@ -112,7 +120,8 @@
                 });
             },
 
-        }
+        },
+
 
     }
 </script>

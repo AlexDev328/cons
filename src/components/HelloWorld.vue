@@ -72,9 +72,7 @@ export default {
                         localStorage.token = response.data.access
                         this.token = response.data.access
                         console.log(this.token)
-
-                        //this.$router.push({path:'/consultation'})
-                        this.$router.push({path:'/ask'})
+                        this.getMyID()
                     })
                     .catch( (error) => {
                         console.error(error.response);
@@ -90,20 +88,31 @@ export default {
                     console.log("мой id")
                     console.log(res.data.id);
                     this.myid = res.data.id;
-                    return res.data.id;
+                    if (!this.getMyProfile())
+                    {
+                        this.$router.push({path:'ask'})
+                        console.log("проверка")
+                    }
+
                 })
         },
         getMyProfile() {
+            console.log("падаем тут")
+            console.log(this.myid);
             const url = 'http://127.0.0.1:8000/api/accounts/profile/' + this.myid;
-            axios.get(url, {
+            return axios.get(url, {
                 headers: {
                     'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                 }
             }).then(response => {
                 if (response.data.consultant) {
-                  console.log('консультант')}
+                  console.log('консультант переадресация');
+                  this.$router.push({path:'/consultation'})
+                  return false }
                 else{
+                    this.$router.push({path:'/ask'})
                     console.log('не консультант')
+                    return true
                 }
 
             })

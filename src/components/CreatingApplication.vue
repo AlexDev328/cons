@@ -2,7 +2,7 @@
   <div >
     <div class="them-text">Выберите тематику</div>
     <div class="container" >
-      <div v-for="topic in list_of_topics" :key="topic.id" class="item">{{topic.name}}</div>
+      <div v-for="topic in list_of_topics" :key="topic.id" class="item-cat" ><div @click="raiseHand(topic.id)">{{topic.name}}</div></div>
     </div>
   </div>
   
@@ -35,12 +35,25 @@
                     console.error(error.response);
                 })
             },
+            raiseHand(id){
+                console.log(id)
+                axios.post('http://127.0.0.1:8000/api/accounts/create',  {'topic_id': id},{headers: {
+                    'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+                }
+                }).then(response => {
+                        console.log(response);
+                        this.$router.push({path:'/wait'})
 
-            created() {
-                this.getAllTopics()
+                    })
+                    .catch( (error) => {
+                        console.error(error.response);
+                    });
             }
-
-        }
+        },
+        created() {
+            this.getAllTopics()
+            console.log("created block")
+        },
     }
 </script>
 
