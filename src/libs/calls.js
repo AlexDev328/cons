@@ -1,7 +1,7 @@
 import Peer from './peerjs';
 
 const configOptions = {
-    host: '194.67.110.151',
+    host: '134.0.112.117',
     port: 9000,
     debug: '4',
     secure: false,

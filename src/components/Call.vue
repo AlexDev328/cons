@@ -26,7 +26,7 @@
             getMyID(){
                 this.getClientPeer()
                     .then((/*myId*/) => {
-                        const url='http://127.0.0.1:8000/api/accounts/profile/' + this.myid;
+                        const url='http://134.0.112.117/api/accounts/profile/' + this.myid;
                         axios.get(url,  {
                             headers: {
                                 'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/

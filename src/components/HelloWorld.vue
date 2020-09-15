@@ -63,7 +63,7 @@ export default {
         handleSubmit(e) {
             e.preventDefault()
             if (this.password.length > 0) {
-                axios.post('http://127.0.0.1:8000/auth/jwt/create', {
+                axios.post('http://134.0.112.117/auth/jwt/create', {
                     username: this.login,
                     password: this.password
                 })
@@ -80,7 +80,7 @@ export default {
             }
         },
         getMyID() {
-                return axios.get('http://127.0.0.1:8000/auth/users/me/', {
+                return axios.get('http://134.0.112.117/auth/users/me/', {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
@@ -99,7 +99,7 @@ export default {
         getMyProfile() {
             console.log("падаем тут")
             console.log(this.myid);
-            const url = 'http://127.0.0.1:8000/api/accounts/profile/' + this.myid;
+            const url = 'http://134.0.112.117/api/accounts/profile/' + this.myid;
             return axios.get(url, {
                 headers: {
                     'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
