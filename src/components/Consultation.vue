@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container" v-show="this.is_called">
       <button type="submit" @click="handleSubmitnewApps">загрузить запросы</button>
       <div v-for="app in list_of_apps"  :key="app.insigator" >
         <div class="item text-cons-title ">
@@ -14,11 +14,13 @@
         </div>
       </div>
     </div>
-    <div>
+    <div  v-show="!this.is_called">
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
+      <textarea  placeholder="Текст консультанта"></textarea>
+      <textarea  placeholder="Текст товароведа"></textarea>
       <div id=callinfo>
-        <button @click="getMyID" v-show="!uuid">Подключиться</button>
+        <!--<button @click="getMyID" v-show="!uuid">Подключиться</button>-->
         <div id="is_called" style="display: none">
           Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>
         </div>
@@ -41,12 +43,15 @@
             list_of_apps: [],
             uuid: "",
             myid: '',
-            is_called: false,
+            is_called: true,
             }
         },
         props:{
             //myid : String,
             cons : Boolean,
+        },
+        created(){
+            this.getMyID()
         },
         methods:{
             getToken() {
@@ -72,7 +77,7 @@
                 })},
 
             getMyID(){
-                this.getClientPeer()
+                return this.getClientPeer()
                     .then((/*myId*/) => {
                         const url='http://134.0.112.117/api/accounts/profile/' + this.myid;
                         axios.get(url,  {
@@ -115,6 +120,7 @@
                     console.log(response.data.peerid);
                     //this.callToNode(response.peerid)
                     this.x.callToNode(response.data.peerid);
+                    this.is_called = false;
                 }).catch(function (error) {
                     console.error(error.response);
                 });
