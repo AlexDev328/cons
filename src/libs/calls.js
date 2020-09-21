@@ -10,6 +10,13 @@ const configOptions = {
 export default class {
 
     constructor(callerPeerId) {
+        this.canvas = document.getElementById('canvas');
+        this.photo = document.getElementById('photo');
+        this.width = 720;
+        this.height = 420;
+
+
+
         console.log("entered constructor");
         this.peer = new Peer([callerPeerId], configOptions);
         this.peer.on('open', (peerId) => {
@@ -23,16 +30,43 @@ export default class {
             console.log("receiving call");
             // Answer the call, providing our mediaStream
             this.peercall = call;
+            console.log("отвечаем на звонок");
+            document.getElementById('is_called').style.display='flex';
             this.callanswer();
         });
+        this.peer.on('close',()=>{
+            console.log("завершение звонка")
+            this.callcancel()
+        })
+    }
+
+    /*clearphoto() {
+        var context = canvas.getContext('2d');
+        context.fillStyle = "#AAA";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        var data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
+    }*/
+    takepicture() {
+        var context = this.canvas.getContext('2d');
+        if (this.width && this.height) {
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
+            context.drawImage(document.getElementById('remVideo'), 0, 0, this.width, this.height);
+
+            var data = this.canvas.toDataURL('image/png');
+            this.photo.setAttribute('src', data);
+        }
     }
 
     callcancel() {
         //this.peercall.disconnect();
         //this.peercall.peerConnection.close();
         console.log("завершение звонка")
-        this.peercall.close()
-        this.peer.reconnect()
+       // stream.stop();
+        this.peercall.peerConnection.close();
+
 
     }
 
@@ -40,12 +74,12 @@ export default class {
         return this.peercall;
     }
 
-    callanswer() {
-        navigator.mediaDevices.getUserMedia({audio: true, video: true})
+    callanswer(with_video=true) {
+        navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
             .then((mediaStream) => {
                 const video = document.getElementById('myVideo');
                 this.peercall.answer(mediaStream); // отвечаем на звонок и передаем свой медиапоток собеседнику
-                this.peercall.on ('close', this.callcancel); //можно обработать закрытие-обрыв звонка
+                //this.peercall.on ('close', this.callcancel(mediaStream)); //можно обработать закрытие-обрыв звонка
                 video.srcObject = mediaStream; //помещаем собственный медиапоток в объект видео (чтоб видеть себя)
                 //document.getElementById('callinfo').innerHTML="Звонок начат... <button onclick='callclose()' >Завершить звонок</button>"; //информируем, что звонок начат, и выводим кнопку Завершить
                 video.onloadedmetadata = () => {//запускаем воспроизведение, когда объект загружен
@@ -64,8 +98,8 @@ export default class {
             });
     }
 
-    callToNode(peerId) { //вызов
-        navigator.mediaDevices.getUserMedia({audio: true, video: true})
+    callToNode(peerId,with_video=true) { //вызов
+        navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
             .then((mediaStream) => {
                 const video = document.getElementById('myVideo');
                 this.peercall = this.peer.call(peerId, mediaStream);
@@ -78,7 +112,7 @@ export default class {
                         };
                     }, 1500);
                 });
-                this.peercall.on ('close', this.callcancel); //можно обработать закрытие-обрыв звонка
+
                 video.srcObject = mediaStream;
                 video.onloadedmetadata = () => {
                     video.play();

@@ -12,6 +12,11 @@
     background-color: #720F13;
     margin:0px;
 }
+.text-left{
+    position: relative;
+    top: 50px;
+    left: 50px;
+}
 .logo {
     position: absolute;
     left: 7vw;
@@ -65,6 +70,10 @@ body{
 
     color: #4D4D4D;
 }
+.q_position{
+    position: relative;
+    left: 45%;
+}
 .item{
     /*
     background-color: #720F13;
@@ -90,6 +99,11 @@ body{
     margin:7px 5% 7px 5%  ;
     line-height: 60px;
 
+}
+
+.item-cat:hover{
+    background-color: #FFFFFF ;
+    color: #720F13;
 }
 
 .them-text{

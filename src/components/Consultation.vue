@@ -5,7 +5,7 @@
       <div v-for="app in list_of_apps"  :key="app.insigator" >
         <div class="item text-cons-title ">
           <div>
-            <span>{{app.topic}}</span>
+            <span>{{app.topic_name}}</span>
             <span class="text-cons"> Товаровед {{app.insigator.name}}</span>
           </div>
           <div class = "cons" @click="handleSelectItem(app)">
@@ -17,6 +17,9 @@
     <div  v-show="!this.is_called">
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
+      <canvas id="canvas">
+      </canvas>
+      <div class="button" @click="takepicture"> Сделать снимок</div>
       <textarea  placeholder="Текст консультанта"></textarea>
       <textarea  placeholder="Текст товароведа"></textarea>
       <div id=callinfo>
@@ -54,6 +57,9 @@
             this.getMyID()
         },
         methods:{
+            takepicture(){
+              this.x.takepicture()
+            },
             getToken() {
                 return localStorage.token;
             },
@@ -96,7 +102,7 @@
                 this.x.callanswer();
             },
             handleSubmitnewApps() {
-                axios.get('http://127.0.0.1:8000/api/applcation', {
+                axios.get('http://127.0.0.1:8000/api/application', {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }

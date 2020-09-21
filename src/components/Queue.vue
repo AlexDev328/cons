@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="!this.is_call">
+     <div class="text-left"> Ожидайте</div>
     <div id="floatingBarsG">
       <div class="blockG" id="rotateG_01"></div>
       <div class="blockG" id="rotateG_02"></div>
@@ -11,17 +12,17 @@
       <div class="blockG" id="rotateG_07"></div>
       <div class="blockG" id="rotateG_08"></div>
     </div>
-    <div>Вы в очереди</div>
+      <div class="q_position">Вы <b>{{this.number}}</b> в очереди</div>
     <div class="button menu" ><div @click="cancelcall() ">отменить запрос</div></div>
     </div>
     <div id="is_called" style="display: none">
       Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>
-    </div>
     <div class="video-room" v-if="this.is_call">
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
       <textarea v-model="mymessage" placeholder="Текст товароведа "></textarea>
       <textarea v-model="incomingmessage" placeholder="Текст консультанта"></textarea>
+    </div>
       <div id=callinfo>
         <button @click="getMyID" v-show="!uuid">Подключиться</button>
 
@@ -38,11 +39,15 @@
         name: "Queue",
         data(){
             return{
-                is_call:false
+                is_call:false,
+                number: 1,
             }
         },
         props: {
           applicationId: null
+        },
+        updated(){
+          this.getmynumber()
         },
         methods:{
             getToken() {
@@ -50,7 +55,7 @@
             },
             cancelcall(){
                 console.log("отмена звонка")
-                axios.put('http://127.0.0.1:8000/api/application/' + this.$props.applicationId + "/",  {'is_active': false},{headers: {
+                axios.put('http://127.0.0.1:8000/api/application/' + this.$props.applicationId,  {'is_active': false},{headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
                 }).then(response => {
@@ -62,10 +67,21 @@
                         console.error(error.response);
                     });
             },
+            getmynumber(){
+                axios.get('http://127.0.0.1:8000/api/application/' + this.$props.applicationId,  {headers: {
+                        'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
+                    }
+                }).then(response => {
+                    console.log(response);
+                    this.number= response.data.possition;
+                })
+                    .catch( (error) => {
+                        console.error(error.response);
+                    });
+            },
             answerCall() {
                 this.x.callanswer();
                 this.is_call=true;
-
             },
             callcancel() {
                 this.x.callcancel();
@@ -102,6 +118,9 @@
         created(){
             this.getMyID()
 
+        },
+        beforeDestroy(){
+            this.cancelcall()
         }
     }
 </script>
@@ -112,7 +131,7 @@
     width:109px;
     height:135px;
     margin:auto;
-    top: 150px;
+    top: 235px;
   }
 
   .blockG{
