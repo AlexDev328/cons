@@ -14,13 +14,16 @@ export default class {
         this.peer = new Peer([callerPeerId], configOptions);
         this.peer.on('open', (peerId) => {
             console.log(peerId);
+        }, (err) => {
+            console.log(err);
+            console.log("ashibka blet");
         });
         this.peercall = null;
         this.peer.on('call', (call) => {
             console.log("receiving call");
             // Answer the call, providing our mediaStream
             this.peercall = call;
-            document.getElementById('is_called').style.display = 'block';
+            this.callanswer();
         });
     }
 

@@ -33,7 +33,8 @@ export default new Router({
         {
             path:'/wait',
             name:'queue',
-            component: Queue
+            component: Queue,
+            props: (route) => ({applicationId: route.query.applicationId})
         }
     ]
 })

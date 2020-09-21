@@ -41,13 +41,16 @@
                 is_call:false
             }
         },
+        props: {
+          applicationId: null
+        },
         methods:{
             getToken() {
                 return localStorage.token;
             },
             cancelcall(){
                 console.log("отмена звонка")
-                axios.post('http://134.0.112.117/api/accounts/create',  {'close': true},{headers: {
+                axios.put('http://127.0.0.1:8000/api/application/' + this.$props.applicationId + "/",  {'is_active': false},{headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
                 }).then(response => {
@@ -71,7 +74,7 @@
             getMyID(){
                 this.getClientPeer()
                     .then((/*myId*/) => {
-                        const url='http://134.0.112.117/api/accounts/profile/' + this.myid;
+                        const url='http://127.0.0.1:8000/api/profile/' + this.myid;
                         axios.get(url,  {
                             headers: {
                                 'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
@@ -85,7 +88,7 @@
                     })
             },
             getClientPeer(){
-                return axios.get('http://134.0.112.117/auth/users/me/', {
+                return axios.get('http://127.0.0.1:8000/auth/users/me/', {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
