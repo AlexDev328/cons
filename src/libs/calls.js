@@ -12,10 +12,6 @@ export default class {
     constructor(callerPeerId) {
         this.canvas = document.getElementById('canvas');
         this.photo = document.getElementById('photo');
-        this.width = 720;
-        this.height = 420;
-
-
 
         console.log("entered constructor");
         this.peer = new Peer([callerPeerId], configOptions);
@@ -23,7 +19,7 @@ export default class {
             console.log(peerId);
         }, (err) => {
             console.log(err);
-            console.log("ashibka blet");
+            console.log("произошла ошибка при открытии сокета для webrtc");
         });
         this.peercall = null;
         this.peer.on('call', (call) => {
@@ -49,14 +45,16 @@ export default class {
         photo.setAttribute('src', data);
     }*/
     takepicture() {
+        this.width = document.getElementById('remVideo').videoWidth;
+        this.height = document.getElementById('remVideo').videoHeight;
         var context = this.canvas.getContext('2d');
         if (this.width && this.height) {
             this.canvas.width = this.width;
             this.canvas.height = this.height;
             context.drawImage(document.getElementById('remVideo'), 0, 0, this.width, this.height);
 
-            var data = this.canvas.toDataURL('image/png');
-            this.photo.setAttribute('src', data);
+            //var data = this.canvas.toDataURL('image/png');
+            //this.photo.setAttribute('src', data);
         }
     }
 

@@ -47,6 +47,7 @@
             uuid: "",
             myid: '',
             is_called: true,
+            application_id: '',
             }
         },
         props:{
@@ -115,9 +116,10 @@
                         console.error(error.response);
                     });
             },
-            handleSelectItem(id) {
-                console.log(id.insigator)
-                axios.get('http://127.0.0.1:8000/api/profile/' + id.insigator, {
+            handleSelectItem(app) {
+                console.log(app.insigator)
+                this.application_id = app.id;
+                axios.get('http://127.0.0.1:8000/api/profile/' + app.insigator, {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()
                     }
