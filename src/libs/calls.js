@@ -28,22 +28,6 @@ export default class {
         })
     }
 
-    takepicture(canvas) {
-        this.width = document.getElementById('remVideo').videoWidth;
-        this.height = document.getElementById('remVideo').videoHeight;
-        var context = canvas.getContext('2d');
-        if (this.width && this.height) {
-            canvas.width = this.width;
-            canvas.height = this.height;
-            context.drawImage(document.getElementById('remVideo'), 0, 0, this.width, this.height);
-            //var img = this.canvas.toBlob()
-
-            var data = this.canvas.toDataURL('image/png');
-            //this.photo.setAttribute('src', data);
-            return data;
-        }
-    }
-
     callcancel() {
         //this.peercall.disconnect();
         //this.peercall.peerConnection.close();

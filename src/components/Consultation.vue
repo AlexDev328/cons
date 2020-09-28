@@ -18,10 +18,10 @@
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
       <canvas id="canvas" style="display: none"></canvas>
-      <div id="canvasList" v-for="image in pictures" :key="image">
+      <div id="pictureList" v-for="image in pictures" :key="image">
         <img :src="image">
       </div>
-      <div class="button" @click="takepicture"> Сделать снимок</div>
+      <div class="button" @click="takePicture"> Сделать снимок</div>
       <textarea  placeholder="Текст консультанта"></textarea>
       <textarea  placeholder="Текст товароведа"></textarea>
       <div id=callinfo>
@@ -38,6 +38,7 @@
 <script>
     import axios from "axios";
     import Mycallshit from "@/libs/calls";
+    import setting from "@/settings/setting";
 
     export default {
         name: "conultation",
@@ -61,11 +62,6 @@
             this.getMyID()
         },
         methods:{
-            takepicture(){
-              const canvas = document.getElementById('canvas');
-              const imgData = this.x.takepicture(canvas);
-              this.pictures.push(imgData);
-            },
             getToken() {
                 return localStorage.token;
             },
@@ -77,7 +73,7 @@
                     this.is_called = true;
             },
             getClientPeer(){
-                return axios.get('http://127.0.0.1:8000/auth/users/me/', {
+                return axios.get(setting.host + 'auth/users/me/', {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
@@ -88,10 +84,14 @@
                     return res.data.id;
                 })},
 
+          getClientPeer1() {
+
+          },
+
             getMyID(){
                 return this.getClientPeer()
                     .then((/*myId*/) => {
-                        const url='http://127.0.0.1:8000/api/profile/' + this.myid;
+                        const url=setting.host + 'api/profile/' + this.myid;
                         axios.get(url,  {
                             headers: {
                                 'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
@@ -115,7 +115,7 @@
                 this.x.callanswer();
             },
             handleSubmitnewApps() {
-                axios.get('http://127.0.0.1:8000/api/application', {
+                axios.get(setting.host + 'api/application', {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
@@ -131,7 +131,7 @@
             handleSelectItem(app) {
                 console.log(app.insigator)
                 this.application_id = app.id;
-                axios.get('http://127.0.0.1:8000/api/profile/' + app.insigator, {
+                axios.get(setting.host + 'api/profile/' + app.insigator, {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()
                     }
@@ -145,6 +145,29 @@
                     console.error(error.response);
                 });
             },
+
+          takePicture() {
+            const canvas = document.getElementById('canvas');
+            const remVideo = document.getElementById('remVideo');
+            const width = remVideo.videoWidth;
+            const height = remVideo.videoHeight;
+            const context = canvas.getContext('2d');
+            if (width && height) {
+              canvas.width = width;
+              canvas.height = height;
+              context.drawImage(remVideo, 0, 0, this.width, this.height);
+              //var img = this.canvas.toBlob()
+              const imgData = this.canvas.toDataURL('image/png');
+              //this.addPicture(imgData);
+              this.pictures.push(imgData);
+            }
+          },
+
+          /*addPicture(imgData) {
+            const img = document.createElement('img');
+            img.src = imgData;
+            document.getElementById('canvasList').appendChild(img);
+          },*/
 
           uploadConclusion(text,lst_img){
             let data = new FormData();

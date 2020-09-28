@@ -12,6 +12,7 @@
 
 <script>
     import axios from "axios";
+    import setting from "@/settings/setting";
 
     export default {
         name: "CreatingApplication",
@@ -25,7 +26,7 @@
                 return localStorage.token;
             },
             getAllTopics() {
-                return axios.get('http://127.0.0.1:8000/api/topics', {
+                return axios.get(setting.host + 'api/topics', {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
@@ -38,7 +39,7 @@
             },
             raiseHand(id){
                 console.log(id)
-                axios.post('http://127.0.0.1:8000/api/application',  {'topic_id': id},{headers: {
+                axios.post(setting.host + 'api/application',  {'topic_id': id},{headers: {
                     'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                 }
                 }).then(response => {

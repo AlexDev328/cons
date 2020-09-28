@@ -31,6 +31,7 @@
 <script>
 import axios from "axios";
 //import Consultation from "@/components/Consultation";
+import setting from "@/settings/setting";
 
 export default {
     name: 'HelloWorld',
@@ -54,7 +55,7 @@ export default {
         handleSubmit(e) {
             e.preventDefault()
             if (this.password.length > 0) {
-                axios.post('http://127.0.0.1:8000/auth/jwt/create', {
+                axios.post(setting.host + 'auth/jwt/create', {
                     username: this.login,
                     password: this.password
                 }).then(response => {
@@ -69,7 +70,7 @@ export default {
             }
         },
         getMyID() {
-                return axios.get('http://127.0.0.1:8000/auth/users/me/', {
+                return axios.get(setting.host + 'auth/users/me/', {
                     headers: {
                         'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
                     }
@@ -91,7 +92,7 @@ export default {
                 });
         },
         getIsConsultant() {
-            const url = 'http://127.0.0.1:8000/api/profile/' + this.myid;
+            const url = setting.host + 'api/profile/' + this.myid;
             return axios.get(url, {
                 headers: {
                     'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
