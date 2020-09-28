@@ -74,7 +74,7 @@ export default {
     },
 
     isConsultant() {
-      api.getUserProfile(this.myid)
+      return api.getUserProfile(this.myid)
           .then(response => !!response.data.consultant);
     }
   },

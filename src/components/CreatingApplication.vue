@@ -52,7 +52,6 @@ export default {
   created() {
     this.getAllTopics()
     console.log("created block")
-    this.$parent.sayHello()
   },
 
 }

@@ -24,12 +24,6 @@
       <div class="button" @click="takePicture"> Сделать снимок</div>
       <textarea placeholder="Текст консультанта"></textarea>
       <textarea placeholder="Текст товароведа"></textarea>
-      <div id=callinfo>
-        <!--<button @click="getMyID" v-show="!uuid">Подключиться</button>-->
-        <div id="is_called" style="display: none">
-          Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -80,7 +74,7 @@ export default {
     },
 
     initWebRtc(){
-      return api.getSelfUserId()
+      return this.getSelfUserId()
           .then(selfUserId => {
             this.myid = selfUserId;
             api.getUserProfile(selfUserId)

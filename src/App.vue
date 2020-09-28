@@ -3,7 +3,7 @@
    <!-- <link type="text/css" src="assets/css/reset.css">-->
     <link type="text/css" src="assets/css/main.css">
     <div class="header">
-      <div class="button menu" ><div ref="menu_button" @click="closeApp() ">{{button_text}}</div></div>
+      <div class="button menu" ><div ref="menu_button" @click="closeApp() ">Выход</div></div>
       <span class="logo"><img   src="./assets/img/logo.svg"/></span>
 
     </div>
