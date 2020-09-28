@@ -1,107 +1,83 @@
 <template>
   <div>
     <div class="loging-window" >
-    <h4>Сервис консультаций</h4>
-    <form class="login_form">
-      <div>
-        <label for="login" >Логин</label>
+      <h4>Сервис консультаций</h4>
+      <form class="login_form">
         <div>
-          <input id="login" type="login" v-model="login" required>
+          <label for="login" >Логин</label>
+          <div>
+            <input id="login" type="text" v-model="login" required>
+          </div>
         </div>
-      </div>
-      <div>
-        <label for="password" >Пароль</label>
         <div>
-          <input id="password" type="password" v-model="password" required>
+          <label for="password" >Пароль</label>
+          <div>
+            <input id="password" type="password" v-model="password" required>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
       <div>
         <button class="button login"  type="submit" @click="handleSubmit">
-
-
           Войти
         </button>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-//import Consultation from "@/components/Consultation";
-import setting from "@/settings/setting";
+import api from "@/libs/backendApi";
 
 export default {
-    name: 'HelloWorld',
-    props: {
-        msg: String
-    },
-    data() {
-        return {
-            login: "",
-            password: "",
-            token: "",
-            myid:''
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      login: "",
+      password: "",
+      myid:''
+    }
+  },
 
-        }
+  methods: {
+    /**
+     * Обработчик сабмита формы
+     * @param e
+     */
+    handleSubmit(e) {
+      e.preventDefault()
+      if (this.login.length > 0 && this.password.length > 0) {
+        api.authenticate(this.login, this.password)
+            .then(response => {
+              localStorage.token = response.data.access;
+              console.log("Получен токен:" + localStorage.token);
+              return this.getMyId();
+            }).catch(error => {
+              console.error(error.response);
+            });
+      }
     },
 
-    methods: {
-        getToken() {
-            return localStorage.token;
-        },
-        handleSubmit(e) {
-            e.preventDefault()
-            if (this.password.length > 0) {
-                axios.post(setting.host + 'auth/jwt/create', {
-                    username: this.login,
-                    password: this.password
-                }).then(response => {
-                    console.log(response);
-                    localStorage.token = response.data.access
-                    this.token = response.data.access
-                    console.log(this.token)
-                    return this.getMyID();
-                }).catch(error => {
-                    console.error(error.response);
-                });
-            }
-        },
-        getMyID() {
-                return axios.get(setting.host + 'auth/users/me/', {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
-                    }
-                }).then(res => {
-                    console.log("мой id")
-                    console.log(res.data.id);
-                    this.myid = res.data.id;
-                    return this.getIsConsultant();
-                }).then(isConsultant => {
-                  let path;
-                  if (isConsultant) {
-                    console.log('консультант переадресация');
-                    path = '/consultation';
-                  } else {
-                    path = '/ask';
-                    console.log('не консультант')
-                  }
-                  this.$router.push({path:path});
-                });
-        },
-        getIsConsultant() {
-            const url = setting.host + 'api/profile/' + this.myid;
-            return axios.get(url, {
-                headers: {
-                    'Authorization': 'Bearer ' + this.getToken()/*eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTk5NzM3MDA3LCJqdGkiOiIzMzI2OGFmNzg3NmY0ZjFlOWVjNDU4MDAzMGNmNTI3YSIsInVzZXJfaWQiOjF9.ZGpk8glqJdgwdTAKj9tpa4eQpaEhoSXVu5OAk8SVvmk`*/
-                }
-            }).then(response => {
-              return !!response.data.consultant;
-            })
-        }
-        },
+    getMyId() {
+      return api.getSelfUser()
+          .then(res => {
+            console.log("ID пользователя: " + res.data.id);
+            this.myid = res.data.id;
+            return this.isConsultant();
+          }).then(isConsultant => {
+            let path = isConsultant ? "/consultation" : "/ask";
+            console.log(`Текущий пользователь ${isConsultant ? "" : "не "}консультант`);
+            this.$router.push({path:path});
+          });
+    },
+
+    isConsultant() {
+      api.getUserProfile(this.myid)
+          .then(response => !!response.data.consultant);
+    }
+  },
 
 }
 </script>

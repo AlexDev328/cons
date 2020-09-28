@@ -20,14 +20,25 @@ export default {
   data() {
       return {
           token: "",
-          button_text:'Выйти'
+          WebRtcConnection: null,
+
       }
   },
     methods:{
       closeApp(){
           localStorage.token = "";
           this.$router.push({name:'home'})
+      },
+      seyHello(){
+        console.log("bebebeb")
       }
+    },
+    created() {
+      console.log(window.location)
+    },
+    beforeMount() {
+      console.log("2")
+      console.log(window.location.hash)
     }
 
 
