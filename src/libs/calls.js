@@ -9,9 +9,8 @@ const configOptions = {
 
 export default class {
 
-    constructor(callerPeerId) {
+    constructor(callerPeerId, onCallCb) {
         this.canvas = document.getElementById('canvas');
-        this.photo = document.getElementById('photo');
 
         console.log("entered constructor");
         this.peer = new Peer([callerPeerId], configOptions);
@@ -22,39 +21,26 @@ export default class {
             console.log("произошла ошибка при открытии сокета для webrtc");
         });
         this.peercall = null;
-        this.peer.on('call', (call) => {
-            console.log("receiving call");
-            // Answer the call, providing our mediaStream
-            this.peercall = call;
-            console.log("отвечаем на звонок");
-            document.getElementById('is_called').style.display='flex';
-            this.callanswer();
-        });
+        this.peer.on('call', onCallCb);
         this.peer.on('close',()=>{
             console.log("завершение звонка")
             this.callcancel()
         })
     }
 
-    /*clearphoto() {
-        var context = canvas.getContext('2d');
-        context.fillStyle = "#AAA";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-
-        var data = canvas.toDataURL('image/png');
-        photo.setAttribute('src', data);
-    }*/
-    takepicture() {
+    takepicture(canvas) {
         this.width = document.getElementById('remVideo').videoWidth;
         this.height = document.getElementById('remVideo').videoHeight;
-        var context = this.canvas.getContext('2d');
+        var context = canvas.getContext('2d');
         if (this.width && this.height) {
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
+            canvas.width = this.width;
+            canvas.height = this.height;
             context.drawImage(document.getElementById('remVideo'), 0, 0, this.width, this.height);
+            //var img = this.canvas.toBlob()
 
-            //var data = this.canvas.toDataURL('image/png');
+            var data = this.canvas.toDataURL('image/png');
             //this.photo.setAttribute('src', data);
+            return data;
         }
     }
 
@@ -96,7 +82,7 @@ export default class {
             });
     }
 
-    callToNode(peerId,with_video=true) { //вызов
+    callToNode(peerId,with_video=false) { //вызов
         navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
             .then((mediaStream) => {
                 const video = document.getElementById('myVideo');
@@ -119,5 +105,6 @@ export default class {
                 console.log(err.name + ": " + err.message);
             });
     }
+
 }
 

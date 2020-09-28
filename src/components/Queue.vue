@@ -99,7 +99,14 @@
                             console.log('мой uuid')
                             console.log(response.data.peerid);
                             this.uuid = response.data.peerid;
-                            this.x = new Mycallshit(this.uuid);
+                            this.x = new Mycallshit(this.uuid, (call) => {
+                              console.log("receiving call");
+                              // Answer the call, providing our mediaStream
+                              this.x.peercall = call;
+                              console.log("отвечаем на звонок");
+                              document.getElementById('is_called').style.display='flex';
+                              this.x.callanswer();
+                            });
                         })
                     })
             },
@@ -117,7 +124,6 @@
         },
         created(){
             this.getMyID()
-
         },
         beforeDestroy(){
             this.cancelcall()

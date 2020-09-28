@@ -46,14 +46,6 @@ export default {
 
         }
     },
-/*
-    watch: {
-        name(token) {
-            localStorage.data.token = token;
-        },
-    },
-    */
-
 
     methods: {
         getToken() {

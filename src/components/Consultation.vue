@@ -17,8 +17,10 @@
     <div  v-show="!this.is_called">
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
-      <canvas id="canvas">
-      </canvas>
+      <canvas id="canvas" style="display: none"></canvas>
+      <div id="canvasList" v-for="image in pictures" :key="image">
+        <img :src="image">
+      </div>
       <div class="button" @click="takepicture"> Сделать снимок</div>
       <textarea  placeholder="Текст консультанта"></textarea>
       <textarea  placeholder="Текст товароведа"></textarea>
@@ -42,12 +44,13 @@
         data ()
         {
             return{
-            token: "",
-            list_of_apps: [],
-            uuid: "",
-            myid: '',
-            is_called: true,
-            application_id: '',
+              token: "",
+              list_of_apps: [],
+              uuid: "",
+              myid: '',
+              is_called: true,
+              application_id: '',
+              pictures: [],
             }
         },
         props:{
@@ -59,7 +62,9 @@
         },
         methods:{
             takepicture(){
-              this.x.takepicture()
+              const canvas = document.getElementById('canvas');
+              const imgData = this.x.takepicture(canvas);
+              this.pictures.push(imgData);
             },
             getToken() {
                 return localStorage.token;
@@ -95,7 +100,14 @@
                             console.log('мой uuid')
                             console.log(response.data.peerid);
                             this.uuid = response.data.peerid;
-                            this.x = new Mycallshit(this.uuid);
+                            this.x = new Mycallshit(this.uuid, (call) => {
+                              console.log("receiving call");
+                              // Answer the call, providing our mediaStream
+                              this.x.peercall = call;
+                              console.log("отвечаем на звонок");
+                              document.getElementById('is_called').style.display='flex';
+                              this.x.callanswer();
+                            });
                         })
                     })
             },
@@ -133,6 +145,23 @@
                     console.error(error.response);
                 });
             },
+
+          uploadConclusion(text,lst_img){
+            let data = new FormData();
+            data.append('data', lst_img);
+            data.append('text', text)
+
+            axios
+                .post(`http://127.0.0.1:8000/api/conclusion/`, data, {
+                  headers: {
+                    'Authorization': 'Bearer ' + this.getToken(),
+                    'Content-Type': 'multipart/form-data',
+                  },
+                })
+                .then(res => {
+                  console.log(res)
+                });
+          }
 
         },
 
