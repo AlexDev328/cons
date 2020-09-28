@@ -45,6 +45,8 @@ export default class {
     callanswer(with_video=true) {
         navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
             .then((mediaStream) => {
+                console.log("Отправляем следующие треки:");
+                console.log(mediaStream.getTracks());
                 const video = document.getElementById('myVideo');
                 this.peercall.answer(mediaStream); // отвечаем на звонок и передаем свой медиапоток собеседнику
                 //this.peercall.on ('close', this.callcancel(mediaStream)); //можно обработать закрытие-обрыв звонка
@@ -54,6 +56,8 @@ export default class {
                     video.play();
                 };
                 setTimeout(() => {
+                    console.log("Получаем следующие треки:");
+                    console.log(this.peercall.remoteStream.getTracks());
                     //входящий стрим помещаем в объект видео для отображения
                     document.getElementById('remVideo').srcObject = this.peercall.remoteStream;
                     document.getElementById('remVideo').onloadedmetadata = () => {
@@ -67,18 +71,32 @@ export default class {
     }
 
     callToNode(peerId,with_video=false) { //вызов
+        /* В Peer.js если звонящий не отправляет видеопоток, то по умолчанию не может принимать видеопоток.
+        в метод call нужно передать объект с опциями, переопределяющими стандартное поведение WebRTC */
+        const options = {
+            'constraints': {
+                'mandatory': {
+                    'OfferToReceiveAudio': true,
+                    'OfferToReceiveVideo': true
+                },
+                offerToReceiveAudio: 1,
+                offerToReceiveVideo: 1,
+            }
+        }
         navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
             .then((mediaStream) => {
+                console.log("Отправляем следующие треки:");
+                console.log(mediaStream.getTracks());
                 const video = document.getElementById('myVideo');
-                this.peercall = this.peer.call(peerId, mediaStream);
+                this.peercall = this.peer.call(peerId, mediaStream, options);
 
-                this.peercall.on('stream', () => { //нам ответили, получим стрим
-                    setTimeout(() => {
+                this.peercall.on('stream', (s) => { //нам ответили, получим стрим
+                        console.log("Получаем следующие треки:");
+                        console.log(s.getTracks());
                         document.getElementById('remVideo').srcObject = this.peercall.remoteStream;
                         document.getElementById('remVideo').onloadedmetadata = () => {
                             document.getElementById('remVideo').play();
                         };
-                    }, 1500);
                 });
 
                 video.srcObject = mediaStream;

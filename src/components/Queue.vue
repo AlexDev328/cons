@@ -96,7 +96,7 @@ export default {
       this.webRtcConnector.peercall = call;
       console.log("Отвечаем на звонок");
       document.getElementById('is_called').style.display = 'flex';
-      this.webRtcConnector.callanswer();
+      this.answerCall();
     },
 
     getSelfUserId(){

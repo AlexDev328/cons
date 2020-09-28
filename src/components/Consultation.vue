@@ -115,7 +115,7 @@ export default {
       api.getUserProfile(app.insigator)
           .then(response => {
             console.log("Вызов " + response.data.peerid);
-            this.webRtcConnector.callToNode(response.data.peerid);
+            this.webRtcConnector.callToNode(response.data.peerid, false);
             this.isCalled = false;
           }).catch(error => {
             console.error(error.response);
