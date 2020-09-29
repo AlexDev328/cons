@@ -33,11 +33,17 @@ export default class {
         //this.peercall.peerConnection.close();
         console.log("завершение звонка")
        // stream.stop();
-        this.peercall.peerConnection.close();
+        this.peercall.close()
+        //this.peercall.peerConnection.close();
 
 
     }
+/*
+    toogleAudio(){
+        this.peercall.
 
+    }
+*/
     get_incoming_call(){
         return this.peercall;
     }

@@ -17,9 +17,12 @@
     <div  v-show="!this.isCalled">
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
-      <canvas id="canvas"></canvas>
-      <div id="pictureList" v-for="image in pictures" :key="image">
-        <img :src="image">
+      <canvas id="canvas" style="display: none"></canvas>
+      <div id="pictureList" >
+        <div class="picture_item" v-for="image in pictures" :key="image">
+          <div :style=setUrl></div>
+          <img :src="image" >
+        </div>
       </div>
       <div class="button" @click="takePicture"> Сделать снимок</div>
       <textarea placeholder="Текст консультанта"></textarea>
@@ -133,8 +136,8 @@ export default {
         canvas.height = height;
         context.drawImage(remVideo, 0, 0, width, height);
 
-        const imgData = canvas.toBlob()
-        //const imgData = canvas.toDataURL('image/png');
+        //const imgData = canvas.toBlob()
+        const imgData = canvas.toDataURL('image/png');
         console.log(imgData);
         //this.addPicture(imgData);
         this.pictures.push(imgData);
@@ -165,6 +168,17 @@ export default {
 </script>
 
 <style scoped>
+.pictureList{
+  display: flex;
+  width: 200px;
+}
 
+.picture_item{
+  width: 100px;
+  margin: 5px;
+}
+.picture_item img{
+  width: 100px;
+}
 
 </style>
