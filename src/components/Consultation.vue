@@ -17,7 +17,7 @@
     <div  v-show="!this.isCalled">
       <video id=myVideo muted="muted" width="400px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
-      <canvas id="canvas" style="display: none"></canvas>
+      <canvas id="canvas"></canvas>
       <div id="pictureList" v-for="image in pictures" :key="image">
         <img :src="image">
       </div>
@@ -131,9 +131,11 @@ export default {
       if (width && height) {
         canvas.width = width;
         canvas.height = height;
-        context.drawImage(remVideo, 0, 0, this.width, this.height);
-        //var img = this.canvas.toBlob()
-        const imgData = this.canvas.toDataURL('image/png');
+        context.drawImage(remVideo, 0, 0, width, height);
+
+        const imgData = canvas.toBlob()
+        //const imgData = canvas.toDataURL('image/png');
+        console.log(imgData);
         //this.addPicture(imgData);
         this.pictures.push(imgData);
       }
