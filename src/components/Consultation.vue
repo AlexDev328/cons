@@ -53,6 +53,7 @@ export default {
       pictures: [],
       conclusion_text:'',
       app: null,
+      myVideo: false,
     }
   },
   props:{
@@ -123,6 +124,7 @@ export default {
             console.log("Вызов " + response.data.peerid);
             this.webRtcConnector.callToNode(response.data.peerid, true);
             this.isCalled = false;
+            this.myVideo = true;
           }).catch(error => {
         console.error(error.response);
       });
@@ -153,7 +155,7 @@ export default {
         canvas.height = height;
         context.drawImage(remVideo, 0, 0, width, height);
 
-        //const imgData = canvas.toBlob()
+        //const imgData = canvas.toBlob('image/jpeg', 1.0);
         const imgData = canvas.toDataURL('image/png');
         console.log(imgData);
         //this.addPicture(imgData);
@@ -162,17 +164,32 @@ export default {
     },
 
     callcancel() {
+      this.myVideo = true;
       this.webRtcConnector.callcancel();
       this.$router.push({path:"/consultation"})
     },
 
+    createBlobList(){
+        let bloblst = []
+        for(let img in this.pictures)  {
+          img.toBlob(((blob) => {
+              bloblst.push(blob)
+          }).catch(error=>{
+              console.log('Ошибка при перекодировании изображений')
+              console.log(error)
+          }), 'image/jpeg', 0.95)
+        }
+        return bloblst
+    },
+
     uploadConclusion(){
       let data = new FormData();
-      //data.append('data', lst_img);
-      data.append('text', this.conclusion_text)
+      data.append('cons_text', this.conclusion_text)
+      data.append('application_id', this.application_id)
+      data.append("imgs", this.createBlobList())
       //todo: перенести запрос в backendApi.js
       axios
-          .post(setting.host +'api/img_test/', data, {
+          .post(setting.host +'api/img_test', data, {
             headers: {
               'Authorization': 'Bearer ' +  localStorage.token,
               'Content-Type': 'multipart/form-data',
@@ -180,10 +197,15 @@ export default {
           })
           .then(res => {
             console.log(res)
-          });
+          }).catch(error => {
+          console.error(error.response);
+      });
     }
 
   },
+    beforeDestroy() {
+        this.webRtcConnector.destroy()
+    }
 
 
 }

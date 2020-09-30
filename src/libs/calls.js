@@ -22,6 +22,22 @@ export default class {
         });
         this.peercall = null;
         this.mediaStream = null;
+      /*  this.peer.on("error", (error)=>{
+            console.log(error)
+            })*/
+        // Non-Fatal error:
+// 'peer-unavailable' = maybe they left?
+// 'disconnected' = this means the Peering server disconnected, we have a seperate retry for that on('disconnect')
+// pretty much all of the rest are fatal.
+        const FATAL_ERRORS = ['invalid-id', 'invalid-key', 'network', 'ssl-unavailable', 'server-error', 'socket-error', 'socket-closed', 'unavailable-id', 'webrtc'];
+        this.peer.on('error', (e) => {
+            if (FATAL_ERRORS.includes(e.type)) {
+                console.log('fatal error: ',  e.type);
+                //this.reconnectTimeout(e); // this function waits then tries the entire connection over again
+            } else {
+                console.log('Non fatal error: ',  e.type);
+            }
+        });
         this.peer.on('call', onCallCb);
         this.peer.on('close',()=>{
             console.log("завершение звонка")
@@ -30,21 +46,16 @@ export default class {
     }
 
     callcancel() {
-        //this.peercall.disconnect();
+        this.peercall.disconnect();
         //this.peercall.peerConnection.close();
         console.log("завершение звонка")
        // stream.stop();
-        this.peercall.close()
+        //this.peercall.close()
         //this.peercall.peerConnection.close();
 
 
     }
-/*
-    toogleAudio(){
-        this.peercall.
 
-    }
-*/
     get_incoming_call(){
         return this.peercall;
     }
