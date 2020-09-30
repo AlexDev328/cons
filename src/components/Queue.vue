@@ -18,8 +18,9 @@
     <div id="is_called" style="display: none">
       <!--Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>-->
       <div class="video-room" v-if="this.is_call">
-        <button @click='callcancel' >Завершить звонок</button>
-        <video id=myVideo muted="muted" width="400px" height="auto" ></video>
+        <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
+        <video id=myVideo muted="muted" width="650px" height="auto" style="display: flex; margin-left: auto;
+    margin-right: auto " ></video>
         <video id=remVideo width="400px" height="auto" ></video>
       </div>
     </div>

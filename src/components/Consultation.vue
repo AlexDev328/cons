@@ -15,19 +15,20 @@
       </div>
     </div>
     <div  v-show="!this.isCalled">
-      <button @click='callcancel' >Завершить звонок</button>
+      <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
       <video v-show="this.myVideo" id=myVideo muted="muted" width="600px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
       <canvas id="canvas" style="display: none"></canvas>
-      <div id="pictureList" >
+      <div class="pictureList" >
         <div class="picture_item" v-for="image in pictures" :key="image">
-          <div :style=setUrl></div>
+          <!--<div :style=setUrl></div>-->
           <img :src="image" >
         </div>
       </div>
       <div class="button" @click="takePicture"> Сделать снимок</div>
-      <textarea class="text-conclusion" placeholder="Текст консультанта"></textarea>
-
+      <div class="button" @click="callwithVideo"> Добавить видео</div>
+      <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
+      <div class="button" @click="uploadConclusion"> Отправить заключение</div>
     </div>
   </div>
 
@@ -37,6 +38,7 @@
 import axios from "axios";
 import WebRtcConnector from "@/libs/calls";
 import api from "@/libs/backendApi";
+import setting from "@/settings/setting";
 
 export default {
   name: "Consultation",
@@ -49,6 +51,8 @@ export default {
       isCalled: true,
       application_id: '',
       pictures: [],
+      conclusion_text:'',
+      app: null,
     }
   },
   props:{
@@ -113,13 +117,25 @@ export default {
           });
     },
 
-    handleSelectApplication(app) {
+    callwithVideo(){
+      api.getUserProfile(this.app.insigator)
+          .then(response => {
+            console.log("Вызов " + response.data.peerid);
+            this.webRtcConnector.callToNode(response.data.peerid, true);
+            this.isCalled = false;
+          }).catch(error => {
+        console.error(error.response);
+      });
+    },
+
+    handleSelectApplication(app, video=false) {
       console.log(app.insigator)
+      this.app = app;
       this.application_id = app.id;
       api.getUserProfile(app.insigator)
           .then(response => {
             console.log("Вызов " + response.data.peerid);
-            this.webRtcConnector.callToNode(response.data.peerid, false);
+            this.webRtcConnector.callToNode(response.data.peerid, video);
             this.isCalled = false;
           }).catch(error => {
             console.error(error.response);
@@ -150,15 +166,15 @@ export default {
       this.$router.push({path:"/consultation"})
     },
 
-    uploadConclusion(text, lst_img){
+    uploadConclusion(){
       let data = new FormData();
-      data.append('data', lst_img);
-      data.append('text', text)
+      //data.append('data', lst_img);
+      data.append('text', this.conclusion_text)
       //todo: перенести запрос в backendApi.js
       axios
-          .post(`http://127.0.0.1:8000/api/conclusion/`, data, {
+          .post(setting.host +'api/img_test/', data, {
             headers: {
-              'Authorization': 'Bearer ' + this.getToken(),
+              'Authorization': 'Bearer ' +  localStorage.token,
               'Content-Type': 'multipart/form-data',
             },
           })
