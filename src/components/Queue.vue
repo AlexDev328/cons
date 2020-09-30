@@ -16,12 +16,11 @@
       <div class="button menu" ><div @click="cancelCall() ">отменить запрос</div></div>
     </div>
     <div id="is_called" style="display: none">
-      Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>
+      <!--Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>-->
       <div class="video-room" v-if="this.is_call">
+        <button @click='callcancel' >Завершить звонок</button>
         <video id=myVideo muted="muted" width="400px" height="auto" ></video>
         <video id=remVideo width="400px" height="auto" ></video>
-        <textarea v-model="mymessage" placeholder="Текст товароведа "></textarea>
-        <textarea v-model="incomingmessage" placeholder="Текст консультанта"></textarea>
       </div>
     </div>
   </div>
@@ -78,6 +77,7 @@ export default {
     
     callcancel() {
       this.webRtcConnector.callcancel();
+      this.$router.push({path:"/ask"})
     },
     
     initWebRtcConnector(){

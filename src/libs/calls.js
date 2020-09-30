@@ -21,6 +21,7 @@ export default class {
             console.log("произошла ошибка при открытии сокета для webrtc");
         });
         this.peercall = null;
+        this.mediaStream = null;
         this.peer.on('call', onCallCb);
         this.peer.on('close',()=>{
             console.log("завершение звонка")
@@ -91,10 +92,11 @@ export default class {
         }
         navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
             .then((mediaStream) => {
+                this.mediaStream = mediaStream;
                 console.log("Отправляем следующие треки:");
-                console.log(mediaStream.getTracks());
+                console.log(this.mediaStream.getTracks());
                 const video = document.getElementById('myVideo');
-                this.peercall = this.peer.call(peerId, mediaStream, options);
+                this.peercall = this.peer.call(peerId, this.mediaStream, options);
 
                 this.peercall.on('stream', (s) => { //нам ответили, получим стрим
                         console.log("Получаем следующие треки:");
@@ -105,13 +107,24 @@ export default class {
                         };
                 });
 
-                video.srcObject = mediaStream;
+                video.srcObject = this.mediaStream;
                 video.onloadedmetadata = () => {
                     video.play();
                 };
             }).catch(function (err) {
                 console.log(err.name + ": " + err.message);
             });
+    }
+    
+    addvideo(){
+        console.log(this.mediaStream);
+        navigator.mediaDevices.getUserMedia({audio: false, video: true})
+            .then(mediaStream => {
+                mediaStream.getVideoTracks()
+                    .forEach(vt => this.mediaStream.addTrack(vt));
+            }).catch(function (err) {
+            console.log(err.name + ": " + err.message);
+        });
     }
 
 }

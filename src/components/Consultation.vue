@@ -15,7 +15,8 @@
       </div>
     </div>
     <div  v-show="!this.isCalled">
-      <video id=myVideo muted="muted" width="400px" height="auto" ></video>
+      <button @click='callcancel' >Завершить звонок</button>
+      <video v-show="this.myVideo" id=myVideo muted="muted" width="600px" height="auto" ></video>
       <video id=remVideo width="400px" height="auto" ></video>
       <canvas id="canvas" style="display: none"></canvas>
       <div id="pictureList" >
@@ -25,8 +26,8 @@
         </div>
       </div>
       <div class="button" @click="takePicture"> Сделать снимок</div>
-      <textarea placeholder="Текст консультанта"></textarea>
-      <textarea placeholder="Текст товароведа"></textarea>
+      <textarea class="text-conclusion" placeholder="Текст консультанта"></textarea>
+
     </div>
   </div>
 
@@ -144,6 +145,11 @@ export default {
       }
     },
 
+    callcancel() {
+      this.webRtcConnector.callcancel();
+      this.$router.push({path:"/consultation"})
+    },
+
     uploadConclusion(text, lst_img){
       let data = new FormData();
       data.append('data', lst_img);
@@ -179,6 +185,18 @@ export default {
 }
 .picture_item img{
   width: 100px;
+}
+video{
+  align-items: center;
+  justify-content: center
+}
+.text-conclusion{
+
+  position: relative;
+  width: 650px;
+  height: 300px;
+  resize: vertical;
+  left: 120px;
 }
 
 </style>
