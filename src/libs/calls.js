@@ -1,10 +1,10 @@
 import Peer from './peerjs';
 
 const configOptions = {
-    host: 'gradientmedia.ru',
+    host: '127.0.0.1',
     debug: '4',
-    port:'443',
-    secure: true,
+    port:'9000',
+    secure: false,
     path:'/peer',
 }
 

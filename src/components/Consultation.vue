@@ -16,19 +16,25 @@
     </div>
     <div  v-show="!this.isCalled">
       <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
-      <video v-show="this.myVideo" id=myVideo muted="muted" width="600px" height="auto" ></video>
-      <video id=remVideo width="400px" height="auto" ></video>
+      <div class="flex">
+        <div class="button menu2" @click="callwithVideo"> Добавить видео</div>
+        <video v-show="this.myVideo" id=myVideo muted="muted" width="400px" height="auto" ></video>
+        <video id=remVideo width="550px" height="auto" ></video>
+      </div>
       <canvas id="canvas" style="display: none"></canvas>
       <div class="pictureList" >
         <div class="picture_item" v-for="image in pictures" :key="image">
           <!--<div :style=setUrl></div>-->
           <img :src="image" >
         </div>
+
       </div>
-      <div class="button" @click="takePicture"> Сделать снимок</div>
-      <div class="button" @click="callwithVideo"> Добавить видео</div>
-      <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
-      <div class="button" @click="uploadConclusion"> Отправить заключение</div>
+      <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
+      <div class="control-block">
+
+        <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
+        <div class="send_button action-button button-text" @click="uploadConclusion"> Отправить заключение</div>
+      </div>
     </div>
   </div>
 
@@ -175,9 +181,23 @@ export default {
 </script>
 
 <style scoped>
+
+.action-button{
+  background-color: #720F13;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 16px #C4C4C4;
+  border-radius: 10px 0px;
+  min-height: 62px;
+   margin: 10px;
+  line-height: 60px;
+}
 .pictureList{
   display: flex;
-  width: 200px;
+  height: 120px;
+  margin: 5px;
+  border: 1px solid #720F13;
+  border-radius: 10px 0px;
 }
 
 .picture_item{
@@ -186,18 +206,33 @@ export default {
 }
 .picture_item img{
   width: 100px;
+  margin: 10px
 }
 video{
   align-items: center;
   justify-content: center
 }
 .text-conclusion{
-
   position: relative;
-  width: 650px;
+  width: 90vw;
   height: 300px;
-  resize: vertical;
-  left: 120px;
+  resize: none;
+  left: 5vw;
+  border: 1px solid #720F13;
+  border-radius: 10px 0px;
+}
+.take_pic{
+position: relative;
+width: 200px;
+}
+
+.send_button{
+  width: 98vw;
+}
+
+
+.flex{
+  display: flex;
 }
 
 </style>

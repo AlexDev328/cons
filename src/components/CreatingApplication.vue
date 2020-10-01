@@ -2,7 +2,7 @@
   <div >
     <div class="them-text">Выберите тематику</div>
     <div class="container" >
-      <div v-for="topic in list_of_topics" :key="topic.id" class="item-cat" >
+      <div v-for="topic in list_of_topics" :key="topic.id" class="item-el" >
         <div @click="raiseHand(topic.id)">{{topic.name}}</div>
       </div>
     </div>
