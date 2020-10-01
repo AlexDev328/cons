@@ -49,8 +49,12 @@ export default class {
         return this.peercall;
     }
 
-    callanswer(with_video=true) {
-        navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
+    callanswer() {
+        navigator.mediaDevices.getUserMedia({audio: true,
+            video:  {
+                width: { min: 1280 },
+                height: { min: 720 }
+            }})
             .then((mediaStream) => {
                 console.log("Отправляем следующие треки:");
                 console.log(mediaStream.getTracks());
