@@ -1,12 +1,16 @@
 import axios from "axios";
 import setting from "@/settings/setting";
 
-function buildConfig() {
-    return {
+function buildConfig(contentType) {
+    let res = {
         headers: {
             'Authorization': 'Bearer ' + localStorage.token
         }
     }
+    if (contentType) {
+        res.headers['Content-Type'] = contentType;
+    }
+    return res;
 }
 
 function getSelfUser() {
@@ -49,6 +53,14 @@ function getTopics() {
     return axios.get(setting.host + 'api/topics', buildConfig());
 }
 
+function createConclusion(applicationId, text, images) {
+    let data = new FormData();
+    data.append('imgs', JSON.stringify(images));
+    data.append('cons_text', text)
+    data.append('application_id', applicationId)
+    return axios.post(setting.host +'api/img_test', data, buildConfig('multipart/form-data'));
+}
+
 export default {
     authenticate,
     getSelfUser,
@@ -57,5 +69,6 @@ export default {
     getApplication,
     createApplication,
     deactivateApplication,
-    getTopics
+    getTopics,
+    createConclusion
 }

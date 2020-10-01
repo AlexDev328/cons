@@ -35,10 +35,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import WebRtcConnector from "@/libs/calls";
 import api from "@/libs/backendApi";
-import setting from "@/settings/setting";
 
 export default {
   name: "Consultation",
@@ -123,6 +121,7 @@ export default {
             console.log("Вызов " + response.data.peerid);
             this.webRtcConnector.callToNode(response.data.peerid, true);
             this.isCalled = false;
+            this.myVideo = true;
           }).catch(error => {
         console.error(error.response);
       });
@@ -152,13 +151,8 @@ export default {
         canvas.width = width;
         canvas.height = height;
         context.drawImage(remVideo, 0, 0, width, height);
-        canvas.toBlob((blob) => {
-          const imgData = blob;
-          console.log(imgData);
-          this.pictures.push(imgData);
-        }, 'image/jpeg', 1.0)
-        //const imgData = canvas.toDataURL('image/png');
-
+        const imgData = canvas.toDataURL('image/png');
+        this.pictures.push(imgData);
       }
     },
 
@@ -168,20 +162,10 @@ export default {
     },
 
     uploadConclusion(){
-      let data = new FormData();
-      //data.append('data', lst_img);
-      data.append('text', this.conclusion_text)
-      //todo: перенести запрос в backendApi.js
-      axios
-          .post(setting.host +'api/img_test/', data, {
-            headers: {
-              'Authorization': 'Bearer ' +  localStorage.token,
-              'Content-Type': 'multipart/form-data',
-            },
-          })
+      api.createConclusion(this.application_id, this.conclusion_text, this.pictures)
           .then(res => {
-            console.log(res)
-          });
+            console.log(res);
+          })
     }
 
   },
