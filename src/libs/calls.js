@@ -1,14 +1,14 @@
 import Peer from './peerjs';
 
 const configOptions = {
-    host: '134.0.112.117',
-    port: 9000,
+    host: 'gradientmedia.ru',
     debug: '4',
-    secure: false,
+    port:'443',
+    secure: true,
+    path:'/peer',
 }
 
 export default class {
-
     constructor(callerPeerId, onCallCb) {
         this.canvas = document.getElementById('canvas');
 

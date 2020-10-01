@@ -6,7 +6,7 @@
         <div class="item text-cons-title ">
           <div>
             <span>{{app.topic_name}}</span>
-            <span class="text-cons"> Товаровед {{app.insigator.name}}</span>
+            <span class="text-cons"> Ломбард {{app.insigator.city}}{{app.insigator.address}}</span>
           </div>
           <div class = "cons" @click="handleSelectApplication(app)">
             <div class="button-text">Начать консультацию</div>
@@ -152,12 +152,13 @@ export default {
         canvas.width = width;
         canvas.height = height;
         context.drawImage(remVideo, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          const imgData = blob;
+          console.log(imgData);
+          this.pictures.push(imgData);
+        }, 'image/jpeg', 1.0)
+        //const imgData = canvas.toDataURL('image/png');
 
-        //const imgData = canvas.toBlob()
-        const imgData = canvas.toDataURL('image/png');
-        console.log(imgData);
-        //this.addPicture(imgData);
-        this.pictures.push(imgData);
       }
     },
 
