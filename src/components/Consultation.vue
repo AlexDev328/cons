@@ -6,7 +6,7 @@
         <div class="item text-cons-title ">
           <div>
             <span>{{app.topic_name}}</span>
-            <span class="text-cons"> Ломбард {{app.insigator.city}}{{app.insigator.address}}</span>
+            <span class="text-cons"> Ломбард {{app.insigator_city}}{{app.insigator_filial}}</span>
           </div>
           <div class = "cons" @click="handleSelectApplication(app)">
             <div class="button-text">Начать консультацию</div>
@@ -18,8 +18,8 @@
       <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
       <div class="flex">
         <div class="button menu2" @click="callwithVideo"> Добавить видео</div>
-        <video v-show="this.myVideo" id=myVideo muted="muted" width="400px" height="auto" ></video>
-        <video id=remVideo width="550px" height="auto" ></video>
+        <video v-show="this.myVideo" id='myVideo' muted="muted" width="200px" height="auto" ></video>
+        <video id=remVideo width="700px" height="auto" ></video>
       </div>
       <canvas id="canvas" style="display: none"></canvas>
       <div class="pictureList" >
@@ -166,7 +166,8 @@ export default {
     callcancel() {
       this.myVideo = true;
       this.webRtcConnector.callcancel();
-      this.$router.push({path:"/consultation"})
+      //this.$router.push({path:"/consultation"})
+
     },
 
     uploadConclusion(){
@@ -240,6 +241,9 @@ width: 200px;
 
 .flex{
   display: flex;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 </style>

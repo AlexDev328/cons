@@ -5,7 +5,7 @@ const configOptions = {
     host: setting.call_host.url,
     debug: '4',
     port:setting.call_host.port,
-    secure: false,
+    secure: true,
     path:setting.call_host.path,
 }
 
@@ -47,9 +47,12 @@ export default class {
     }
 
     callcancel() {
-        this.peercall.disconnect();
+        document.location.reload();
+        if (this.peercall.open){
+            this.peercall.peerConnection.close();}
         //this.peercall.peerConnection.close();
         console.log("завершение звонка")
+
        // stream.stop();
         //this.peercall.close()
         //this.peercall.peerConnection.close();

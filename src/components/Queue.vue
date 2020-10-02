@@ -17,11 +17,12 @@
     </div>
     <div id="is_called" style="display: none">
       <!--Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>-->
-      <div class="video-room" v-if="this.is_call">
+      <div v-if="this.is_call">
         <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
-        <video id=myVideo muted="muted" width="650px" height="auto" style="display: flex; margin-left: auto;
-    margin-right: auto " ></video>
-        <video id=remVideo width="400px" height="auto" ></video>
+        <div class="video-room">
+          <video id=myVideo muted="muted" width="650px" height="auto" ></video>
+          <video id=remVideo width="400px" height="auto" ></video>
+        </div>
       </div>
     </div>
   </div>
@@ -77,8 +78,9 @@ export default {
     },
     
     callcancel() {
-      this.webRtcConnector.callcancel();
       this.$router.push({path:"/ask"})
+      this.webRtcConnector.callcancel();
+
     },
     
     initWebRtcConnector(){
@@ -286,6 +288,10 @@ export default {
   -moz-transform:rotate(-135deg);
 }
 
+.video-room{
+  display: flex;
+  justify-content: center;
+}
 
 
 @keyframes fadeG{
