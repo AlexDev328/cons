@@ -36,6 +36,7 @@ export default {
       api.createApplication(topicId)
           .then(response => {
             console.log(response);
+            console.log(response.data.application.id)
             this.$router.push({
               path:'/wait',
               query: {

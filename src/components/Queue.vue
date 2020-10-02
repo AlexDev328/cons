@@ -20,9 +20,10 @@
       <div v-if="this.is_call">
         <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
         <div class="video-room">
-          <video id=myVideo muted="muted" width="650px" height="auto" ></video>
-          <video id=remVideo width="400px" height="auto" ></video>
+          <video id=myVideo muted="muted" width="300px" height="auto" ></video>
+          <video id=remVideo width="650px" height="auto" ></video>
         </div>
+        <div > Текст консультанта <p>{{this.conclusion}}</p></div>
       </div>
     </div>
   </div>
@@ -38,17 +39,33 @@ export default {
     return{
       is_call:false,
       uuid: null,
-      number: 1,
+      number: "",
+      //applicationId: this.$props.applicationId,
+      conclusion:'',
+      timer: null,
     }
+
   },
-  props: {
-    applicationId: null
+  props:{
+      applicationId : null,
   },
   updated(){
     this.getCurrentApplicationPosition()
   },
+
   methods:{
-    
+    getConclusion(id) {
+      setInterval(function () {
+          console.log("попытка получения заключения")
+          //console.log(this.$props.applicationId)
+          //console.log(this.applicationId)
+          this.conclusion = api.getCurrentConclusion(id)
+              .then(response => {
+                  console.log(response.data.text)
+                  this.conclusion = response.data.text;
+              });
+      }, 5000);
+    },
     cancelCall(){
       console.log("отмена звонка")
       api.deactivateApplication(this.$props.applicationId)
@@ -61,25 +78,30 @@ export default {
           });
     },
     
-    getCurrentApplicationPosition(){
-      api.getApplication(this.$props.applicationId)
-          .then(response => {
-            console.log(response);
-            this.number= response.data.possition; //todo: опечатка?
-          })
-          .catch(error => {
-            console.error(error.response);
-          });
+    getCurrentApplicationPosition(id) {
+        this.timer = setInterval(function () {
+            api.getApplicationPosition(id)
+                .then(response => {
+                    console.log(response);
+                    console.log(response.data.possition)
+                    this.number = response.data.possition; //todo: опечатка?
+                })
+                .catch(error => {
+                    console.error(error.response);
+                });
+        }, 10000);
     },
-    
     answerCall() {
       this.webRtcConnector.callanswer();
       this.is_call=true;
+      clearInterval(this.timer)
+      this.getConclusion(this.$props.applicationId)
     },
     
     callcancel() {
       this.$router.push({path:"/ask"})
       this.webRtcConnector.callcancel();
+      document.location.reload();
 
     },
     
@@ -112,17 +134,34 @@ export default {
     },
   },
 
-  created(){
-    this.initWebRtcConnector();
+  created() {
+      this.initWebRtcConnector();
+      this.getCurrentApplicationPosition(this.$props.applicationId);
   },
+    mounted() {
 
-  beforeDestroy(){
+    },
+
+    beforeDestroy(){
     this.cancelCall();
   }
 }
 </script>
 
 <style scoped>
+  video {
+    border-radius: 15px 0;
+    margin: 15px
+  }
+
+#myVideo{
+  width: 30vw;
+  height: auto;
+}
+#remVideo{
+  width: 65vw;
+}
+
 #floatingBarsG{
   position:relative;
   width:109px;

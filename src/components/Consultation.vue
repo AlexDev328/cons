@@ -6,7 +6,7 @@
         <div class="item text-cons-title ">
           <div>
             <span>{{app.topic_name}}</span>
-            <span class="text-cons"> Ломбард {{app.insigator_city}}{{app.insigator_filial}}</span>
+            <span class="text-cons"> Ломбард {{app.insigator_city}} {{app.insigator_filial}}</span>
           </div>
           <div class = "cons" @click="handleSelectApplication(app)">
             <div class="button-text">Начать консультацию</div>
@@ -31,8 +31,8 @@
       </div>
       <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
       <div class="control-block">
-
         <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
+
         <div class="send_button action-button button-text" @click="uploadConclusion"> Отправить заключение</div>
       </div>
     </div>
@@ -164,8 +164,10 @@ export default {
     },
 
     callcancel() {
+      this.uploadConclusion()
       this.myVideo = true;
       this.webRtcConnector.callcancel();
+      document.location.reload();
       //this.$router.push({path:"/consultation"})
 
     },

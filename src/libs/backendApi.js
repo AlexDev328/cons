@@ -37,6 +37,10 @@ function getApplication(applicationId) {
     return axios.get(setting.host + 'api/application/' + applicationId, buildConfig())   ;
 }
 
+function getApplicationPosition(id) {
+    return axios.get(setting.host + "api/application/get_my_pos/"+id, buildConfig())   ;
+}
+
 function createApplication(topicId) {
     return axios.post(setting.host + 'api/application',
         {'topic_id': topicId},
@@ -61,6 +65,12 @@ function createConclusion(applicationId, text, images) {
     return axios.post(setting.host +'api/img_test', data, buildConfig('multipart/form-data'));
 }
 
+function getCurrentConclusion(id) {
+    console.log("Выполнение запроса... получение заключения с id")
+    console.log(id)
+    return axios.get(setting.host + 'api/conclusions/'+id, buildConfig())
+}
+
 export default {
     authenticate,
     getSelfUser,
@@ -70,5 +80,7 @@ export default {
     createApplication,
     deactivateApplication,
     getTopics,
-    createConclusion
+    createConclusion,
+    getCurrentConclusion,
+    getApplicationPosition
 }
