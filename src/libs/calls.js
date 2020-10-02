@@ -1,14 +1,14 @@
 import Peer from './peerjs';
 
 const configOptions = {
-    host: '134.0.112.117',
-    port: 9000,
+    host: '127.0.0.1',
     debug: '4',
+    port:'9000',
     secure: false,
+    path:'/peer',
 }
 
 export default class {
-
     constructor(callerPeerId, onCallCb) {
         this.canvas = document.getElementById('canvas');
 
@@ -60,8 +60,12 @@ export default class {
         return this.peercall;
     }
 
-    callanswer(with_video=true) {
-        navigator.mediaDevices.getUserMedia({audio: true, video: with_video})
+    callanswer() {
+        navigator.mediaDevices.getUserMedia({audio: true,
+            video:  {
+                width: { min: 1280 },
+                height: { min: 720 }
+            }})
             .then((mediaStream) => {
                 console.log("Отправляем следующие треки:");
                 console.log(mediaStream.getTracks());
