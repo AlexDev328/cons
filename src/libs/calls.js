@@ -1,11 +1,12 @@
 import Peer from './peerjs';
+import setting from "@/settings/setting";
 
 const configOptions = {
-    host: '127.0.0.1',
+    host: setting.call_host.url,
     debug: '4',
-    port:'9000',
+    port:setting.call_host.port,
     secure: false,
-    path:'/peer',
+    path:setting.call_host.path,
 }
 
 export default class {

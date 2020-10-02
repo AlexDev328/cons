@@ -1,7 +1,9 @@
 //const host = 'http://134.0.112.117:8000/';
-const host = 'https://gradientmedia.ru/'
+const host = 'https://aidev.fun/'
 const call_host = {
-    url: '//134.0.112.117:9000/'
+    url: '//aidev.fun/',
+    path: '/peer',
+    port: '9000',
 
 }
 
