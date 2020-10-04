@@ -38,7 +38,7 @@ function getApplication(applicationId) {
 }
 
 function getApplicationPosition(id) {
-    return axios.get(setting.host + "api/application/get_my_pos/"+id, buildConfig())   ;
+    return axios.get(setting.host + "api/application/"+id+"/position", buildConfig())   ;
 }
 
 function createApplication(topicId) {

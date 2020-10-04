@@ -15,16 +15,17 @@
       <div class="q_position">Вы <b>{{this.number}}</b> в очереди</div>
       <div class="button menu" ><div @click="cancelCall() ">отменить запрос</div></div>
     </div>
-    <div id="is_called" style="display: none">
+    <div id="is_called" v-if="this.is_call">
       <!--Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>-->
-      <div v-if="this.is_call">
+      <div >
         <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
         <div class="video-room">
-          <video id=myVideo muted="muted" width="300px" height="auto" ></video>
-          <video id=remVideo width="650px" height="auto" ></video>
+          <video id=myVideo muted="muted"  ></video>
+          <video id=remVideo    ></video>
         </div>
-        <div > Текст консультанта <p>{{this.conclusion}}</p></div>
+
       </div>
+      <div class="text-conclusion"> Текст консультанта <p>{{this.conclusion}}</p></div>
     </div>
   </div>
 </template>
@@ -32,7 +33,7 @@
 <script>
 import WebRtcConnector from "@/libs/calls";
 import api from "@/libs/backendApi";
-
+import setting from "@/settings/setting";
 export default {
   name: "Queue",
   data(){
@@ -43,6 +44,7 @@ export default {
       //applicationId: this.$props.applicationId,
       conclusion:'',
       timer: null,
+      remVideoExist:false,
     }
 
   },
@@ -50,60 +52,74 @@ export default {
       applicationId : null,
   },
   updated(){
-    this.getCurrentApplicationPosition()
+
   },
 
   methods:{
     getConclusion(id) {
-      setInterval(function () {
-          console.log("попытка получения заключения")
-          //console.log(this.$props.applicationId)
-          //console.log(this.applicationId)
-          this.conclusion = api.getCurrentConclusion(id)
-              .then(response => {
-                  console.log(response.data.text)
-                  this.conclusion = response.data.text;
-              });
-      }, 5000);
+      setInterval( ()=> {
+        console.log("попытка получения заключения")
+        api.getCurrentConclusion(id)
+        .then(response => {
+          console.log(response.data.text)
+          this.conclusion = response.data.text;
+        }).catch(()=> {
+          console.log("не удалось получить заключние")
+        })
+      }, setting.queNumberTimeout);
     },
+
     cancelCall(){
       console.log("отмена звонка")
       api.deactivateApplication(this.$props.applicationId)
           .then(response => {
             console.log(response);
-            this.$router.push({path:'/ask'})
+            //
           })
           .catch( (error) => {
             console.error(error.response);
           });
+      //todo: Разобраться почему ругается если поместить в промис
+      this.$router.push({path:'/ask'})
+    },
+    callcancel() {
+      this.$router.push({path:"/ask"})
+      this.webRtcConnector.callcancel();
+      //document.location.reload();
     },
     
     getCurrentApplicationPosition(id) {
-        this.timer = setInterval(function () {
+        this.timer = setInterval(()=>{
             api.getApplicationPosition(id)
                 .then(response => {
                     console.log(response);
-                    console.log(response.data.possition)
-                    this.number = response.data.possition; //todo: опечатка?
+                    console.log(response.data.position)
+                    this.number = response.data.position; //todo: опечатка?
                 })
                 .catch(error => {
                     console.error(error.response);
                 });
-        }, 10000);
+        }, setting.queNumberTimeout);
     },
     answerCall() {
       this.webRtcConnector.callanswer();
       this.is_call=true;
       clearInterval(this.timer)
       this.getConclusion(this.$props.applicationId)
+      //todo: вынести в отдельный метолд
+      this.remVideoExist = this.webRtcConnector
+          && this.webRtcConnector.peercall
+          && this.webRtcConnector.peercall.remoteStream
+          && (this.webRtcConnector.peercall.remoteStream.getTracks() || [])
+              .length === 2;
+      if (this.remVideoExist ){
+        console.log("ghbdrtndfdfgbdjfdfgjkdjfbdfgkdfjdfgjkbkdjfdfgjbjdfdfgjjkdfbdfgkj")
+        document.getElementById('remVideo').style.width='62vw';
+      }
+      //
     },
     
-    callcancel() {
-      this.$router.push({path:"/ask"})
-      this.webRtcConnector.callcancel();
-      document.location.reload();
 
-    },
     
     initWebRtcConnector(){
       return this.getSelfUserId()
@@ -120,7 +136,7 @@ export default {
       // Answer the call, providing our mediaStream
       this.webRtcConnector.peercall = call;
       console.log("Отвечаем на звонок");
-      document.getElementById('is_called').style.display = 'flex';
+      //document.getElementById('is_called').style.display = 'flex';
       this.answerCall();
     },
 
@@ -149,18 +165,17 @@ export default {
 </script>
 
 <style scoped>
-  video {
-    border-radius: 15px 0;
-    margin: 15px
-  }
 
-#myVideo{
-  width: 30vw;
+.video-room{
+text-align: center;
+}
+
+#remVideo{
+  width: 0px;
   height: auto;
 }
-#remVideo{
-  width: 65vw;
-}
+
+
 
 #floatingBarsG{
   position:relative;
@@ -327,10 +342,7 @@ export default {
   -moz-transform:rotate(-135deg);
 }
 
-.video-room{
-  display: flex;
-  justify-content: center;
-}
+
 
 
 @keyframes fadeG{

@@ -5,7 +5,7 @@ const configOptions = {
     host: setting.call_host.url,
     debug: '4',
     port:setting.call_host.port,
-    secure: false,
+    secure: true,
     path:setting.call_host.path,
 }
 
@@ -52,6 +52,7 @@ export default class {
             this.peercall.peerConnection.close();}
         //this.peercall.peerConnection.close();
         console.log("завершение звонка")
+        this.stopMediaStream();
 
        // stream.stop();
         //this.peercall.close()
@@ -67,10 +68,11 @@ export default class {
     callanswer() {
         navigator.mediaDevices.getUserMedia({audio: true,
             video:  {
-                width: { min: 1280 },
-                height: { min: 720 }
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
             }})
             .then((mediaStream) => {
+                this.mediaStream = mediaStream;
                 console.log("Отправляем следующие треки:");
                 console.log(mediaStream.getTracks());
                 const video = document.getElementById('myVideo');
@@ -89,11 +91,24 @@ export default class {
                     document.getElementById('remVideo').onloadedmetadata = () => {
                         // и запускаем воспроизведение когда объект загружен
                         document.getElementById('remVideo').play();
+                        this.remVideoExist = (this.peercall.remoteStream.getVideoTracks() || []).length > 0;
+                        if (this.remVideoExist)
+                        {
+                            document.getElementById('remVideo').style.width='62vw';
+                        }
                     };
                 }, 1500);
             }).catch((err) => {
                 console.log(err.name + ": " + err.message);
             });
+    }
+
+    stopMediaStream(){
+        this.mediaStream.getTracks().forEach(function(track) {
+            if (track.readyState === 'live') {
+                track.stop();
+            }
+        });
     }
 
     callToNode(peerId,with_video=false) { //вызов

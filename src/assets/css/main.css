@@ -179,3 +179,27 @@ body{
     width: 100px;
     height: 30px;
 }
+
+#myVideo{
+    width: 30vw;
+    height: auto;
+}
+#remVideo{
+    width: 60vw;
+}
+
+video {
+    border-radius: 15px 0;
+    margin: 15px
+}
+
+.text-conclusion{
+    position: relative;
+    width: 90vw;
+    height: 300px;
+    resize: none;
+    left: 5vw;
+    border: 1px solid #720F13;
+    border-radius: 10px 0px;
+    padding: 8px;
+}

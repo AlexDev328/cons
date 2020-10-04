@@ -222,15 +222,7 @@ video{
   align-items: center;
   justify-content: center
 }
-.text-conclusion{
-  position: relative;
-  width: 90vw;
-  height: 300px;
-  resize: none;
-  left: 5vw;
-  border: 1px solid #720F13;
-  border-radius: 10px 0px;
-}
+
 .take_pic{
 position: relative;
 width: 200px;
