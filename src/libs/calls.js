@@ -47,7 +47,6 @@ export default class {
     }
 
     callcancel() {
-
         if (this.peercall.open){
             this.peercall.peerConnection.close();}
         //this.peercall.peerConnection.close();
@@ -95,9 +94,12 @@ export default class {
                         if (this.remVideoExist)
                         {
                             document.getElementById('remVideo').style.width='62vw';
+
+                            document.getElementById('video-room').style.display="inline-flex"
                         }
                         else {
                             document.getElementById('remVideo').style.width='0vw';
+                            document.getElementById('video-room').style.display="block"
                         }
                     };
                 }, 1500);

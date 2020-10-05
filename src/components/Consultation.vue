@@ -4,7 +4,7 @@
       <button type="submit" @click="handleLoadApplications">загрузить запросы</button>
       <div v-for="app in applications" :key="app.insigator" >
         <div class="item text-cons-title ">
-          <div>
+          <div style="width: 400px;">
             <span>{{app.topic_name}}</span>
             <span class="text-cons"> Ломбард {{app.insigator_city}} {{app.insigator_filial}}</span>
           </div>
@@ -25,9 +25,8 @@
       <div class="pictureList" >
         <div class="picture_item" v-for="image in pictures" :key="image">
           <!--<div :style=setUrl></div>-->
-          <img :src="image" >
+          <img :src="image"  type="image/png">
         </div>
-
       </div>
       <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
       <div class="control-block">
@@ -147,6 +146,7 @@ export default {
             console.log("Вызов " + response.data.peerid);
             this.webRtcConnector.callToNode(response.data.peerid, video);
             this.isCalled = false;
+            api.deactivateApplication(this.application_id)
           }).catch(error => {
             console.error(error.response);
           });
@@ -170,8 +170,9 @@ export default {
     callcancel() {
       this.uploadConclusion()
       this.myVideo = true;
-      this.webRtcConnector.callcancel();
       document.location.reload();
+      this.webRtcConnector.callcancel();
+
       //this.$router.push({path:"/consultation"})
 
     },

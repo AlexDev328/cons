@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="!this.is_call">
-      <div class="text-left"> Ожидайте</div>
       <div id="floatingBarsG">
         <div class="blockG" id="rotateG_01"></div>
         <div class="blockG" id="rotateG_02"></div>
@@ -12,20 +11,32 @@
         <div class="blockG" id="rotateG_07"></div>
         <div class="blockG" id="rotateG_08"></div>
       </div>
-      <div class="q_position">Вы <b>{{this.number+1}}</b> в очереди</div>
+      <div class="q_position">Ожидайте, Вы <b>{{this.number+1}}</b> в очереди</div>
       <div class="button menu" ><div @click="cancelCall() ">отменить запрос</div></div>
     </div>
     <div id="is_called" v-if="this.is_call">
       <!--Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>-->
       <div >
         <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
-        <div class="video-room">
+        <div id="video-room" class="video-room">
           <video id=myVideo muted="muted"  ></video>
-          <video id=remVideo    ></video>
+          <video id=remVideo></video>
         </div>
 
       </div>
-      <div class="text-conclusion"> {{this.conclusion}}</div>
+      <div class="pictureList" >
+        <div>
+        <!--<div class="picture_item" v-for="image in pictures" :key="image">
+          <div :style=setUrl></div>-->
+          <img :src="pictures" >
+        </div>
+      </div>
+      <div class="control-block">
+        <div class="text-conclusion"> {{this.conclusion}}</div>
+        <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
+      </div>
+
+
     </div>
   </div>
 </template>
@@ -45,6 +56,7 @@ export default {
       conclusion:'',
       timer: null,
       remVideoExist:false,
+      pictures: [],
     }
 
   },
@@ -63,6 +75,7 @@ export default {
         .then(response => {
           console.log(response.data.text)
           this.conclusion = response.data.text;
+          this.pictures = response.data.images;
         }).catch(()=> {
           console.log("не удалось получить заключние")
         })
@@ -106,17 +119,7 @@ export default {
       this.is_call=true;
       clearInterval(this.timer)
       this.getConclusion(this.$props.applicationId)
-      //todo: вынести в отдельный метолд
-      this.remVideoExist = this.webRtcConnector
-          && this.webRtcConnector.peercall
-          && this.webRtcConnector.peercall.remoteStream
-          && (this.webRtcConnector.peercall.remoteStream.getTracks() || [])
-              .length === 2;
-      if (this.remVideoExist ){
-        console.log("ghbdrtndfdfgbdjfdfgjkdjfbdfgkdfjdfgjkbkdjfdfgjbjdfdfgjjkdfbdfgkj")
-        document.getElementById('remVideo').style.width='62vw';
-      }
-      //
+
     },
     
 
