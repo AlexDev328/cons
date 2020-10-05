@@ -123,7 +123,9 @@ export default {
     },
 
     callwithVideo(){
-      api.getUserProfile(this.app.insigator)
+        this.myVideo = !this.myVideo;
+        this.handleSelectApplication(this.app, this.myVideo);
+      /*api.getUserProfile(this.app.insigator)
           .then(response => {
             console.log("Вызов " + response.data.peerid);
             this.webRtcConnector.callToNode(response.data.peerid, true);
@@ -131,7 +133,9 @@ export default {
             this.myVideo = true;
           }).catch(error => {
         console.error(error.response);
-      });
+      });*/
+
+
     },
 
     handleSelectApplication(app, video=false) {

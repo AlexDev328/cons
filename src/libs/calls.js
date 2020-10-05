@@ -96,6 +96,9 @@ export default class {
                         {
                             document.getElementById('remVideo').style.width='62vw';
                         }
+                        else {
+                            document.getElementById('remVideo').style.width='0vw';
+                        }
                     };
                 }, 1500);
             }).catch((err) => {

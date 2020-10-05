@@ -167,7 +167,10 @@ export default {
 <style scoped>
 
 .video-room{
-text-align: center;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+
 }
 
 #remVideo{
