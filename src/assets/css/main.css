@@ -202,4 +202,5 @@ video {
     border: 1px solid #720F13;
     border-radius: 10px 0px;
     padding: 8px;
+    white-space: pre-line;
 }

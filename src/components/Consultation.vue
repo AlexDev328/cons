@@ -17,7 +17,7 @@
     <div  v-show="!this.isCalled">
       <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
       <div class="flex">
-        <div class="button menu2" @click="callwithVideo"> Добавить видео</div>
+        <div class="button menu2" @click="callwithVideo"> Включить видео</div>
         <video v-show="this.myVideo" id='myVideo' muted="muted" width="200px" height="auto" ></video>
         <video id=remVideo width="700px" height="auto" ></video>
       </div>
@@ -32,8 +32,7 @@
       <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
       <div class="control-block">
         <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
-
-        <div class="send_button action-button button-text" @click="uploadConclusion"> Отправить заключение</div>
+        <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
       </div>
     </div>
   </div>
@@ -58,6 +57,7 @@ export default {
       conclusion_text:'',
       app: null,
       myVideo: false,
+      conclusion_ready: "Отправить заключение",
     }
   },
   props:{
@@ -176,6 +176,7 @@ export default {
       api.createConclusion(this.application_id, this.conclusion_text, this.pictures)
           .then(res => {
             console.log(res)
+            this.conclusion_ready = "Редактировать заключение"
           }).catch(error => {
           console.error(error.response);
       });

@@ -12,7 +12,7 @@
         <div class="blockG" id="rotateG_07"></div>
         <div class="blockG" id="rotateG_08"></div>
       </div>
-      <div class="q_position">Вы <b>{{this.number}}</b> в очереди</div>
+      <div class="q_position">Вы <b>{{this.number+1}}</b> в очереди</div>
       <div class="button menu" ><div @click="cancelCall() ">отменить запрос</div></div>
     </div>
     <div id="is_called" v-if="this.is_call">
@@ -25,7 +25,7 @@
         </div>
 
       </div>
-      <div class="text-conclusion"> Текст консультанта <p>{{this.conclusion}}</p></div>
+      <div class="text-conclusion"> {{this.conclusion}}</div>
     </div>
   </div>
 </template>
