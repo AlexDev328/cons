@@ -15,23 +15,27 @@
       </div>
     </div>
     <div  v-show="!this.isCalled">
+      Соедниение установленно. {{this.currentTimeMins}}:{{currentTimeSec}}
       <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
-      <div class="flex">
-        <div class="button menu2" @click="callwithVideo"> Включить видео</div>
-        <video v-show="this.myVideo" id='myVideo' muted="muted" width="200px" height="auto" ></video>
-        <video id=remVideo width="700px" height="auto" ></video>
-      </div>
-      <canvas id="canvas" style="display: none"></canvas>
-      <div class="pictureList" >
-        <div class="picture_item" v-for="image in pictures" :key="image">
-          <!--<div :style=setUrl></div>-->
-          <img :src="image"  type="image/png">
+      <div class="conclusion">
+
+        <div class="flex">
+          <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
+          <video v-show="this.myVideo" id='myVideo' muted="muted"  ></video>
+          <video id=remVideo width="700px" height="auto" ></video>
         </div>
-      </div>
-      <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
-      <div class="control-block">
-        <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
-        <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
+        <canvas id="canvas" style="display: none"></canvas>
+        <div class="pictureList" >
+          <div class="picture_item" v-for="image in pictures" :key="image">
+            <!--<div :style=setUrl></div>-->
+            <img :src="image"  type="image/png">
+          </div>
+        </div>
+        <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
+        <div class="control-block">
+          <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
+          <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -57,6 +61,10 @@ export default {
       app: null,
       myVideo: false,
       conclusion_ready: "Отправить заключение",
+      video_button_text:"Включить",
+      currentTimeSec:0,
+      currentTimeMins:0,
+      timer:null,
     }
   },
   props:{
@@ -68,6 +76,18 @@ export default {
   },
 
   methods:{
+      startTimer(){
+          this.timer = setInterval(()=>
+          {
+              this.currentTimeSec++;
+              if (this.currentTimeSec == 60){
+                  this.currentTimeMins++;
+                  this.currentTimeSec=0
+              }
+          }, 1000)
+      },
+
+
     cancelCall() {
       this.webRtcConnector.callcancel();
     },
@@ -123,6 +143,7 @@ export default {
 
     callwithVideo(){
         this.myVideo = !this.myVideo;
+        this.video_button_text = 'Выключить';
         this.handleSelectApplication(this.app, this.myVideo);
       /*api.getUserProfile(this.app.insigator)
           .then(response => {
@@ -150,6 +171,7 @@ export default {
           }).catch(error => {
             console.error(error.response);
           });
+      setTimeout(this.startTimer, 500)
     },
 
     takePicture() {
@@ -163,6 +185,7 @@ export default {
         canvas.height = height;
         context.drawImage(remVideo, 0, 0, width, height);
         const imgData = canvas.toDataURL('image/png');
+        console.log(imgData)
         this.pictures.push(imgData);
       }
     },
@@ -205,25 +228,10 @@ export default {
   box-shadow: 2px 2px 16px #C4C4C4;
   border-radius: 10px 0px;
   min-height: 62px;
-   margin: 10px;
+  margin: 10px 0px 10px 0px;
   line-height: 60px;
 }
-.pictureList{
-  display: flex;
-  height: 120px;
-  margin: 5px;
-  border: 1px solid #720F13;
-  border-radius: 10px 0px;
-}
 
-.picture_item{
-  width: 100px;
-  margin: 5px;
-}
-.picture_item img{
-  width: 100px;
-  margin: 10px
-}
 video{
   align-items: center;
   justify-content: center
@@ -235,14 +243,15 @@ width: 200px;
 }
 
 .send_button{
-  width: 98vw;
+  width: 100%;
+
 }
 
 
 .flex{
   display: flex;
   margin: 10px;
-  align-items: center;
+  /*align-items: center;*/
   justify-content: center;
 }
 

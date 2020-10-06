@@ -1,9 +1,10 @@
 <template>
-  <div >
-    <div class="them-text">Выберите тематику</div>
-    <div class="container" >
+  <div>
+    <div class="them-text"> Мне нужна помощь с оценкой : </div>
+    <div class="container" style="border: solid 1px red" >
+
       <div v-for="topic in list_of_topics" :key="topic.id" class="item-el" >
-        <div @click="raiseHand(topic.id)">{{topic.name}}</div>
+        <div @click="raiseHand(topic.id)">{{topic.name}}  <span style="font-size: small;">(в очереди: {{topic.queue}})</span></div>
       </div>
     </div>
   </div>

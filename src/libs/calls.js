@@ -47,7 +47,7 @@ export default class {
     }
 
     callcancel() {
-        if (this.peercall.open){
+        if (this.peercall.open || this.peercall || this.peer){
             this.peercall.peerConnection.close();}
         //this.peercall.peerConnection.close();
         console.log("завершение звонка")

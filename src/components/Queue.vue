@@ -15,8 +15,8 @@
       <div class="button menu" ><div @click="cancelCall() ">отменить запрос</div></div>
     </div>
     <div id="is_called" v-if="this.is_call">
-      <!--Входящий звонок <button @click='answerCall' >Принять</button><button @click='callcancel' >Отклонить</button>-->
-      <div >
+      Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}
+      <div style=" text-align: center;" >
         <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
         <div id="video-room" class="video-room">
           <video id=myVideo muted="muted"  ></video>
@@ -24,16 +24,19 @@
         </div>
 
       </div>
-      <div class="pictureList" >
-        <div>
-        <!--<div class="picture_item" v-for="image in pictures" :key="image">
-          <div :style=setUrl></div>-->
-          <img :src="pictures" >
+      <div class="conclusion">
+        <div> Фотографии
+          <div class="pictureList" >
+            <div class="picture_item" v-for="image in pictures" :key="image">
+              <img :src="image"  type="image/png">
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="control-block">
-        <div class="text-conclusion"> {{this.conclusion}}</div>
-        <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
+        <div class="control-block">
+          <div>Заключение консультанта
+            <div class="text-conclusion"> {{this.conclusion}}</div>
+          </div>
+        </div>
       </div>
 
 
@@ -57,6 +60,8 @@ export default {
       timer: null,
       remVideoExist:false,
       pictures: [],
+      currentTimeSec:0,
+      currentTimeMins:0,
     }
 
   },
@@ -68,6 +73,16 @@ export default {
   },
 
   methods:{
+    startTimer(){
+        this.timer = setInterval(()=>
+        {
+            this.currentTimeSec++;
+            if (this.currentTimeSec == 60){
+                this.currentTimeMins++;
+                this.currentTimeSec=0
+            }
+        }, 1000)
+    },
     getConclusion(id) {
       setInterval( ()=> {
         console.log("попытка получения заключения")
@@ -98,7 +113,7 @@ export default {
     callcancel() {
       this.$router.push({path:"/ask"})
       this.webRtcConnector.callcancel();
-      //document.location.reload();
+      document.location.reload();
     },
     
     getCurrentApplicationPosition(id) {
@@ -119,7 +134,7 @@ export default {
       this.is_call=true;
       clearInterval(this.timer)
       this.getConclusion(this.$props.applicationId)
-
+      this.startTimer()
     },
     
 
@@ -171,7 +186,7 @@ export default {
 
 .video-room{
   display: inline-flex;
-  align-items: center;
+  /*align-items: center;*/
   text-align: center;
 
 }

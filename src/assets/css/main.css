@@ -1,7 +1,9 @@
 #app {
     height: 700px;
     /*width: 100vw;*/
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: Tahoma, serif;
+    font-style: normal;
+    font-weight: bold;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
@@ -40,6 +42,11 @@ body{
     overflow-x: auto;
 
 
+}
+
+.conclusion{
+    width: 86vw;
+    margin: 10px 7vw 10px 7vw;
 }
 
 .text-cons-title{
@@ -112,7 +119,7 @@ body{
     font-weight: normal;
     font-size: 24px;
     line-height: 29px;
-
+    margin-left: 5vw;
     color: #000000;
 }
 .button{
@@ -181,11 +188,14 @@ body{
 }
 
 #myVideo{
-    width: 30vw;
-    height: auto;
+    /*width: 30vw;
+    height: auto;*/
+    height: 17vh;
+    width: auto;
 }
 #remVideo{
-    width: 60vw;
+    /*width: 60vw;*/
+    max-width: 500px;
 }
 
 video {
@@ -194,13 +204,29 @@ video {
 }
 
 .text-conclusion{
-    position: relative;
-    width: 90vw;
     height: 300px;
     resize: none;
-    left: 5vw;
     border: 1px solid #720F13;
     border-radius: 10px 0px;
     padding: 8px;
     white-space: pre-line;
+    width: -webkit-fill-available;
+}
+
+.pictureList{
+    display: flex;
+    height: auto;
+    min-height: 80px;
+    margin: 5px;
+    border: 1px solid #720F13;
+    border-radius: 10px 0px;
+}
+
+.picture_item{
+    width: 100px;
+    margin: 5px;
+}
+.picture_item img{
+    width: 100px;
+    margin: 10px
 }
