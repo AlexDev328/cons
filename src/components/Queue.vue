@@ -22,7 +22,6 @@
           <video id=myVideo muted="muted"  ></video>
           <video id=remVideo></video>
         </div>
-
       </div>
       <div class="conclusion">
         <div> Фотографии
