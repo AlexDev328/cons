@@ -151,6 +151,8 @@ export default {
             console.log('Мой PeerID: ' + response.data.peerid);
             this.uuid = response.data.peerid;
             this.webRtcConnector = new WebRtcConnector(this.uuid, this.onCall);
+          }).catch(()=>{
+              document.location.reload()
           });
     },
 
@@ -183,23 +185,12 @@ export default {
 
     beforeDestroy(){
     this.cancelCall();
+    this.webRtcConnector.destroy();
   }
 }
 </script>
 
 <style scoped>
-
-.video-room{
-  display: inline-flex;
-  /*align-items: center;*/
-  text-align: center;
-
-}
-
-#remVideo{
-  width: 0px;
-  height: auto;
-}
 
 
 

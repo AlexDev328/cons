@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="container" v-show="this.isCalled">
-      <button type="submit" @click="handleLoadApplications">загрузить запросы</button>
+      <div v-if="!this.applications"> <div class="text-cons"> Здесь будут отображаться заявки </div></div>
+      <div class="text-cons large magin"> Выберите консультацию </div>
       <div v-for="app in applications" :key="app.insigator" >
-        <div class="item text-cons-title ">
+        <div class="item  ">
           <div>
-            <span>{{app.topic_name}}</span>
+            <span class="text-cons-title">{{app.topic_name}}</span>
             <span class="text-cons"> Ломбард {{app.insigator_city}} {{app.insigator_filial}}</span>
           </div>
           <div class = "cons" @click="handleSelectApplication(app)">
@@ -80,10 +81,12 @@ export default {
 
   created() {
     this.initWebRtc();
+    this.uploadApplicationsInPeriod();
   },
 
   methods:{
       startTimer(){
+          clearInterval(this.timer)
           this.timer = setInterval(()=>
           {
               this.currentTimeSec++;
@@ -92,6 +95,14 @@ export default {
                   this.currentTimeSec=0
               }
           }, 1000)
+      },
+
+      uploadApplicationsInPeriod(){
+          this.handleLoadApplications()
+          clearInterval(this.timer)
+          this.timer = setInterval(()=>{
+              this.handleLoadApplications()
+          }, 10000)
       },
 
 
@@ -121,7 +132,9 @@ export default {
                   console.log('Мой PeerID: ' + response.data.peerid);
                   this.uuid = response.data.peerid;
                   this.webRtcConnector = new WebRtcConnector(this.uuid, this.onCall);
-                })
+                }).catch(()=>{
+                document.location.reload()
+            })
             })
     },
     
@@ -219,7 +232,8 @@ export default {
 
   },
     beforeDestroy() {
-        this.webRtcConnector.destroy()
+        this.webRtcConnector.destroy();
+        clearInterval(this.timer);
     }
 
 
@@ -227,39 +241,5 @@ export default {
 </script>
 
 <style scoped>
-
-
-  .action-button{
-    background-color: #720F13;
-    border: 1px solid #C4C4C4;
-    box-sizing: border-box;
-    box-shadow: 2px 2px 16px #C4C4C4;
-    border-radius: 10px 0px;
-    min-height: 62px;
-    margin: 10px 0px 10px 0px;
-    line-height: 60px;
-  }
-
-  video{
-    align-items: center;
-    justify-content: center
-  }
-
-  .take_pic{
-    position: relative;
-    width: 200px;
-  }
-
-  .send_button{
-    width: 100%;
-
-  }
-
-
-  .flex{
-    display: flex;
-    margin: 10px;
-    justify-content: center;
-  }
 
 </style>

@@ -166,6 +166,9 @@ export default class {
             console.log(err.name + ": " + err.message);
         });
     }
+    destroy(){
+        this.peer.destroy()
+    }
 
 }
 

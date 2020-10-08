@@ -1,9 +1,34 @@
+@font-face {
+    font-family: 'Tahoma';
+    src: url("../fonts/Tahoma.eot");
+    src: local('Tahoma'),
+    url('../fonts/Tahoma.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Tahoma.woff') format('woff'),
+    url('../fonts/Tahoma.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Tahoma';
+    src: url('../fonts/Tahoma-Bold.eot');
+    src: local('Tahoma Bold'), local('Tahoma-Bold'),
+    url('../fonts/Tahoma-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Tahoma-Bold.woff') format('woff'),
+    url('../fonts/Tahoma-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+
+
 #app {
     height: 700px;
     /*width: 100vw;*/
     font-family: Tahoma, serif;
     font-style: normal;
-    font-weight: bold;
+    font-weight: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
@@ -117,6 +142,12 @@ body{
 
     color: #4D4D4D;
 }
+
+.large {
+    font-size: 24px;
+    line-height: 26px;
+}
+
 .q_position{
     text-align: center;
 }
@@ -127,13 +158,14 @@ body{
     box-sizing: border-box;
     box-shadow: 2px 2px 16px #C4C4C4;
 */
-    line-height: 60px;
+    height: 78px;
     display: flex;
     border: 1px solid #720F13;
     border-radius: 10px 0px;
     margin: 10px 0px;
-    padding: 5px;
     text-align: left;
+    align-items: center;
+    padding: 0px 10px;
 
 }
 .item-el{
@@ -163,6 +195,11 @@ body{
     margin-left: 7vw;
     color: #000000;
 }
+
+.magin{
+    margin: 10px 0 50px 0;
+}
+
 .button{
     background: #FFFFFF;
     border: 0.5px solid #C4C4C4;
@@ -272,3 +309,50 @@ video {
     width: 100px;
     margin: 10px
 }
+
+
+
+.action-button{
+    background-color: #720F13;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 16px #C4C4C4;
+    border-radius: 10px 0px;
+    min-height: 62px;
+    margin: 10px 0px 10px 0px;
+    line-height: 60px;
+}
+
+video{
+    align-items: center;
+    justify-content: center
+}
+
+.take_pic{
+    position: relative;
+    width: 200px;
+}
+
+.send_button{
+    width: 100%;
+
+}
+
+
+.flex{
+    display: flex;
+    margin: 10px;
+    justify-content: center;
+}
+.video-room{
+    display: inline-flex;
+    /*align-items: center;*/
+    text-align: center;
+
+}
+
+#remVideo{
+    width: 0px;
+    height: auto;
+}
+

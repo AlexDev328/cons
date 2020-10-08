@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="them-text"> Мне нужна помощь с оценкой : </div>
+    <div class="text-cons large magin"> Мне нужна помощь с оценкой : </div>
     <div class="container" >
 
       <div v-for="topic in list_of_topics" :key="topic.id" class="item-el" >
