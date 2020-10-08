@@ -34,7 +34,7 @@ export default new Router({
             path:'/wait',
             name:'queue',
             component: Queue,
-            props: (route) => ({applicationId: route.query.applicationId})
+            props: (route) => ({applicationId: route.query.applicationId ,webRtcConnector: route.query.webRtcConnector})
         }
     ]
 })

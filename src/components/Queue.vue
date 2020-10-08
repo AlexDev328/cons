@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import WebRtcConnector from "@/libs/calls";
+//import WebRtcConnector from "@/libs/calls";
 import api from "@/libs/backendApi";
 import setting from "@/settings/setting";
 export default {
@@ -72,6 +72,7 @@ export default {
   },
   props:{
       applicationId : null,
+      webRtcConnector: null,
   },
   updated(){
 
@@ -134,6 +135,7 @@ export default {
                 });
         }, setting.queNumberTimeout);
     },
+
     answerCall() {
       this.webRtcConnector.callanswer();
       this.is_call=true;
@@ -144,17 +146,7 @@ export default {
     
 
     
-    initWebRtcConnector(){
-      return this.getSelfUserId()
-          .then(selfUserId => api.getUserProfile(selfUserId))
-          .then(response => {
-            console.log('Мой PeerID: ' + response.data.peerid);
-            this.uuid = response.data.peerid;
-            this.webRtcConnector = new WebRtcConnector(this.uuid, this.onCall);
-          }).catch(()=>{
-              document.location.reload()
-          });
-    },
+
 
     onCall(call) {
       console.log("Входящий звонок");
@@ -176,7 +168,7 @@ export default {
   },
 
   created() {
-      this.initWebRtcConnector();
+
       this.getCurrentApplicationPosition(this.$props.applicationId);
   },
     mounted() {
