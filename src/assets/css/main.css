@@ -46,6 +46,7 @@
     font-size: 16px;
     line-height: 17px;
     color: #FFFFFF;
+    cursor: pointer;
 }
 
 .header{
@@ -206,6 +207,7 @@ body{
     box-sizing: border-box;
     box-shadow: 2px 2px 0px rgba(196, 196, 196, 0.25), inset 0px 6px 20px rgba(196, 196, 196, 0.25);
     border-radius: 10px 0px;
+    cursor: pointer;
 }
 
 .button-text {
@@ -248,8 +250,8 @@ body{
     height: 50px;
     width: 200px;
     position: absolute;
+    right: 26vw;
     top: 10px;
-    right: 320px;
     line-height: 50px;
     text-align: center;
 }
@@ -296,7 +298,6 @@ video {
     display: flex;
     height: auto;
     min-height: 80px;
-    margin: 5px;
     border: 1px solid #720F13;
     border-radius: 10px 0px;
 }
@@ -321,6 +322,7 @@ video {
     min-height: 62px;
     margin: 10px 0px 10px 0px;
     line-height: 60px;
+    cursor: pointer;
 }
 
 video{
@@ -335,7 +337,7 @@ video{
 
 .send_button{
     width: 100%;
-
+    cursor: pointer;
 }
 
 
@@ -351,8 +353,4 @@ video{
 
 }
 
-#remVideo{
-    width: 0px;
-    height: auto;
-}
 

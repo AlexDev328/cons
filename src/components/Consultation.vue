@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="container" v-show="this.isCalled">
-      <div v-if="!this.applications"> <div class="text-cons"> Здесь будут отображаться заявки </div></div>
-      <div class="text-cons large magin"> Выберите консультацию </div>
+      <div v-if="!this.applications.length > 0"> <div class="text-cons large magin">Здесь будут отображаться заявки.На данный момент заявок нет. </div></div>
+      <div v-if="this.applications.length > 0" class="text-cons large magin"> Выберите консультацию </div>
       <div v-for="app in applications" :key="app.insigator" >
         <div class="item  ">
           <div>
