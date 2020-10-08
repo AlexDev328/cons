@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="them-text"> Мне нужна помощь с оценкой : </div>
-    <div class="container" style="border: solid 1px red" >
+    <div class="container" >
 
       <div v-for="topic in list_of_topics" :key="topic.id" class="item-el" >
         <div @click="raiseHand(topic.id)">{{topic.name}}  <span style="font-size: small;">(в очереди: {{topic.queue}})</span></div>

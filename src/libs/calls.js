@@ -94,12 +94,13 @@ export default class {
                         if (this.remVideoExist)
                         {
                             document.getElementById('remVideo').style.width='62vw';
-
+                            document.getElementById("rem").style.display='block';
                             document.getElementById('video-room').style.display="inline-flex"
                         }
                         else {
                             document.getElementById('remVideo').style.width='0vw';
-                            document.getElementById('video-room').style.display="block"
+                            document.getElementById('video-room').style.display="inline-flex"
+                            document.getElementById("rem").style.display='none';
                         }
                     };
                 }, 1500);

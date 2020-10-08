@@ -9,6 +9,20 @@
     color: #2c3e50;
 }
 
+.button-yellow {
+    background: #E5BD79;
+    border: 0.5px solid #E5BD79;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 0px rgba(196, 196, 196, 0.25), inset 0px 6px 20px rgba(196, 196, 196, 0.25);
+    border-radius: 10px 0px;
+    font-family: Tahoma;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+}
+
 .header{
     height: 75px;
     background-color: #720F13;
@@ -35,18 +49,44 @@ body{
     font-weight: bold;
     font-size: 20px;
     line-height: 24px;
-
     color: #FFFFFF;
-
     text-align: center;
     overflow-x: auto;
-
+    text-align: center;
+    margin: 0px 7vw;
+    display: block;
 
 }
 
 .conclusion{
-    width: 86vw;
-    margin: 10px 7vw 10px 7vw;
+   /* width: 86vw;
+    margin: 10px 7vw 10px 7vw;*/
+    /*text-align: left;*/
+}
+
+.call_container{
+    text-align: center;
+    margin: 0px 7vw;
+    display: block;
+}
+
+#rem{
+    display: none;
+}
+
+
+.proBlockText{
+    font-family: Proxima Nova;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #4D4D4D;
+    margin-top: 26px;
+    padding-left: 10px;
+
 }
 
 .text-cons-title{
@@ -78,33 +118,33 @@ body{
     color: #4D4D4D;
 }
 .q_position{
-    position: relative;
-    left: 45%;
+    text-align: center;
 }
 .item{
     /*
     background-color: #720F13;
-    border: 1px solid #C4C4C4;
+
     box-sizing: border-box;
     box-shadow: 2px 2px 16px #C4C4C4;
-    border-radius: 10px 0px;
-    min-height: 62px;*/
-    width: 55vw;
-    margin: 7px 10% 7px 10%;
+*/
     line-height: 60px;
-    text-align: center;
     display: flex;
-
+    border: 1px solid #720F13;
+    border-radius: 10px 0px;
+    margin: 10px 0px;
+    padding: 5px;
+    text-align: left;
 
 }
 .item-el{
+    margin: 15px 0 15px 0;
     background-color: #720F13;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #720F13;
     box-sizing: border-box;
     box-shadow: 2px 2px 16px #C4C4C4;
     border-radius: 10px 0px;
     min-height: 62px;
-    margin:7px 5% 7px 5%  ;
+    /* margin: 7px 5% 7px 5%; */
     line-height: 60px;
 
 }
@@ -120,7 +160,7 @@ body{
     font-weight: normal;
     font-size: 24px;
     line-height: 29px;
-    margin-left: 5vw;
+    margin-left: 7vw;
     color: #000000;
 }
 .button{
@@ -143,8 +183,7 @@ body{
 }
 
 .cons{
-    position: absolute;
-    right: 13%;
+    margin-left: auto;
     line-height: 50px;
     text-align: center;
     width: 200px;
@@ -153,6 +192,7 @@ body{
     border: 1px solid #720F13;
     box-sizing: border-box;
     border-radius: 10px 0px;
+
 }
 
 
@@ -161,7 +201,8 @@ body{
     width: 200px;
     position: absolute;
     top: 10px;
-    right: 80px;
+    right: 7vw;
+    /*right: 80px;*/
     line-height: 50px;
     text-align: center;
 }

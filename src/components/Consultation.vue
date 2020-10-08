@@ -4,7 +4,7 @@
       <button type="submit" @click="handleLoadApplications">загрузить запросы</button>
       <div v-for="app in applications" :key="app.insigator" >
         <div class="item text-cons-title ">
-          <div style="width: 400px;">
+          <div>
             <span>{{app.topic_name}}</span>
             <span class="text-cons"> Ломбард {{app.insigator_city}} {{app.insigator_filial}}</span>
           </div>
@@ -14,17 +14,23 @@
         </div>
       </div>
     </div>
-    <div  v-show="!this.isCalled">
+    <div class="call_container" v-show="!this.isCalled">
       Соедниение установленно. {{this.currentTimeMins}}:{{currentTimeSec}}
-      <div class="button menu" ><div  @click='callcancel'>Завершить звонок</div></div>
+      <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
       <div class="conclusion">
-
         <div class="flex">
           <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
-          <video v-show="this.myVideo" id='myVideo' muted="muted"  ></video>
-          <video id=remVideo width="700px" height="auto" ></video>
+          <div v-show="myVideo">
+            <video v-show="this.myVideo" id='myVideo' muted="muted"  ></video>
+            <div>Ваше видео</div>
+          </div>
+          <div >
+            <video id=remVideo width="700px" height="auto" ></video>
+            <div>Видео товароведа</div>
+          </div>
         </div>
         <canvas id="canvas" style="display: none"></canvas>
+        <div class="proBlockText">Фотографии</div>
         <div class="pictureList" >
           <div class="picture_item" v-for="image in pictures" :key="image">
             <!--<div :style=setUrl></div>-->
@@ -33,7 +39,8 @@
         </div>
         <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
         <div class="control-block">
-          <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст консультанта"></textarea>
+          <div class="proBlockText">Заключение</div>
+          <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст заключения"></textarea>
           <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
         </div>
       </div>
@@ -221,38 +228,38 @@ export default {
 
 <style scoped>
 
-.action-button{
-  background-color: #720F13;
-  border: 1px solid #C4C4C4;
-  box-sizing: border-box;
-  box-shadow: 2px 2px 16px #C4C4C4;
-  border-radius: 10px 0px;
-  min-height: 62px;
-  margin: 10px 0px 10px 0px;
-  line-height: 60px;
-}
 
-video{
-  align-items: center;
-  justify-content: center
-}
+  .action-button{
+    background-color: #720F13;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 16px #C4C4C4;
+    border-radius: 10px 0px;
+    min-height: 62px;
+    margin: 10px 0px 10px 0px;
+    line-height: 60px;
+  }
 
-.take_pic{
-position: relative;
-width: 200px;
-}
+  video{
+    align-items: center;
+    justify-content: center
+  }
 
-.send_button{
-  width: 100%;
+  .take_pic{
+    position: relative;
+    width: 200px;
+  }
 
-}
+  .send_button{
+    width: 100%;
+
+  }
 
 
-.flex{
-  display: flex;
-  margin: 10px;
-  /*align-items: center;*/
-  justify-content: center;
-}
+  .flex{
+    display: flex;
+    margin: 10px;
+    justify-content: center;
+  }
 
 </style>
