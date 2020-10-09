@@ -85,19 +85,32 @@ body{
 }
 
 .conclusion{
+    display: inline-flex;
    /* width: 86vw;
     margin: 10px 7vw 10px 7vw;*/
     /*text-align: left;*/
 }
 
 .call_container{
-    text-align: center;
-    margin: 0px 7vw;
     display: block;
 }
 
 #rem{
     display: none;
+}
+
+
+.video-source-text{
+    display: inline-flex;
+    font-family: Proxima Nova;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    line-height: 24px;
+    align-items: center;
+    color: #4D4D4D;
+    margin-bottom: 26px;
+    padding-left: 26px;
 }
 
 
@@ -250,7 +263,7 @@ body{
     height: 50px;
     width: 200px;
     position: absolute;
-    right: 26vw;
+    right: 300px;
     top: 10px;
     line-height: 50px;
     text-align: center;
@@ -271,17 +284,20 @@ body{
 #myVideo{
     /*width: 30vw;
     height: auto;*/
-    height: 17vh;
-    width: auto;
+    height: auto;
+    width: 100%;
 }
 #remVideo{
     /*width: 60vw;*/
-    max-width: 500px;
+    /*max-width: 500px;*/
+
 }
 
 video {
     border-radius: 15px 0;
-    margin: 15px
+    margin: 15px;
+    height: auto;
+    width: 100%;
 }
 
 .text-conclusion{
@@ -295,22 +311,37 @@ video {
 }
 
 .pictureList{
-    display: flex;
-    height: auto;
+    /*display: flex;
+    height: 150px;
     min-height: 80px;
     border: 1px solid #720F13;
+    border-radius: 10px 0px;*/
+    height: 140px;
+    max-height: 200px;
+    border: 1px solid #720F13;
     border-radius: 10px 0px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, 1fr);
+    padding: 8px;
+
 }
 
 .picture_item{
-    width: 100px;
+    max-width: 100px;
+    max-height: 80px;
     margin: 5px;
 }
-.picture_item img{
+.picture_item img {
     width: 100px;
-    margin: 10px
+    border-radius: 10px 0px;
+   /* margin: 10px*/
 }
 
+.info-box{
+    min-width: 570px;
+    margin: auto;
+}
 
 
 .action-button{
@@ -347,9 +378,12 @@ video{
     justify-content: center;
 }
 .video-room{
-    display: inline-flex;
     /*align-items: center;*/
+    /*text-align: center;*/
+    max-width: 30vw;
+    margin: 15px 50px;
     text-align: center;
+
 
 }
 

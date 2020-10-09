@@ -16,33 +16,37 @@
       </div>
     </div>
     <div class="call_container" v-show="!this.isCalled">
-      Соедниение установленно. {{this.currentTimeMins}}:{{currentTimeSec}}
+
       <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
       <div class="conclusion">
-        <div class="flex">
+        <div class="video-room">
           <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
-          <div v-show="myVideo">
-            <video v-show="this.myVideo" id='myVideo' muted="muted"  ></video>
-            <div>Ваше видео</div>
-          </div>
           <div >
             <video id=remVideo width="700px" height="auto" ></video>
-            <div>Видео товароведа</div>
+            <div class="video-source-text">Видео товароведа</div>
           </div>
-        </div>
-        <canvas id="canvas" style="display: none"></canvas>
-        <div class="proBlockText">Фотографии</div>
-        <div class="pictureList" >
-          <div class="picture_item" v-for="image in pictures" :key="image">
-            <!--<div :style=setUrl></div>-->
-            <img :src="image"  type="image/png">
+
+          <div v-show="myVideo">
+            <video v-show="this.myVideo" id='myVideo' muted="muted"  ></video>
+            <div class="video-source-text">Ваше видео</div>
           </div>
+
         </div>
-        <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
-        <div class="control-block">
-          <div class="proBlockText">Заключение</div>
-          <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст заключения"></textarea>
-          <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
+        <div class="info-box">
+          <canvas id="canvas" style="display: none"></canvas>
+          <div class="proBlockText">Фотографии</div>
+          <div class="pictureList" >
+            <div class="picture_item" v-for="image in pictures" :key="image">
+              <!--<div :style=setUrl></div>-->
+              <img :src="image"  type="image/png">
+            </div>
+          </div>
+          <div class="take_pic action-button button-text" @click="takePicture"> Сделать снимок</div>
+          <div class="control-block">
+            <div class="proBlockText">Заключение</div>
+            <textarea v-model="conclusion_text" class="text-conclusion" placeholder="Текст заключения"></textarea>
+            <div class="send_button action-button button-text" @click="uploadConclusion"> {{conclusion_ready}}</div>
+          </div>
         </div>
       </div>
     </div>
