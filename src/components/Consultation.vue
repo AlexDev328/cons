@@ -23,7 +23,7 @@
           <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
           <div >
             <video id=remVideo width="700px" height="auto" ></video>
-            <div class="video-source-text">Ломбард {{app.insigator_city}} {{app.insigator_filial}} </div>
+            <div v-if="!this.isCalled" class="video-source-text">Ломбард {{app.insigator_city}} {{app.insigator_filial}} </div>
           </div>
 
           <div v-show="myVideo">

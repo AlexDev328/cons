@@ -323,6 +323,7 @@ video {
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     padding: 8px;
 
 }
