@@ -17,6 +17,7 @@
     </div>
     <div v-show="!this.isCalled">
       <div class="call_container">
+        Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}
         <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
         <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
         <div class="conclusion">
@@ -74,7 +75,7 @@ export default {
       myVideo: false,
       conclusion_ready: "Отправить заключение",
       video_button_text:"Включить",
-      currentTimeSec:0,
+      currentTimeSec:"00",
       currentTimeMins:0,
       timer:null,
     }
@@ -90,13 +91,15 @@ export default {
 
   methods:{
       startTimer(){
-          clearInterval(this.timer)
           this.timer = setInterval(()=>
           {
               this.currentTimeSec++;
               if (this.currentTimeSec == 60){
                   this.currentTimeMins++;
                   this.currentTimeSec=0
+              }
+              if (this.currentTimeSec<10){
+                  this.currentTimeSec='0'+this.currentTimeSec;
               }
           }, 1000)
       },

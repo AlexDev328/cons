@@ -16,17 +16,17 @@
     </div>
     <div class="call_container" id="is_called" v-if="this.is_call">
       <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
-      <!--Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}-->
+      Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}
       <div class="conclusion">
         <div>
           <div id="video-room" class="video-room">
-            <div class="Videoblock">
+            <div>
             <video id=myVideo muted="muted"  ></video>
-              <div>Ваше видео</div>
+              <div class="video-source-text">Ваше видео</div>
             </div>
             <div id="rem">
               <video id=remVideo></video>
-              <div>Видео консультанта</div>
+              <div class="video-source-text">Видео консультанта</div>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default {
       timer: null,
       remVideoExist:false,
       pictures: [],
-      currentTimeSec:0,
+      currentTimeSec:"00",
       currentTimeMins:0,
     }
 
@@ -85,6 +85,9 @@ export default {
             if (this.currentTimeSec == 60){
                 this.currentTimeMins++;
                 this.currentTimeSec=0
+            }
+            if (this.currentTimeSec<10){
+                this.currentTimeSec='0'+this.currentTimeSec;
             }
         }, 1000)
     },

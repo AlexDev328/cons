@@ -61,7 +61,7 @@
 }
 .logo {
     position: absolute;
-    left: 7vw;
+    left: 40px;
     top:13px;
 }
 
@@ -86,6 +86,7 @@ body{
 
 .conclusion{
     display: inline-flex;
+    width: 100%;
    /* width: 86vw;
     margin: 10px 7vw 10px 7vw;*/
     /*text-align: left;*/
@@ -258,7 +259,7 @@ body{
     width: 200px;
     position: absolute;
     top: 10px;
-    right: 7vw;
+    right: 30px;
     /*right: 80px;*/
     line-height: 50px;
     text-align: center;
@@ -268,7 +269,7 @@ body{
     height: 50px;
     width: 200px;
     position: absolute;
-    right: 350px;
+    right: 250px;
     top: 10px;
     line-height: 50px;
     text-align: center;
@@ -295,7 +296,8 @@ body{
 #remVideo{
     /*width: 60vw;*/
     /*max-width: 500px;*/
-
+    height: auto;
+    width: 100%;
 }
 
 video {
@@ -315,6 +317,14 @@ video {
     text-align: left;
     width: -moz-available;
     width: -webkit-fill-available;
+}
+
+textarea{
+    font-family: Tahoma, serif;
+    font-style: normal;
+    font-weight: normal;
+    color: #2c3e50;
+    font-size: inherit;
 }
 
 .pictureList{
@@ -353,7 +363,7 @@ video {
 .info-box{
     margin-right: 30px;
     min-width: 450px;
-    width: 60%;
+    width: 100%;
     /* max-width: 700px; */
 
 
@@ -397,7 +407,9 @@ video{
 .video-room{
     /*align-items: center;*/
     /*text-align: center;*/
-    min-width: 300px;
+    min-width: 350px;
+    width: 350px;
+    max-width: 400px;
     margin: 15px 40px 15px 30px;
     text-align: center;
 

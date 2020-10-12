@@ -93,13 +93,13 @@ export default class {
                         this.remVideoExist = (this.peercall.remoteStream.getVideoTracks() || []).length > 0;
                         if (this.remVideoExist)
                         {
-                            document.getElementById('remVideo').style.width='62vw';
+                            document.getElementById('remVideo').style.width='100%';
                             document.getElementById("rem").style.display='block';
-                            document.getElementById('video-room').style.display="inline-flex"
+                            //document.getElementById('video-room').style.display="inline-flex"
                         }
                         else {
-                            document.getElementById('remVideo').style.width='0vw';
-                            document.getElementById('video-room').style.display="inline-flex"
+                            document.getElementById('remVideo').style.width='0px';
+                            //document.getElementById('video-room').style.display="inline-flex"
                             document.getElementById("rem").style.display='none';
                         }
                     };
