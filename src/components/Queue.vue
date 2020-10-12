@@ -15,36 +15,36 @@
       <div class="button-yellow  menu" ><div @click="cancelCall() ">отменить запрос</div></div>
     </div>
     <div class="call_container" id="is_called" v-if="this.is_call">
-      Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}
-      <div  >
-        <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
-        <div id="video-room" class="video-room">
-          <div class="Videoblock">
-          <video id=myVideo muted="muted"  ></video>
-            <div>Ваше видео</div>
-          </div>
-          <div id="rem">
-            <video id=remVideo></video>
-            <div>Видео консультанта</div>
-          </div>
-        </div>
-      </div>
+      <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
+      <!--Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}-->
       <div class="conclusion">
-        <div> <div class="proBlockText">Фотографии</div>
-          <div class="pictureList" >
-            <div class="picture_item" v-for="image in pictures" :key="image">
-              <img :src="image"  type="image/png">
+        <div>
+          <div id="video-room" class="video-room">
+            <div class="Videoblock">
+            <video id=myVideo muted="muted"  ></video>
+              <div>Ваше видео</div>
+            </div>
+            <div id="rem">
+              <video id=remVideo></video>
+              <div>Видео консультанта</div>
             </div>
           </div>
         </div>
-        <div class="control-block">
-          <div><div class="proBlockText">Заключение консультанта</div>
-            <div class="text-conclusion"> {{this.conclusion}}</div>
+        <div class="info-box">
+          <div> <div class="proBlockText">Фотографии</div>
+            <div class="pictureList" >
+              <div class="picture_item" v-for="image in pictures" :key="image">
+                <img :src="image"  type="image/png">
+              </div>
+            </div>
+          </div>
+          <div  >
+            <div><div class="proBlockText">Заключение консультанта</div>
+              <div class="text-conclusion"> {{this.conclusion}}</div>
+            </div>
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
