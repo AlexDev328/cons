@@ -152,9 +152,10 @@ body{
     font-size: 16px;
     line-height: 19px;
     /* identical to box height */
-
+    text-align: center;
     display: flex;
     align-items: center;
+
 
     color: #4D4D4D;
 }
@@ -182,9 +183,11 @@ body{
     text-align: left;
     align-items: center;
     padding: 0px 10px;
+    cursor: pointer;
 
 }
 .item-el{
+    cursor: pointer;
     margin: 15px 0 15px 0;
     background-color: #720F13;
     border: 1px solid #720F13;
