@@ -16,7 +16,8 @@
     </div>
     <div class="call_container" id="is_called" v-if="this.is_call">
       <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
-      <div class="video-source-text">Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}</div>
+      <div v-show="connection"  class="video-source-text">Соедниение установлено {{this.currentTimeMins}}:{{currentTimeSec}}</div>
+      <div v-show="!connection"  class="video-source-text">Соедниение завершено</div>
       <div class="conclusion">
         <div>
           <div id="video-room" class="video-room">
@@ -38,7 +39,7 @@
               </div>
             </div>
           </div>
-          <div  >
+          <div>
             <div><div class="proBlockText">Заключение консультанта</div>
               <div class="text-conclusion"> {{this.conclusion}}</div>
             </div>
@@ -67,6 +68,7 @@ export default {
       pictures: [],
       currentTimeSec:"00",
       currentTimeMins:0,
+      connection:true,
     }
 
   },
@@ -97,8 +99,13 @@ export default {
         api.getCurrentConclusion(id)
         .then(response => {
           console.log(response.data.text)
+          console.log(response.data.final)
           this.conclusion = response.data.text;
           this.pictures = response.data.images;
+          if (response.data.final){
+              this.connection = true;
+
+          }
         }).catch(()=> {
           console.log("не удалось получить заключние")
         })

@@ -17,7 +17,7 @@
     </div>
     <div v-show="!this.isCalled">
       <div class="call_container">
-        <div class="video-source-text">Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}</div>
+        <div class="video-source-text">Соедниение установлено {{this.currentTimeMins}}:{{currentTimeSec}}</div>
         <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
         <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
         <div class="conclusion">
