@@ -317,6 +317,8 @@ video {
     text-align: left;
     width: -moz-available;
     width: -webkit-fill-available;
+    color: #2c3e50;
+    font-size: inherit;
 }
 
 textarea{

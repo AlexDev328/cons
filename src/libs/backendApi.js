@@ -57,11 +57,12 @@ function getTopics() {
     return axios.get(setting.host + 'api/topics', buildConfig());
 }
 
-function createConclusion(applicationId, text, images) {
+function createConclusion(applicationId, text, images, final) {
     let data = new FormData();
     data.append('imgs', JSON.stringify(images));
     data.append('cons_text', text)
     data.append('application_id', applicationId)
+    data.append('final', final)
     return axios.post(setting.host +'api/img_test', data, buildConfig('multipart/form-data'));
 }
 

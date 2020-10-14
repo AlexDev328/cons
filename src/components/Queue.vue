@@ -16,7 +16,7 @@
     </div>
     <div class="call_container" id="is_called" v-if="this.is_call">
       <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
-      Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}
+      <div class="video-source-text">Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}</div>
       <div class="conclusion">
         <div>
           <div id="video-room" class="video-room">

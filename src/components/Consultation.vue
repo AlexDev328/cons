@@ -17,7 +17,7 @@
     </div>
     <div v-show="!this.isCalled">
       <div class="call_container">
-        Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}
+        <div class="video-source-text">Соедниение установленно {{this.currentTimeMins}}:{{currentTimeSec}}</div>
         <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
         <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
         <div class="conclusion">
@@ -218,7 +218,7 @@ export default {
     },
 
     callcancel() {
-      this.uploadConclusion()
+      this.uploadConclusion(true)
       this.myVideo = true;
       document.location.reload();
       this.webRtcConnector.callcancel();
@@ -227,8 +227,8 @@ export default {
 
     },
 
-    uploadConclusion(){
-      api.createConclusion(this.application_id, this.conclusion_text, this.pictures)
+    uploadConclusion(final = false){
+      api.createConclusion(this.application_id, this.conclusion_text, this.pictures, final)
           .then(res => {
             console.log(res)
             this.conclusion_ready = "Редактировать заключение"
