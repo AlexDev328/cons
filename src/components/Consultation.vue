@@ -218,7 +218,7 @@ export default {
     },
 
     callcancel() {
-      this.uploadConclusion(true)
+      this.uploadFinalConclusion()
       this.myVideo = true;
       document.location.reload();
       this.webRtcConnector.callcancel();
@@ -227,14 +227,25 @@ export default {
 
     },
 
-    uploadConclusion(final = false){
-      api.createConclusion(this.application_id, this.conclusion_text, this.pictures, final)
+    uploadConclusion(){
+      api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'False')
           .then(res => {
             console.log(res)
             this.conclusion_ready = "Редактировать заключение"
           }).catch(error => {
           console.error(error.response);
       });
+    },
+
+    uploadFinalConclusion(){
+        console.log("загруженно без возможности изменения")
+        api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'True')
+            .then(res => {
+                console.log(res)
+                this.conclusion_ready = "Редактировать заключение"
+            }).catch(error => {
+            console.error(error.response);
+        });
     }
 
   },

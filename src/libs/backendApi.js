@@ -58,6 +58,7 @@ function getTopics() {
 }
 
 function createConclusion(applicationId, text, images, final) {
+    console.log(final)
     let data = new FormData();
     data.append('imgs', JSON.stringify(images));
     data.append('cons_text', text)

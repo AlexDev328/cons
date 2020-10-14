@@ -99,11 +99,12 @@ export default {
         api.getCurrentConclusion(id)
         .then(response => {
           console.log(response.data.text)
-          console.log(response.data.final)
+          console.log(response.data.final_ver)
           this.conclusion = response.data.text;
           this.pictures = response.data.images;
-          if (response.data.final){
-              this.connection = true;
+          if (response.data.final_ver){
+              this.connection = false;
+              clearInterval(this.timer)
 
           }
         }).catch(()=> {
