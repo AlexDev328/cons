@@ -80,6 +80,22 @@ export default {
   },
 
   methods:{
+    wsuploadConclusion(){
+        this.wsconnection = new WebSocket(setting.wsCallUrl+this.applicationId+'/')
+        this.wsconnection.onopen = function () {
+            console.log("Соединение с сокетом для звонка успешно")
+        }
+        this.wsconnection.onmessage = function (msg) {
+            console.log(msg.data)
+            let jsondata=JSON.parse(msg.data)
+            console.log(jsondata)
+        }.bind(this)
+        this.wsconnection.onclose = function () {
+            console.log("отключение от сокета")
+
+        }
+    },
+
     startTimer(){
         this.timer = setInterval(()=>
         {
@@ -149,7 +165,7 @@ export default {
       this.webRtcConnector.callanswer();
       this.is_call=true;
       clearInterval(this.timer)
-      this.getConclusion(this.$props.applicationId)
+      //this.getConclusion(this.$props.applicationId)
       this.startTimer()
     },
     
@@ -189,6 +205,7 @@ export default {
   created() {
       this.initWebRtcConnector();
       this.getCurrentApplicationPosition(this.$props.applicationId);
+      this.wsuploadConclusion();
   },
     mounted() {
 

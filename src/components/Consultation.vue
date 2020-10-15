@@ -58,6 +58,7 @@
 <script>
 import WebRtcConnector from "@/libs/calls";
 import api from "@/libs/backendApi";
+import setting from "@/settings/setting";
 
 export default {
   name: "Consultation",
@@ -78,6 +79,7 @@ export default {
       currentTimeSec:"00",
       currentTimeMins:0,
       timer:null,
+      wsconnection: null,
     }
   },
   props:{
@@ -86,15 +88,38 @@ export default {
 
   created() {
     this.initWebRtc();
-    this.uploadApplicationsInPeriod();
+    //this.uploadApplicationsInPeriod();
+    this.connectToLobbyWs()
   },
 
   methods:{
+        connectToLobbyWs(){
+            this.wsconnection = new WebSocket(setting.wsLobbyUrl)
+            this.wsconnection.onopen = function () {
+                    console.log("Соединение с лобби успешно")
+            }
+            this.wsconnection.onmessage = function (msg) {
+                console.log(msg.data)
+                let jsondata=JSON.parse(msg.data)
+                console.log(jsondata)
+                console.log(jsondata.applications)
+                this.applications =jsondata.applications
+            }.bind(this)
+        },
+      wsSendConclusion(){
+          var msg = {
+              cons_text: this.conclusion_text,
+              id:   this.app.id,
+              pictures: this.pictures
+          };
+          this.wsconnection.send(JSON.stringify(msg))
+      },
+
       startTimer(){
           this.timer = setInterval(()=>
           {
               this.currentTimeSec++;
-              if (this.currentTimeSec == 60){
+              if (this.currentTimeSec === 60){
                   this.currentTimeMins++;
                   this.currentTimeSec=0
               }
@@ -192,7 +217,10 @@ export default {
       api.getUserProfile(app.insigator)
           .then(response => {
             console.log("Вызов " + response.data.peerid);
+            //todo: Проверка попытки подключения двух консультантов.
             this.webRtcConnector.callToNode(response.data.peerid, video);
+            this.wsconnection.close()
+            this.wsuploadConclusion()
             this.isCalled = false;
             api.deactivateApplication(this.application_id)
           }).catch(error => {
@@ -228,6 +256,7 @@ export default {
     },
 
     uploadConclusion(){
+      this.wsSendConclusion()
       api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'False')
           .then(res => {
             console.log(res)
@@ -235,6 +264,25 @@ export default {
           }).catch(error => {
           console.error(error.response);
       });
+    },
+    wsuploadConclusion(){
+      this.wsconnection = new WebSocket(setting.wsCallUrl+this.app.id+'/')
+      this.wsconnection.onopen = function () {
+        console.log("Соединение с сокетом для звонка успешно")
+      }
+      this.wsconnection.onmessage = function (msg) {
+        console.log(msg.data)
+        let jsondata=JSON.parse(msg.data)
+        console.log(jsondata)
+      }.bind(this)
+
+        // api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'False')
+        //   .then(res => {
+        //     console.log(res)
+        //     this.conclusion_ready = "Редактировать заключение"
+        //   }).catch(error => {
+        //   console.error(error.response);
+        // });
     },
 
     uploadFinalConclusion(){
