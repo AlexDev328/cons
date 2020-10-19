@@ -86,9 +86,18 @@ export default {
             console.log("Соединение с сокетом для звонка успешно")
         }
         this.wsconnection.onmessage = function (msg) {
-            console.log(msg.data)
-            let jsondata=JSON.parse(msg.data)
-            console.log(jsondata)
+            console.log(msg.data);
+            let jsondata=JSON.parse(msg.data);
+            console.log(jsondata.conclusion);
+            this.conclusion = jsondata.conclusion.cons_text;
+            this.pictures = jsondata.conclusion.pictures;
+            if (jsondata.conclusion.final === true){
+                clearInterval(this.timer);
+                this.connection = false;
+                clearInterval(this.timer)
+                this.webRtcConnector.stopMediaStream();
+            }
+
         }.bind(this)
         this.wsconnection.onclose = function () {
             console.log("отключение от сокета")
@@ -97,6 +106,7 @@ export default {
     },
 
     startTimer(){
+        clearInterval(this.timer);
         this.timer = setInterval(()=>
         {
             this.currentTimeSec++;
@@ -121,7 +131,7 @@ export default {
           if (response.data.final_ver){
               this.connection = false;
               clearInterval(this.timer)
-
+              this.webRtcConnector.stopMediaStream();
           }
         }).catch(()=> {
           console.log("не удалось получить заключние")
@@ -143,6 +153,10 @@ export default {
       this.$router.push({path:'/ask'})
     },
     callcancel() {
+        var msg = {
+            disconnect: true
+        };
+      this.wsconnection.send(JSON.stringify(msg))
       this.$router.push({path:"/ask"})
       this.webRtcConnector.callcancel();
       document.location.reload();

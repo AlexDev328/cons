@@ -17,7 +17,8 @@
     </div>
     <div v-show="!this.isCalled">
       <div class="call_container">
-        <div class="video-source-text">Соедниение установлено {{this.currentTimeMins}}:{{currentTimeSec}}</div>
+        <div v-show="connection"  class="video-source-text">Соедниение установлено {{this.currentTimeMins}}:{{currentTimeSec}}</div>
+        <div v-show="!connection"  class="video-source-text">Соедниение завершено</div>
         <div class="button menu2" @click="callwithVideo"> {{video_button_text}} видео</div>
         <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
         <div class="conclusion">
@@ -80,6 +81,7 @@ export default {
       currentTimeMins:0,
       timer:null,
       wsconnection: null,
+      connection: null,
     }
   },
   props:{
@@ -106,11 +108,12 @@ export default {
                 this.applications =jsondata.applications
             }.bind(this)
         },
-      wsSendConclusion(){
+      wsSendConclusion(final=false){
           var msg = {
               cons_text: this.conclusion_text,
               id:   this.app.id,
-              pictures: this.pictures
+              pictures: this.pictures,
+              final: final
           };
           this.wsconnection.send(JSON.stringify(msg))
       },
@@ -196,7 +199,8 @@ export default {
     callwithVideo(){
         this.myVideo = !this.myVideo;
         this.video_button_text = 'Выключить';
-        this.handleSelectApplication(this.app, this.myVideo);
+        //this.handleSelectApplication(this.app, );
+        this.webRtcConnector.callToNode(this.app.peerid, this.myVideo);
       /*api.getUserProfile(this.app.insigator)
           .then(response => {
             console.log("Вызов " + response.data.peerid);
@@ -216,17 +220,28 @@ export default {
       this.application_id = app.id;
       api.getUserProfile(app.insigator)
           .then(response => {
-            console.log("Вызов " + response.data.peerid);
-            //todo: Проверка попытки подключения двух консультантов.
-            this.webRtcConnector.callToNode(response.data.peerid, video);
-            this.wsconnection.close()
-            this.wsuploadConclusion()
-            this.isCalled = false;
-            api.deactivateApplication(this.application_id)
-          }).catch(error => {
+            console.log("Проверка на актуальность заявки")
+            api.deactivateApplication(this.application_id).then(res=>
+            {
+                console.log(res)
+                if (res.status !== 200){
+                    return null;
+                }
+                console.log("Вызов " + response.data.peerid);
+                //todo: Проверка попытки подключения двух консультантов.
+                this.webRtcConnector.callToNode(response.data.peerid, video);
+                this.wsconnection.close()
+                this.wsuploadConclusion()
+                this.isCalled = false;
+                this.connection = true;
+                setTimeout(this.startTimer, 500);
+
+            }).catch(error => {
+                console.error(error.response);
+            }).catch(error => {
             console.error(error.response);
-          });
-      setTimeout(this.startTimer, 500)
+          })});
+
     },
 
     takePicture() {
@@ -273,7 +288,9 @@ export default {
       this.wsconnection.onmessage = function (msg) {
         console.log(msg.data)
         let jsondata=JSON.parse(msg.data)
-        console.log(jsondata)
+        console.log(jsondata.disconnect)
+          if (jsondata.conclusion.disconnect == true)
+              this.connection = false;
       }.bind(this)
 
         // api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'False')
@@ -286,6 +303,7 @@ export default {
     },
 
     uploadFinalConclusion(){
+        this.wsSendConclusion(true)
         console.log("загруженно без возможности изменения")
         api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'True')
             .then(res => {
