@@ -1,5 +1,6 @@
 //const host = 'http://192.168.1.235:8000/';
-const host = 'https://aidev.fun/'
+//const host = 'https://aidev.fun/'
+const host = 'http://127.0.0.1:8000/'
 const call_host = {
     url: '//aidev.fun',
     path: '/peer',
@@ -16,8 +17,8 @@ const call_host = {
 
 const queNumberTimeout = 10000;
 
-const wsLobbyUrl = 'wss://aidev.fun/ws/applications'
-const wsCallUrl = 'wss://aidev.fun/ws/call/'
+const wsLobbyUrl = 'wss://127.0.0.1:8000/ws/applications'
+const wsCallUrl = 'wss://127.0.0.1:8000/ws/call/'
 
 export default {
     host,
