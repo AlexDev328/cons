@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="container" v-show="this.isCalled">
       <div v-if="!this.applications.length > 0"> <div class="text-cons large magin">Здесь будут отображаться заявки.На данный момент заявок нет. </div></div>
       <div v-if="this.applications.length > 0" class="text-cons large magin"> Выберите консультацию </div>
@@ -60,9 +61,11 @@
 import WebRtcConnector from "@/libs/calls";
 import api from "@/libs/backendApi";
 import setting from "@/settings/setting";
+import ModalWindow from "@/components/modal-window.vue"
 
 export default {
   name: "Consultation",
+  components: ModalWindow,
   data() {
     return{
       token: "",

@@ -5,6 +5,7 @@ const call_host = {
     url: '//aidev.fun',
     path: '/peer',
     port: '9000',
+    debug: 0,
 
 }
 /*

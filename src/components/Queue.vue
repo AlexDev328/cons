@@ -69,6 +69,7 @@ export default {
       currentTimeSec:"00",
       currentTimeMins:0,
       connection:true,
+      webRtcConnector: null,
     }
 
   },
@@ -192,6 +193,7 @@ export default {
             console.log('Мой PeerID: ' + response.data.peerid);
             this.uuid = response.data.peerid;
             this.webRtcConnector = new WebRtcConnector(this.uuid, this.onCall);
+            console.log(this.webRtcConnector)
           }).catch(()=>{
               document.location.reload()
           });
@@ -217,7 +219,10 @@ export default {
   },
 
   created() {
-      this.initWebRtcConnector();
+      this.initWebRtcConnector()
+          .then(() => {
+            console.log(this.webRtcConnector);
+          });
       this.getCurrentApplicationPosition(this.$props.applicationId);
       this.wsuploadConclusion();
   },

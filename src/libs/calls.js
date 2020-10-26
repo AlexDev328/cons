@@ -41,15 +41,14 @@ export default class {
         });
         this.peer.on('call', onCallCb);
         this.peer.on('close',()=>{
-            console.log("завершение звонка")
             this.callcancel()
         })
     }
 
     callcancel() {
-        if (this.peercall.open || this.peercall || this.peer){
-            this.peercall.peerConnection.close();}
-        //this.peercall.peerConnection.close();
+        if (this.peercall && this.peercall.peerConnection && this.peercall.open){
+            this.peercall.peerConnection.close();
+        }
         console.log("завершение звонка")
         this.stopMediaStream();
 
@@ -110,11 +109,13 @@ export default class {
     }
 
     stopMediaStream(){
-        this.mediaStream.getTracks().forEach(function(track) {
-            if (track.readyState === 'live') {
-                track.stop();
-            }
-        });
+        if (this.mediaStream) {
+            (this.mediaStream.getTracks() || []).forEach(function (track) {
+                if (track.readyState === 'live') {
+                    track.stop();
+                }
+            });
+        }
     }
 
     callToNode(peerId,with_video=false) { //вызов

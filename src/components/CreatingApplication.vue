@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <modal-window ref ="modal"></modal-window>
     <div class="container" >
       <div class="text-cons large magin"> Мне нужна помощь с оценкой : </div>
       <div v-for="topic in list_of_topics" :key="topic.id" class="item-el" >
@@ -13,20 +13,27 @@
 
 <script>
 import api from "@/libs/backendApi";
+import ModalWindow from "@/components/modal-window";
 
 export default {
   name: "CreatingApplication",
+  components: {ModalWindow},
   data() {
     return {
       list_of_topics: [],
     }
   },
   methods: {
+    showModal() {
+      this.$refs.modal.show = true
+    },
+
     getAllTopics() {
       return api.getTopics()
           .then(res => {
             console.log(res.data)
             this.list_of_topics = res.data
+            this.showModal()
           }).catch(error => {
             console.error(error.response);
           })
