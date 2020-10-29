@@ -15,23 +15,18 @@ import api from "@/libs/backendApi";
 
 export default {
   name: "CreatingApplication",
-  components: {ModalWindow},
   data() {
     return {
       list_of_topics: [],
     }
   },
   methods: {
-    showModal() {
-      this.$refs.modal.show = true
-    },
 
     getAllTopics() {
       return api.getTopics()
           .then(res => {
             console.log(res.data)
             this.list_of_topics = res.data
-            this.showModal()
           }).catch(error => {
             console.error(error.response);
           })

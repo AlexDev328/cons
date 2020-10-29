@@ -1,10 +1,12 @@
 //const host = 'http://192.168.1.235:8000/';
 //const host = 'https://aidev.fun/'
-const host = 'http://127.0.0.1:8000/'
+
+const host = 'https://help.fianitlombard.ru:40683/'
+
 const call_host = {
-    url: '//aidev.fun',
+    url: '//help.fianitlombard.ru',
     path: '/peer',
-    port: '9000',
+    port: '40683',
     debug: 0,
 
 }
@@ -18,8 +20,10 @@ const call_host = {
 
 const queNumberTimeout = 10000;
 
-const wsLobbyUrl = 'wss://127.0.0.1:8000/ws/applications'
-const wsCallUrl = 'wss://127.0.0.1:8000/ws/call/'
+// const wsLobbyUrl = 'ws://192.168.1.235:8000/ws/applications'
+// const wsCallUrl = 'ws://192.168.1.235:8000/ws/call/'
+const wsLobbyUrl = 'wss://help.fianitlombard.ru:40683/ws/applications'
+const wsCallUrl = 'wss://help.fianitlombard.ru:40683/ws/call/'
 
 export default {
     host,
