@@ -1,6 +1,5 @@
 <template>
   <div>
-    <modal-window ref ="modal"></modal-window>
     <div class="container" >
       <div class="text-cons large magin"> Мне нужна помощь с оценкой : </div>
       <div v-for="topic in list_of_topics" :key="topic.id" class="item-el" >
@@ -13,7 +12,6 @@
 
 <script>
 import api from "@/libs/backendApi";
-import ModalWindow from "@/components/modal-window";
 
 export default {
   name: "CreatingApplication",

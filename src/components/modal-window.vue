@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .modal-shadow {
   position: absolute;
   top: 0;

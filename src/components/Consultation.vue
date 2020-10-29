@@ -292,8 +292,10 @@ export default {
         console.log(msg.data)
         let jsondata=JSON.parse(msg.data)
         console.log(jsondata.disconnect)
-          if (jsondata.conclusion.disconnect == true)
+          if (jsondata.conclusion.disconnect === true) {
               this.connection = false;
+              this.webRtcConnector.stopMediaStream()
+          }
       }.bind(this)
 
         // api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'False')
