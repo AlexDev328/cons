@@ -60,7 +60,7 @@
 <script>
 import WebRtcConnector from "@/libs/calls";
 import api from "@/libs/backendApi";
-import setting from "@/settings/setting";
+import setting from "@/settings/setting_back";
 import ModalWindow from "@/components/modal-window.vue"
 
 export default {

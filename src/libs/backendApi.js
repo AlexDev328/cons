@@ -1,5 +1,5 @@
 import axios from "axios";
-import setting from "@/settings/setting";
+import setting from "@/settings/setting_back";
 
 function buildConfig(contentType) {
     let res = {
@@ -22,11 +22,24 @@ function getUserProfile(userId) {
 }
 
 function authenticate(login, password) {
-    return axios.post(setting.host + 'auth/jwt/create', {
+    return axios.post(setting.host + 'api/auth/jwt/create', {
         username: login,
         password: password
     })
 }
+
+function auth_by_ip(login='',password='') {
+    console.log("Попытка авторизации по ip");
+    return axios.post(setting.host + 'api/auth/jwt/create', {
+        username: login,
+        password: password
+    })
+}
+
+// function refresh_token() {
+//
+//
+// }
 
 function getApplications() {
     return axios.get(setting.host + 'api/application', buildConfig())
@@ -84,5 +97,6 @@ export default {
     getTopics,
     createConclusion,
     getCurrentConclusion,
-    getApplicationPosition
+    getApplicationPosition,
+    auth_by_ip
 }

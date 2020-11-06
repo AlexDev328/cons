@@ -31,7 +31,7 @@ import api from "@/libs/backendApi";
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
+      force_logout:Boolean,
   },
   data() {
     return {
@@ -52,6 +52,7 @@ export default {
         api.authenticate(this.login, this.password)
             .then(response => {
               localStorage.token = response.data.access;
+              localStorage.refresh = response.data.refresh;
               console.log("Получен токен:" + localStorage.token);
               return this.getMyId();
             }).catch(error => {
@@ -77,6 +78,20 @@ export default {
       return api.getUserProfile(this.myid)
           .then(response => !!response.data.consultant);
     }
+  },
+  created() {
+      if (!this.force_logout) {
+          console.log(this.force_logout)
+          api.auth_by_ip()
+              .then((response) => {
+                  localStorage.token = response.data.access;
+                  localStorage.refresh = response.data.refresh;
+                  console.log("Получен токен:" + localStorage.token);
+                  return this.getMyId();
+              }).catch(error => {
+              console.error(error);
+          });
+      }
   },
 
 }

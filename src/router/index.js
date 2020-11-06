@@ -13,7 +13,8 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: HelloWorld
+            component: HelloWorld,
+            props: true,
         },
         {
             path: '/consultation',

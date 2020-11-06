@@ -26,12 +26,10 @@ export default {
   },
     methods:{
       closeApp(){
-          localStorage.token = "";
-          this.$router.push({name:'home'})
+          sessionStorage.clear()
+          localStorage.clear()
+          this.$router.push({name:'home', params:{force_logout:true}})
       },
-      seyHello(){
-        console.log("bebebeb")
-      }
     },
     created() {
       console.log(window.location)

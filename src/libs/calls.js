@@ -1,5 +1,5 @@
 import Peer from './peerjs';
-import setting from "@/settings/setting";
+import setting from "@/settings/setting_back";
 
 const configOptions = {
     host: setting.call_host.url,
