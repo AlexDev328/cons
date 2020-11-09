@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Consultation from "@/components/Consultation";
-import HelloWorld from "@/components/HelloWorld";
+import Login from "@/components/Login";
 import CreatingApplication from "@/components/CreatingApplication";
 import App from "@/App";
 import Queue from "@/components/Queue";
@@ -13,7 +13,7 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: HelloWorld,
+            component: Login,
             props: true,
         },
         {

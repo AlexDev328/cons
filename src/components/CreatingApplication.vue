@@ -54,6 +54,18 @@ export default {
   created() {
     this.getAllTopics()
     console.log("created block")
+      if (!localStorage.token) {
+          console.log(this.force_logout)
+          api.auth_by_ip()
+              .then((response) => {
+                  localStorage.token = response.data.access;
+                  localStorage.refresh = response.data.refresh;
+                  console.log("Получен токен:" + localStorage.token);
+                  return this.getMyId();
+              }).catch(error => {
+              console.error(error);
+          });
+      }
   },
 
 }
