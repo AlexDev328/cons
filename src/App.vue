@@ -3,7 +3,7 @@
    <!-- <link type="text/css" src="assets/css/reset.css">-->
     <link type="text/css" src="assets/css/main.css">
     <div class="header">
-      <div class="button menu" ><div ref="menu_button" @click="closeApp() ">Выход</div></div>
+      <div class="button menu" v-show="token" ><div ref="menu_button" @click="closeApp() ">Выход</div></div>
       <span class="logo"><img   src="./assets/img/logo.svg"/></span>
 
     </div>
@@ -26,20 +26,19 @@ export default {
   },
     methods:{
       closeApp(){
-          sessionStorage.clear()
-          localStorage.clear()
-          this.$router.push({name:'home', params:{force_logout:true}})
+        sessionStorage.clear()
+        localStorage.clear()
+        this.token=''
+        this.$router.push({name:'home', params:{force_logout:true}})
       },
     },
     created() {
+      if(localStorage.token) this.token = localStorage.token;
       console.log(window.location)
     },
-    beforeMount() {
-      console.log("2")
-      console.log(window.location.hash)
-    }
-
-
+  updated() {
+    if(localStorage.token) this.token = localStorage.token;
+  },
 }
 </script>
 

@@ -23,6 +23,7 @@ function getUserProfile(userId) {
 
 function authenticate(login, password) {
     return axios.post(setting.host + 'api/auth/jwt/create', {
+        type:'password',
         username: login,
         password: password
     })
@@ -31,8 +32,17 @@ function authenticate(login, password) {
 function auth_by_ip(login='',password='') {
     console.log("Попытка авторизации по ip");
     return axios.post(setting.host + 'api/auth/jwt/create', {
+        type:'ip',
         username: login,
         password: password
+    })
+}
+
+function auth_by_link(token = ''){
+    console.log("Попытка авторизации по ссылке");
+    return axios.post(setting.host + 'api/auth/jwt/create', {
+        type:'link',
+        token: token,
     })
 }
 
@@ -98,5 +108,6 @@ export default {
     createConclusion,
     getCurrentConclusion,
     getApplicationPosition,
-    auth_by_ip
+    auth_by_ip,
+    auth_by_link
 }

@@ -80,15 +80,20 @@ export default {
     }
   },
   created() {
-      if (!this.force_logout) {
+      let authPromise;
+      if (this.$route.query.auth_token){
+          authPromise = api.auth_by_link(this.$route.query.auth_token);
+      } else if (!this.force_logout) {
           console.log(this.force_logout)
-          api.auth_by_ip()
-              .then((response) => {
-                  localStorage.token = response.data.access;
-                  localStorage.refresh = response.data.refresh;
-                  console.log("Получен токен:" + localStorage.token);
-                  return this.getMyId();
-              }).catch(error => {
+          authPromise = api.auth_by_ip();
+      }
+      if (authPromise) {
+          authPromise.then((response) => {
+              localStorage.token = response.data.access;
+              localStorage.refresh = response.data.refresh;
+              console.log("Получен токен:" + localStorage.token);
+              return this.getMyId();
+          }).catch(error => {
               console.error(error);
           });
       }
