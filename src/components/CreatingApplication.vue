@@ -48,24 +48,40 @@ export default {
           .catch(error => {
             console.error(error.response);
           });
-    }
+    },
+    getSelfUserId(){
+      return api.getSelfUser()
+          .then(res => {
+            console.log("Идентификатор текущего пользователя: " + res.data.id);
+            return res.data.id;
+          })
+    },
   },
 
   created() {
-    this.getAllTopics()
+
     console.log("created block")
-      if (!localStorage.token) {
-          console.log(this.force_logout)
-          api.auth_by_ip()
-              .then((response) => {
-                  localStorage.token = response.data.access;
-                  localStorage.refresh = response.data.refresh;
-                  console.log("Получен токен:" + localStorage.token);
-                  return this.getMyId();
-              }).catch(error => {
-              console.error(error);
-          });
-      }
+    if (!localStorage.token) {
+      this.$router.push('/')
+    }
+    else {
+      this.getAllTopics();
+      this.$parent.loadUserString();
+
+
+    }
+      // if (!localStorage.token) {
+      //     console.log(this.force_logout)
+      //     api.auth_by_ip()
+      //         .then((response) => {
+      //             localStorage.token = response.data.access;
+      //             localStorage.refresh = response.data.refresh;
+      //             console.log("Получен токен:" + localStorage.token);
+      //             return this.getMyId();
+      //         }).catch(error => {
+      //         console.error(error);
+      //     });
+      // }
   },
 
 }

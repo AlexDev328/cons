@@ -92,9 +92,15 @@ export default {
   },
 
   created() {
-    this.initWebRtc();
-    //this.uploadApplicationsInPeriod();
-    this.connectToLobbyWs()
+    console.log("created block")
+    if (!localStorage.token) {
+      this.$router.push('/')
+    }
+    else {
+      this.initWebRtc();
+      //this.uploadApplicationsInPeriod();
+      this.connectToLobbyWs()
+    }
   },
 
   methods:{

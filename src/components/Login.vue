@@ -74,6 +74,7 @@ export default {
       return api.getSelfUser()
           .then(res => {
             console.log("ID пользователя: " + res.data.id);
+            console.log(res.data)
             this.myid = res.data.id;
             return this.isConsultant();
           }).then(isConsultant => {

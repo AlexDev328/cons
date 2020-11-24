@@ -21,7 +21,12 @@
 }
 
 
-
+.userProfile{
+    color: #FFFFFF;
+    position: absolute;
+    top: 17px;
+    left: 105px;
+}
 
 #app {
     height: 700px;
