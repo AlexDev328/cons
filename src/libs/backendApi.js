@@ -29,12 +29,10 @@ function authenticate(login, password) {
     })
 }
 
-function auth_by_ip(login='',password='') {
+function auth_by_ip() {
     console.log("Попытка авторизации по ip");
     return axios.post(setting.host + 'api/auth/jwt/create', {
         type:'ip',
-        username: login,
-        password: password
     })
 }
 
@@ -96,6 +94,23 @@ function getCurrentConclusion(id) {
     return axios.get(setting.host + 'api/conclusions/'+id, buildConfig())
 }
 
+function refreshToken(token) {
+    return axios.post(setting.host + 'auth/jwt/refresh', {
+        refresh : token
+    }).then(res=>{
+        localStorage.token = res.data.access;
+        localStorage.refresh = res.data.refresh;
+        return true
+    })
+
+}
+
+function verifyToken(token){
+    return axios.post(setting.host + 'auth/jwt/verify', {
+        token : token
+    })
+}
+
 export default {
     authenticate,
     getSelfUser,
@@ -109,5 +124,7 @@ export default {
     getCurrentConclusion,
     getApplicationPosition,
     auth_by_ip,
-    auth_by_link
+    auth_by_link,
+    refreshToken,
+    verifyToken
 }

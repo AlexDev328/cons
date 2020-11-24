@@ -88,31 +88,44 @@ export default {
 
       return api.getUserProfile(this.myid)
           .then(response => !!response.data.consultant);
+    },
+
+    tryAuth(isCurrentTokenValid) {
+      let authPromise;
+      if (this.$route.query.auth_token){
+        console.log(this.$route.query.auth_token)
+        authPromise = api.auth_by_link(this.$route.query.auth_token);
+      } else if (!this.force_logout && !isCurrentTokenValid) {
+        this.requestedAuthByIp = true;
+        authPromise = api.auth_by_ip();
+      }
+
+      if (authPromise) {
+        authPromise.then((response) => {
+          localStorage.token = response.data.access;
+          localStorage.refresh = response.data.refresh;
+          console.log("Получен токен:" + localStorage.token);
+          return this.getMyId();
+        }).catch(() => {
+          if (!this.requestedAuthByIp)
+            this.showModalW("Не удалось авторизоваться. Попробуйте войти с помощью логина/пароля или обратитесь к системному администратору.")
+          //console.error(error);
+        });
+      }
     }
   },
   created() {
-      let authPromise;
-      if (this.$route.query.auth_token){
-          console.log(this.$route.query.auth_token)
-          authPromise = api.auth_by_link(this.$route.query.auth_token);
-      } else if (!this.force_logout) {
-          console.log(this.force_logout);
-          this.requestedAuthByIp = true;
-          authPromise = api.auth_by_ip();
-      }
-      if (authPromise) {
-          authPromise.then((response) => {
-              localStorage.token = response.data.access;
-              localStorage.refresh = response.data.refresh;
-              console.log("Получен токен:" + localStorage.token);
-              return this.getMyId();
-          }).catch(() => {
-              if (!this.requestedAuthByIp)
-                  this.showModalW("Не удалось авторизоваться. Попробуйте войти с помощью логина/пароля или обратитесь к системному администратору.")
-              //console.error(error);
-          });
-      }
-
+    if (localStorage.token) {
+      api.verifyToken(localStorage.token)
+          .catch(err => {
+            console.error(err);
+            localStorage.token = '';
+            localStorage.refresh = '';
+          })
+          .then(() => {
+            this.tryAuth(true);
+          })
+    }
   },
 
 }

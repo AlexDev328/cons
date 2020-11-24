@@ -14,6 +14,7 @@
 <script>
 
 import api from "@/libs/backendApi";
+import axios from "axios";
 
 export default {
   name: 'App',
@@ -58,11 +59,40 @@ export default {
 
     created() {
       if(localStorage.token) this.token = localStorage.token;
-      console.log(window.location)
+      console.log(window.location);
+      axios.interceptors.response.use(response => {
+        return response;
+      }, error => {
+        if (error.response.status === 401) {
+          if (error.response.config.url.includes("jwt"))
+          {
+            console.error("Непредвиденная ошибка при обновлении или создании токена JWT")
+            return error;
+          }
+          if (localStorage.refresh) {
+            console.error("JWT токен истек, обновляем")
+            api.refreshToken(localStorage.refresh).then((res) => {
+              if (res) {
+                location.reload()
+              } else{
+                this.$router.push('/')
+              }
+            }).catch(err => {
+              console.error(err);
+              this.$router.push('/');
+            })
+        } else {
+          console.error("JWT токен отсутствует, перенаправляем на страницу логина");
+          this.$router.push("/");
+        }
+          //place your reentry code
+        }
+        return error;
+      });
     },
-  updated() {
-    if(localStorage.token) this.token = localStorage.token;
-  },
+    updated() {
+      if(localStorage.token) this.token = localStorage.token;
+    },
 }
 </script>
 
