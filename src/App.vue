@@ -5,7 +5,6 @@
     <div class="header">
       <div class="button menu" v-show="token" ><div ref="menu_button" @click="closeApp() ">Выход</div></div>
       <span class="logo"><img   src="./assets/img/logo.svg"/></span>
-
     </div>
     <router-view/>
   </div>

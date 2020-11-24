@@ -265,6 +265,7 @@ export default {
 
     callcancel() {
       this.uploadFinalConclusion()
+
       this.myVideo = true;
       document.location.reload();
       this.webRtcConnector.callcancel();

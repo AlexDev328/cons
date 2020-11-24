@@ -1,8 +1,4 @@
 /*
-
-password sKFKdhD3v3UoqU5ZKcCEAL
- */
-/*
 const queNumberTimeout = 10000;
 
 
@@ -66,6 +62,7 @@ const call_host = {
 */
 
 
+/**/
 const host = 'https://help.fianitlombard.ru:40683/'
 
 const call_host = {
@@ -74,7 +71,16 @@ const call_host = {
     port: '40683',
     debug: 3,
     config: { 'iceServers': [
-            { urls: 'stun:help.fianitlombard.ru:5349?transport=tcp'},
+            { url: 'stun:stun01.sipphone.com' },
+            { url: 'stun:stun.ekiga.net' },
+            { url: 'stun:stunserver.org' },
+            { url: 'stun:stun.softjoys.com' },
+            { url: 'stun:stun.voiparound.com' },
+            { url: 'stun:stun.voipbuster.com' },
+            { url: 'stun:stun.voipstunt.com' },
+            { url: 'stun:stun.voxgratia.org' },
+            { url: 'stun:stun.xten.com' },
+
         ]
     },
 
