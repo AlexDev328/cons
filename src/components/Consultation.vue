@@ -268,7 +268,7 @@ export default {
       this.myVideo = true;
       document.location.reload();
       this.webRtcConnector.callcancel();
-
+      clearInterval(this.timer);
       //this.$router.push({path:"/consultation"})
 
     },
@@ -320,10 +320,16 @@ export default {
     }
 
   },
-    beforeDestroy() {
-        this.webRtcConnector.destroy();
-        clearInterval(this.timer);
-    }
+
+  beforeDestroy() {
+      this.webRtcConnector.destroy();
+      clearInterval(this.timer);
+      window.removeEventListener()
+  },
+
+  beforeMount() {
+    window.addEventListener("unload", this.uploadFinalConclusion);
+  },
 
 
 }

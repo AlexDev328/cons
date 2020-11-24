@@ -49,6 +49,10 @@
     cursor: pointer;
 }
 
+.button-yellow:hover{
+    box-shadow: 4px 7px 4px 0px rgba(0,0,0,0.24);
+}
+
 .header{
     height: 75px;
     background-color: #720F13;
@@ -227,6 +231,9 @@ body{
     box-shadow: 2px 2px 0px rgba(196, 196, 196, 0.25), inset 0px 6px 20px rgba(196, 196, 196, 0.25);
     border-radius: 10px 0px;
     cursor: pointer;
+}
+.button:hover{
+    box-shadow: 4px 7px 4px 0px rgba(0,0,0,0.24);
 }
 
 .button-text {

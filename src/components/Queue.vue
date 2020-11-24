@@ -16,8 +16,8 @@
     </div>
     <div class="call_container" id="is_called" v-if="this.is_call">
       <div class="button-yellow menu " ><div  @click='callcancel'>Завершить звонок</div></div>
-      <div v-show="connection"  class="video-source-text">Соедниение установлено {{this.currentTimeMins}}:{{currentTimeSec}}</div>
-      <div v-show="!connection"  class="video-source-text">Соедниение завершено</div>
+      <div v-show="connection"  class="video-source-text">Соединение установлено {{this.currentTimeMins}}:{{currentTimeSec}}</div>
+      <div v-show="!connection"  class="video-source-text">Соединение завершено</div>
       <div class="conclusion">
         <div>
           <div id="video-room" class="video-room">
@@ -153,6 +153,7 @@ export default {
       //todo: Разобраться почему ругается если поместить в промис
       this.$router.push({path:'/ask'})
     },
+
     callcancel() {
         var msg = {
             disconnect: true
@@ -216,23 +217,36 @@ export default {
             return res.data.id;
           })
     },
+    forceRefreshHandler(){
+      this.callcancel();
+      this.$router.push({path:"/ask"})
+    }
   },
 
   created() {
-      this.initWebRtcConnector()
-          .then(() => {
-            console.log(this.webRtcConnector);
-          });
-      this.getCurrentApplicationPosition(this.$props.applicationId);
-      this.wsuploadConclusion();
+    console.error(this.applicationId)
+    if (!this.applicationId)
+    {
+      console.error(this.applicationId)
+      this.$router.push({path:"/ask"})
+    }
+    this.initWebRtcConnector()
+      .then(() => {
+        console.log(this.webRtcConnector);
+      });
+    this.getCurrentApplicationPosition(this.$props.applicationId);
+    this.wsuploadConclusion();
   },
-    mounted() {
 
-    },
+  /*beforeMount() {
+    window.addEventListener("unload", this.forceRefreshHandler);
+  },*/
 
-    beforeDestroy(){
+  beforeDestroy(){
+    this.forceRefreshHandler();
     this.cancelCall();
     this.webRtcConnector.destroy();
+    console.log("выход")
   }
 }
 </script>
