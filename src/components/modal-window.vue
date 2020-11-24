@@ -4,11 +4,11 @@
       <div class="modal">
         <div class="modal-close" @click="closeModal">&#10006;</div>
         <slot name="title">
-          <h3 class="modal-title">Заголовок</h3>
+          <h3 class="modal-title">Произошла ошибка</h3>
         </slot>
         <slot name="body">
           <div class="modal-content">
-            Дефолтный контент модального окна
+            {{this.message}}
           </div>
         </slot>
         <slot name="footer">
@@ -28,10 +28,15 @@ export default {
   name: "ModalWindow",
   data: function () {
     return {
-      show: false
+      show: false,
+      message: '',
     }
   },
   methods: {
+    showWindow(msg){
+      this.message = msg;
+      this.show = true;
+    },
     closeModal: function () {
       this.show = false
     }

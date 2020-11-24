@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ModalWindows id="modal" ref="modal"></ModalWindows>
     <div class="loging-window" >
       <h4>Сервис консультаций</h4>
       <form class="login_form">
@@ -27,11 +28,14 @@
 
 <script>
 import api from "@/libs/backendApi";
-
+import ModalWindows from "@/components/modal-window";
 export default {
   name: 'Login',
   props: {
       force_logout:Boolean,
+  },
+  components:{
+    ModalWindows
   },
   data() {
     return {
@@ -42,6 +46,11 @@ export default {
   },
 
   methods: {
+
+    showModalW(msg){
+      console.log(this.$refs)
+      this.$refs.modal.showWindow(msg);
+    },
     /**
      * Обработчик сабмита формы
      * @param e
@@ -75,6 +84,7 @@ export default {
     },
 
     isConsultant() {
+
       return api.getUserProfile(this.myid)
           .then(response => !!response.data.consultant);
     }
@@ -82,9 +92,11 @@ export default {
   created() {
       let authPromise;
       if (this.$route.query.auth_token){
+          console.log(this.$route.query.auth_token)
           authPromise = api.auth_by_link(this.$route.query.auth_token);
       } else if (!this.force_logout) {
-          console.log(this.force_logout)
+          console.log(this.force_logout);
+          this.requestedAuthByIp = true;
           authPromise = api.auth_by_ip();
       }
       if (authPromise) {
@@ -93,10 +105,13 @@ export default {
               localStorage.refresh = response.data.refresh;
               console.log("Получен токен:" + localStorage.token);
               return this.getMyId();
-          }).catch(error => {
-              console.error(error);
+          }).catch(() => {
+              if (!this.requestedAuthByIp)
+                  this.showModalW("Не удалось авторизоваться. Попробуйте войти с помощью логина/пароля или обратитесь к системному администратору.")
+              //console.error(error);
           });
       }
+
   },
 
 }

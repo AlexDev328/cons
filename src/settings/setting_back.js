@@ -1,4 +1,4 @@
-
+/*
 const queNumberTimeout = 10000;
 
 
@@ -62,7 +62,7 @@ const call_host = {
 */
 
 
-/*
+/**/
 const host = 'https://help.fianitlombard.ru:40683/'
 
 const call_host = {
@@ -93,7 +93,7 @@ const wsLobbyUrl = 'wss://help.fianitlombard.ru:40683/ws/applications'
 const wsCallUrl = 'wss://help.fianitlombard.ru:40683/ws/call/'
 
 
-*/
+
 
 export default {
     host,
