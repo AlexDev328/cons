@@ -65,7 +65,7 @@ const call_host = {
 }
 */
 
-
+/*
 /**/
 const host = 'https://help.fianitlombard.ru:40683/'
 
@@ -97,7 +97,37 @@ const wsLobbyUrl = 'wss://help.fianitlombard.ru:40683/ws/applications'
 const wsCallUrl = 'wss://help.fianitlombard.ru:40683/ws/call/'
 
 
+/*
 
+const host = 'https://aidev.fun/'
+
+const call_host = {
+    url: '//aidev.fun',
+    path: '/peer',
+    port: '',
+    debug: 3,
+    config: { 'iceServers': [
+            { url: 'stun:stun01.sipphone.com' },
+            { url: 'stun:stun.ekiga.net' },
+            { url: 'stun:stunserver.org' },
+            { url: 'stun:stun.softjoys.com' },
+            { url: 'stun:stun.voiparound.com' },
+            { url: 'stun:stun.voipbuster.com' },
+            { url: 'stun:stun.voipstunt.com' },
+            { url: 'stun:stun.voxgratia.org' },
+            { url: 'stun:stun.xten.com' },
+
+        ]
+    },
+
+}
+
+const queNumberTimeout = 10000;
+
+const wsLobbyUrl = 'wss://aidev.fun/ws/applications'
+const wsCallUrl = 'wss://aidev.fun/ws/call/'
+
+*/
 
 export default {
     host,

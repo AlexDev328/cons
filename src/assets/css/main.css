@@ -353,8 +353,8 @@ textarea{
     border-radius: 10px 0px;
     display: grid;
     grid-auto-flow: column;
-    grid-template-rows: repeat(2, 1fr);
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2,min-content);
+    grid-template-columns: repeat(5,min-content);
     padding: 8px 8px 16px 8px;
     overflow-x: auto;
     overflow-y: hidden;
