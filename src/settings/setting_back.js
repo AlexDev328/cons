@@ -1,6 +1,11 @@
 /*
 
 password sKFKdhD3v3UoqU5ZKcCEAL
+
+ config: { 'iceServers': [
+            { urls: 'stun:help.fianitlombard.ru:5349?transport=tcp'},
+        ]
+    },
  */
 /*
 const queNumberTimeout = 10000;
@@ -75,19 +80,23 @@ const call_host = {
     port: '40683',
     debug: 3,
     config: { 'iceServers': [
-            { url: 'stun:stun01.sipphone.com' },
-            { url: 'stun:stun.ekiga.net' },
-            { url: 'stun:stunserver.org' },
-            { url: 'stun:stun.softjoys.com' },
-            { url: 'stun:stun.voiparound.com' },
-            { url: 'stun:stun.voipbuster.com' },
-            { url: 'stun:stun.voipstunt.com' },
-            { url: 'stun:stun.voxgratia.org' },
-            { url: 'stun:stun.xten.com' },
-
-        ]
+            { urls: 'turn:test@help.fianitlombard.ru:5349?transport=tcp',
+                credential:'test',
+            },
+            { urls: 'stun:stun01.sipphone.com' },
+            { urls: 'stun:stun.ekiga.net' },
+            { urls: 'stun:stunserver.org' },
+            { urls: 'stun:stun.softjoys.com' },
+            { urls: 'stun:stun.voiparound.com' },
+            { urls: 'stun:stun.voipbuster.com' },
+            { urls: 'stun:stun.voipstunt.com' },
+            { urls: 'stun:stun.voxgratia.org' },
+            { urls: 'stun:stun.xten.com' },
+            { urls: "stun:stun.l.google.com:19302" },
+            { urls: "turn:0.peerjs.com:3478", username: "peerjs", credential: "peerjsp" }
+        ],
+        sdpSemantics: "unified-plan"
     },
-
 }
 
 
