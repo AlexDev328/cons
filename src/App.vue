@@ -33,6 +33,7 @@ export default {
       closeApp(){
         sessionStorage.clear()
         localStorage.clear()
+        this.setUserString("","",)
         this.token=''
         this.$router.push({name:'home', params:{force_logout:true}})
       },
