@@ -72,12 +72,12 @@ const call_host = {
 
 /*
 /**/
-const host = 'https://help.fianitlombard.ru:40683/'
+const host = 'https://help.fianitlombard.ru/'
 
 const call_host = {
     url: '//help.fianitlombard.ru',
     path: '/peer',
-    port: '40683',
+    port: '',
     debug: 3,
     config: { 'iceServers': [
             { urls: 'turn:test@help.fianitlombard.ru:5349?transport=tcp',
@@ -102,8 +102,8 @@ const call_host = {
 
 const queNumberTimeout = 10000;
 
-const wsLobbyUrl = 'wss://help.fianitlombard.ru:40683/ws/applications'
-const wsCallUrl = 'wss://help.fianitlombard.ru:40683/ws/call/'
+const wsLobbyUrl = 'wss://help.fianitlombard.ru/ws/applications'
+const wsCallUrl = 'wss://help.fianitlombard.ru/ws/call/'
 
 
 /*
