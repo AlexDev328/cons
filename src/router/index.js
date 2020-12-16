@@ -9,6 +9,7 @@ import Queue from "@/components/Queue";
 Vue.use(Router);
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
