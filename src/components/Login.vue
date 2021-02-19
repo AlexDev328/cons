@@ -52,7 +52,7 @@ export default {
       this.$refs.modal.showWindow(msg);
     },
     /**
-     * Обработчик сабмита формы
+     * Обработчик сабмита
      * @param e
      */
     handleSubmit(e) {
@@ -109,7 +109,6 @@ export default {
         }).catch(() => {
           if (!this.requestedAuthByIp)
             this.showModalW("Не удалось авторизоваться. Попробуйте войти с помощью логина/пароля или обратитесь к системному администратору.")
-          //console.error(error);
         });
       }
     }
@@ -125,6 +124,9 @@ export default {
           .then(() => {
             this.tryAuth(true);
           })
+    }
+    else {
+      this.tryAuth(false);
     }
   },
 

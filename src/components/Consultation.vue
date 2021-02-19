@@ -97,6 +97,7 @@ export default {
       this.$router.push('/')
     }
     else {
+      this.$parent.loadUserString();
       this.initWebRtc();
       //this.uploadApplicationsInPeriod();
       this.connectToLobbyWs()
@@ -208,19 +209,7 @@ export default {
     callwithVideo(){
         this.myVideo = !this.myVideo;
         this.video_button_text = 'Выключить';
-        //this.handleSelectApplication(this.app, );
         this.webRtcConnector.callToNode(this.app.peerid, this.myVideo);
-      /*api.getUserProfile(this.app.insigator)
-          .then(response => {
-            console.log("Вызов " + response.data.peerid);
-            this.webRtcConnector.callToNode(response.data.peerid, true);
-            this.isCalled = false;
-            this.myVideo = true;
-          }).catch(error => {
-        console.error(error.response);
-      });*/
-
-
     },
 
     handleSelectApplication(app, video=false) {
@@ -270,14 +259,10 @@ export default {
     },
 
     callcancel() {
-      this.uploadFinalConclusion()
-
       this.myVideo = true;
-      document.location.reload();
       this.webRtcConnector.callcancel();
       clearInterval(this.timer);
-      //this.$router.push({path:"/consultation"})
-
+      this.uploadFinalConclusion()
     },
 
     uploadConclusion(){
@@ -315,16 +300,18 @@ export default {
     },
 
     uploadFinalConclusion(){
-        this.wsSendConclusion(true)
-        console.log("загруженно без возможности изменения")
-        api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'True')
-            .then(res => {
-                console.log(res)
-                this.conclusion_ready = "Редактировать заключение"
-            }).catch(error => {
-            console.error(error.response);
-        });
-    }
+      this.wsSendConclusion(true)
+      console.log("загруженно без возможности изменения")
+      api.createConclusion(this.application_id, this.conclusion_text, this.pictures, 'True')
+          .then(() => {
+            //console.log(res)
+            //console.log("загруженно без возможности изменения")
+            document.location.reload();
+              this.conclusion_ready = "Редактировать заключение"
+          }).catch(error => {
+          console.error(error.response);
+      });
+    },
 
   },
 

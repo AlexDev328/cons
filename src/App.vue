@@ -4,7 +4,7 @@
     <link type="text/css" src="assets/css/main.css">
     <div class="header">
       <div class="button menu" v-show="token" ><div ref="menu_button" @click="closeApp() ">Выход</div></div>
-      <span class="logo"><img   src="./assets/img/logo.svg"/></span>
+      <span class="logo"><img src="./assets/img/logo.svg"/></span>
       <div class="userProfile"><div>{{this.role}}</div> <div>{{this.userstring}}</div></div>
     </div>
     <router-view/>
@@ -35,6 +35,8 @@ export default {
         localStorage.clear()
         this.setUserString("","",)
         this.token=''
+        this.userstring=""
+        this.role = ''
         this.$router.push({name:'home', params:{force_logout:true}})
       },
       setUserString(userstring,role){
@@ -86,7 +88,6 @@ export default {
           console.error("JWT токен отсутствует, перенаправляем на страницу логина");
           this.$router.push("/");
         }
-          //place your reentry code
         }
         return error;
       });
