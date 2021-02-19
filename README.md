@@ -1,4 +1,4 @@
-# cons
+# cons - Фронтенд для сервиса консультирования.
 
 ## Project setup
 ```
@@ -19,6 +19,10 @@ yarn build
 ```
 yarn lint
 ```
+
+Для коррентной работы клиента требуется бекенд приложение fianit-cons. ,peerjs-server для обеспечения функционирования WEBRTC.
+При "сложной" конфигурации сети не обходимы дополнительно STUN/TURN серверы(приложения).
+
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
